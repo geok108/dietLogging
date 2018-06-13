@@ -3,5 +3,9 @@
     <string name="button_save">Save</string>
     <string name="participant_number">Participant Number</string>
     <string name="full_name">Full Name</string>
+    <string name="diet_choice">Diet Choice</string>
+    <string name="diet_control">Control</string>
+    <string name="diet_low_sug">LOW SUG</string>
+    <string name="diet_low_cho">LOW CHO</string>
     <string name="grams">Serving in Grams</string>
 </resources>
