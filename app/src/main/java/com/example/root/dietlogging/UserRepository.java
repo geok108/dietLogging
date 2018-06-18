@@ -1,19 +1,28 @@
 package com.example.root.dietlogging;
 
 import android.app.Application;
+import android.arch.lifecycle.LiveData;
 import android.os.AsyncTask;
 
-public class UserRepository {
+import java.util.List;
 
-    private UserDao userDao;
+public class UserRepository {
+    private UserDao mUserDao;
+    private LiveData<List<User>> mUser;
 
     UserRepository(Application application) {
         DietLoggingRoomDatabase db = DietLoggingRoomDatabase.getDatabase(application);
-        userDao = db.userDao();
+        mUserDao = db.userDao();
+        mUser = mUserDao.getUser();
+
+    }
+
+    LiveData<List<User>> getUser() {
+        return mUser;
     }
 
     public void insert (User user) {
-        new insertAsyncTask(userDao).execute(user);
+        new insertAsyncTask(mUserDao).execute(user);
     }
 
     private static class insertAsyncTask extends AsyncTask<User, Void, Void> {
@@ -30,4 +39,5 @@ public class UserRepository {
             return null;
         }
     }
+
 }

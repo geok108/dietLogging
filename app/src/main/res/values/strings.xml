@@ -8,4 +8,6 @@
     <string name="diet_low_sug">LOW SUG</string>
     <string name="diet_low_cho">LOW CHO</string>
     <string name="grams">Serving in Grams</string>
+    <string name="empty_not_saved">User not saved because it is empty.</string>
+
 </resources>
