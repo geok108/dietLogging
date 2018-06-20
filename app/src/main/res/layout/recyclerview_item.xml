@@ -3,9 +3,30 @@
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="wrap_content">
 
-    <TextView
-        android:id="@+id/user_name"
-        style="@style/user_name"
+    <TableLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content"
+        android:stretchColumns="0, 1, 2">
+
+
+        <TableRow>
+
+            <TextView
+                android:id="@+id/participant_number_tv"
+                style="@style/user_name"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+            <TextView
+                android:id="@+id/user_name_tv"
+                style="@style/user_name"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+            <TextView
+                android:id="@+id/diet_choice_tv"
+                style="@style/user_name"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
+        </TableRow>
+    </TableLayout>
 </LinearLayout>

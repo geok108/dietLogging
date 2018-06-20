@@ -39,7 +39,7 @@ public class RegisterActivity extends AppCompatActivity {
 
                     int selectedId = mEditDietChoiceGroup.getCheckedRadioButtonId();
                     mEditDietChoiceButton = findViewById(selectedId);
-                    String participantNumber = mEditParticipantNumber.getText().toString();
+                    int participantNumber = Integer.parseInt(mEditParticipantNumber.getText().toString());
                     String fullName = mEditFullName.getText().toString();
                     //String dietChoice = mEditDietChoiceButton.getText().toString();
                     replyIntent.putExtra("participantNumber", participantNumber);

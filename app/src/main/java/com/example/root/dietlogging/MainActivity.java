@@ -9,6 +9,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
 
@@ -58,7 +59,8 @@ public class MainActivity extends AppCompatActivity {
 
         if (requestCode == NEW_USER_ACTIVITY_REQUEST_CODE && resultCode == RESULT_OK) {
             User user = new User(data.getExtras().getInt("participantNumber"), data.getStringExtra("fullName"), data.getExtras().getInt("dietChoice"));
-
+            String partno = String.valueOf(data.getExtras().getInt("participantNumber"));
+            Log.d("participant number", partno);
             mUserViewModel.insert(user);
         } else {
             Toast.makeText(

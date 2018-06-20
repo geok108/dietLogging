@@ -22,7 +22,7 @@ public abstract class DietLoggingRoomDatabase extends RoomDatabase {
                         // Create database here
                         INSTANCE = Room.databaseBuilder(context.getApplicationContext(),
                                 DietLoggingRoomDatabase.class, "diet_logging_database")
-                                .addCallback(sRoomDatabaseCallback)
+                                //.addCallback(sRoomDatabaseCallback)
                                 .build();
 
 

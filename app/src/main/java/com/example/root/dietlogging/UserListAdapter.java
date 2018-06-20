@@ -1,6 +1,7 @@
 package com.example.root.dietlogging;
 
 import android.content.Context;
+import android.support.design.widget.TextInputLayout;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -12,11 +13,16 @@ import java.util.List;
 public class UserListAdapter extends RecyclerView.Adapter<UserListAdapter.UserViewHolder> {
 
     class UserViewHolder extends RecyclerView.ViewHolder {
-        private final TextView userItemView;
+        private final TextView userNameItemView;
+        private final TextView participantNumberItemView;
+        private final TextView dietChoiceItemView;
 
         private UserViewHolder(View itemView) {
             super(itemView);
-            userItemView = itemView.findViewById(R.id.user_name);
+            userNameItemView = itemView.findViewById(R.id.user_name_tv);
+            participantNumberItemView = itemView.findViewById(R.id.participant_number_tv);
+            dietChoiceItemView = itemView.findViewById(R.id.diet_choice_tv);
+
         }
     }
 
@@ -36,10 +42,12 @@ public class UserListAdapter extends RecyclerView.Adapter<UserListAdapter.UserVi
     public void onBindViewHolder(UserViewHolder holder, int position) {
         if (mUser != null) {
             User current = mUser.get(position);
-            holder.userItemView.setText(current.getFull_name());
+            holder.participantNumberItemView.setText(String.valueOf(current.getParticipant_number()));
+            holder.userNameItemView.setText(current.getFull_name());
+            holder.dietChoiceItemView.setText(String.valueOf(current.getDiet_choice()));
         } else {
             // Covers the case of data not being ready yet.
-            holder.userItemView.setText("No User");
+            holder.userNameItemView.setText("No User");
         }
     }
 
