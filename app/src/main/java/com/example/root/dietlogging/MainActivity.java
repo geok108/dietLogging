@@ -58,9 +58,10 @@ public class MainActivity extends AppCompatActivity {
         super.onActivityResult(requestCode, resultCode, data);
 
         if (requestCode == NEW_USER_ACTIVITY_REQUEST_CODE && resultCode == RESULT_OK) {
-            User user = new User(data.getExtras().getInt("participantNumber"), data.getStringExtra("fullName"), data.getExtras().getInt("dietChoice"));
-            String partno = String.valueOf(data.getExtras().getInt("participantNumber"));
-            Log.d("participant number", partno);
+            User user = new User(data.getExtras().getInt("participantNumber"),
+                    data.getStringExtra("fullName"),
+                    data.getExtras().getInt("dietChoice"));
+
             mUserViewModel.insert(user);
         } else {
             Toast.makeText(

@@ -12,17 +12,14 @@
         <activity
             android:name=".MainActivity"
             android:label="Home">
-        <intent-filter>
-            <action android:name="android.intent.action.MAIN" />
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
 
-            <category android:name="android.intent.category.LAUNCHER" />
-        </intent-filter>
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
         </activity>
-
-
-    <activity android:name=".RegisterActivity"></activity>
-
-
+        <activity android:name=".RegisterActivity" />
+        <activity android:name=".AddActivity"></activity>
     </application>
 
 </manifest>

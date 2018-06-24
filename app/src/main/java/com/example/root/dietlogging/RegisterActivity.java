@@ -5,6 +5,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -41,10 +42,25 @@ public class RegisterActivity extends AppCompatActivity {
                     mEditDietChoiceButton = findViewById(selectedId);
                     int participantNumber = Integer.parseInt(mEditParticipantNumber.getText().toString());
                     String fullName = mEditFullName.getText().toString();
-                    //String dietChoice = mEditDietChoiceButton.getText().toString();
+                    String dietChoice = mEditDietChoiceButton.getText().toString();
+                    Log.d("diet choice", dietChoice);
+
+                    int dietChoiceValue = 0;
+                   switch (dietChoice){
+
+                        case "Control": dietChoiceValue = 0;
+                            break;
+
+                        case "LOW SUG": dietChoiceValue = 1;
+                            break;
+
+                        case "LOW CHO": dietChoiceValue = 2;
+                            break;
+                    }
+
                     replyIntent.putExtra("participantNumber", participantNumber);
                     replyIntent.putExtra("fullName", fullName);
-                    //replyIntent.putExtra("dietChoice", dietChoice);
+                    replyIntent.putExtra("dietChoice", dietChoiceValue);
                     setResult(RESULT_OK, replyIntent);
                 }
                 finish();

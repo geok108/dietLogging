@@ -60,13 +60,14 @@
             android:layout_marginLeft="16dp">
 
             <RadioButton
-                android:checked="true"
+                android:id="@+id/diet_choice_1"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="@string/diet_control"
                 android:paddingHorizontal="100dp"
                 android:textSize="20sp"/>
             <RadioButton
+                android:id="@+id/diet_choice_2"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="24dp"
@@ -76,6 +77,7 @@
                 android:checked="false"/>
 
             <RadioButton
+                android:id="@+id/diet_choice_3"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="24dp"
