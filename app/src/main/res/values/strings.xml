@@ -12,6 +12,21 @@
     <string name="date_time">Date/Time DD/MM/YY HH:MM</string>
     <string name="food">Food</string>
     <string name="meal">Meal</string>
-    <string name="hunger">Hunger Right Now</string>
+    <string name="hunger">Hunger Right Now (%)</string>
+    <string name="register">Register</string>
+    <string name="add_food">Add Food</string>
+    <string-array name="meal_array">
+        <item>Breakfast</item>
+        <item>Lunch</item>
+        <item>Dinner</item>
+        <item>Snack</item>
+
+    </string-array>
+
+    <string name="edit_food">Edit Food</string>
+    <string name="home">Home</string>
+    <string name="settings">Settings</string>
+    <string name="macros">Macros</string>
+    <string name="food_diary">Food Diary</string>
 
 </resources>
