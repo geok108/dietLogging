@@ -53,9 +53,9 @@ public abstract class DietLoggingRoomDatabase extends RoomDatabase {
 
         @Override
         protected Void doInBackground(final Void... params) {
-            uDao.deleteAll();
-            User user = new User(874,"John", 2);
-            uDao.insert(user);
+            //uDao.deleteAll();
+            //User user = new User(874,"John", 2);
+            //uDao.insert(user);
 
             return null;
         }

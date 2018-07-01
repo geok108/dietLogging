@@ -1,6 +1,9 @@
 package com.example.root.dietlogging;
 
+import android.arch.lifecycle.Observer;
+import android.arch.lifecycle.ViewModelProviders;
 import android.content.Intent;
+import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.Editable;
@@ -11,6 +14,9 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
+import android.widget.Toast;
+
+import java.util.List;
 
 public class RegisterActivity extends AppCompatActivity {
 
@@ -19,11 +25,35 @@ public class RegisterActivity extends AppCompatActivity {
     private EditText mEditFullName;
     private RadioGroup mEditDietChoiceGroup;
     private RadioButton mEditDietChoiceButton;
+    private UserViewModel mUserViewModel;
+
+
+    public static final int NEW_USER_ACTIVITY_REQUEST_CODE = 1;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register);
+
+        final UserListAdapter adapter = new UserListAdapter(this);
+
+        mUserViewModel = ViewModelProviders.of(this).get(UserViewModel.class);
+
+        mUserViewModel.getUser().observe(this, new Observer<List<User>>() {
+            @Override
+            public void onChanged(@Nullable final List<User> user) {
+                // Update the cached copy of the words in the adapter.
+                adapter.setUser(user);
+                //Log.d("user:", String.valueOf(user.get(0).getFull_name()));
+                if (!user.isEmpty()){
+
+                    Intent intent = new Intent(RegisterActivity.this, HomeActivity.class);
+                    startActivity(intent);
+                }
+
+            }
+        });
 
         mEditParticipantNumber = findViewById(R.id.participant_number);
         mEditFullName = findViewById(R.id.full_name);
@@ -33,7 +63,7 @@ public class RegisterActivity extends AppCompatActivity {
 
         button.setOnClickListener(new View.OnClickListener() {
             public void onClick(View view) {
-                Intent replyIntent = new Intent();
+                Intent replyIntent = new Intent(RegisterActivity.this, HomeActivity.class);
                 if (TextUtils.isEmpty(mEditParticipantNumber.getText())) {
                     setResult(RESULT_CANCELED, replyIntent);
                 } else {
@@ -68,4 +98,6 @@ public class RegisterActivity extends AppCompatActivity {
         });
 
     }
+
+
 }

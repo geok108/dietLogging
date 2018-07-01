@@ -25,7 +25,7 @@
             android:layout_marginRight="16dp"
             android:hint="@string/date_time"
             android:nextFocusForward="@id/food"
-            android:inputType="text"
+            android:inputType="text|datetime"
             android:maxLines="1"
             />
     </android.support.design.widget.TextInputLayout>
@@ -83,7 +83,7 @@
             android:layout_marginRight="16dp"
             android:hint="@string/grams"
             android:nextFocusForward="@id/meal_dropdown"
-            android:inputType="text"
+            android:inputType="numberDecimal"
             android:maxLines="1"
             />
     </android.support.design.widget.TextInputLayout>

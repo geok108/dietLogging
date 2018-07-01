@@ -26,7 +26,7 @@
                 android:layout_marginRight="16dp"
                 android:hint="@string/participant_number"
                 android:nextFocusForward="@id/full_name"
-                android:inputType="text"
+                android:inputType="number"
                 android:maxLines="1"
                 />
         </android.support.design.widget.TextInputLayout>
@@ -43,6 +43,9 @@
                 android:layout_marginRight="16dp"
                 android:hint="@string/full_name"
                 android:id="@+id/full_name"
+                android:nextFocusForward="@id/diet_choice"
+                android:inputType="text"
+                android:maxLines="1"
                 />
         </android.support.design.widget.TextInputLayout>
 
