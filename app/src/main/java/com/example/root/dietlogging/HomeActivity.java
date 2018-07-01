@@ -46,6 +46,7 @@ public class HomeActivity extends AppCompatActivity {
      */
     private ViewPager mViewPager;
     public static final int NEW_USER_ACTIVITY_REQUEST_CODE = 1;
+    public static final int UPDATE_USER_ACTIVITY_REQUEST_CODE = 2;
     private UserViewModel mUserViewModel;
 
 
@@ -53,6 +54,25 @@ public class HomeActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
+
+        final UserListAdapter adapter = new UserListAdapter(this);
+
+        mUserViewModel = ViewModelProviders.of(this).get(UserViewModel.class);
+
+        mUserViewModel.getUser().observe(this, new Observer<List<User>>() {
+            @Override
+            public void onChanged(@Nullable final List<User> user) {
+                // Update the cached copy of the words in the adapter.
+                adapter.setUser(user);
+                //Log.d("user:", String.valueOf(user.get(0).getFull_name()));
+                if (user.isEmpty()){
+
+                    Intent intent = new Intent(HomeActivity.this, RegisterActivity.class);
+                    startActivityForResult(intent, NEW_USER_ACTIVITY_REQUEST_CODE);
+                }
+
+            }
+        });
 
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
@@ -74,7 +94,7 @@ public class HomeActivity extends AppCompatActivity {
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(HomeActivity.this, AddActivity.class);
+                Intent intent = new Intent(HomeActivity.this, SearchActivity.class);
                 startActivityForResult(intent, NEW_USER_ACTIVITY_REQUEST_CODE);
             }
         });
@@ -84,12 +104,13 @@ public class HomeActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(HomeActivity.this, SettingsActivity.class);
-                startActivityForResult(intent, NEW_USER_ACTIVITY_REQUEST_CODE);
+                startActivityForResult(intent, UPDATE_USER_ACTIVITY_REQUEST_CODE);
             }
         });
 
     }
 
+    @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
@@ -100,6 +121,13 @@ public class HomeActivity extends AppCompatActivity {
 
             Log.d("userHome: ", user.getFull_name());
             mUserViewModel.insert(user);
+        } else if(requestCode == UPDATE_USER_ACTIVITY_REQUEST_CODE && resultCode == RESULT_OK) {
+            User user = new User(data.getExtras().getInt("participantNumber"),
+                    data.getStringExtra("fullName"),
+                    data.getExtras().getInt("dietChoice"));
+
+            mUserViewModel.update(user);
+
         } else {
             Toast.makeText(
                     getApplicationContext(),

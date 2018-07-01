@@ -30,6 +30,8 @@
     <string name="macros">MACROS</string>
     <string name="food_diary">FOOD DIARY</string>
     <string name="title_activity_home">Home</string>
+    <string name="frequently_added">Frequently Added</string>
+    <string name="search_results">Search Results</string>
     <string name="tab_text_1">Tab 1</string>
     <string name="tab_text_2">Tab 2</string>
     <string name="tab_text_3">Tab 3</string>

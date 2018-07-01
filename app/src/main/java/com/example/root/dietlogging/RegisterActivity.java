@@ -36,24 +36,7 @@ public class RegisterActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register);
 
-        final UserListAdapter adapter = new UserListAdapter(this);
 
-        mUserViewModel = ViewModelProviders.of(this).get(UserViewModel.class);
-
-        mUserViewModel.getUser().observe(this, new Observer<List<User>>() {
-            @Override
-            public void onChanged(@Nullable final List<User> user) {
-                // Update the cached copy of the words in the adapter.
-                adapter.setUser(user);
-                //Log.d("user:", String.valueOf(user.get(0).getFull_name()));
-                if (!user.isEmpty()){
-
-                    Intent intent = new Intent(RegisterActivity.this, HomeActivity.class);
-                    startActivity(intent);
-                }
-
-            }
-        });
 
         mEditParticipantNumber = findViewById(R.id.participant_number);
         mEditFullName = findViewById(R.id.full_name);
@@ -63,7 +46,7 @@ public class RegisterActivity extends AppCompatActivity {
 
         button.setOnClickListener(new View.OnClickListener() {
             public void onClick(View view) {
-                Intent replyIntent = new Intent(RegisterActivity.this, HomeActivity.class);
+                Intent replyIntent = new Intent();
                 if (TextUtils.isEmpty(mEditParticipantNumber.getText())) {
                     setResult(RESULT_CANCELED, replyIntent);
                 } else {
@@ -98,6 +81,7 @@ public class RegisterActivity extends AppCompatActivity {
         });
 
     }
+
 
 
 }
