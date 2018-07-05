@@ -7,15 +7,23 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.SearchView;
 import android.util.Log;
+import android.widget.ArrayAdapter;
+import android.widget.ListView;
+
+import java.util.List;
 
 public class SearchActivity extends AppCompatActivity {
 
     private SearchView searchView;
+    private ListView foodListView;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_search);
+
+        this.foodListView = (ListView) findViewById(R.id.foodListView);
 
 
         // Get the SearchView and set the searchable configuration
@@ -25,11 +33,21 @@ public class SearchActivity extends AppCompatActivity {
         searchView.setSearchableInfo(searchManager.getSearchableInfo(getComponentName()));
         searchView.setIconifiedByDefault(false); // Do not iconify the widget; expand it by default
 
+        final DatabaseAccess databaseAccess = DatabaseAccess.getInstance(this);
+
+
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String q) {
                 q = searchView.getQuery().toString();
-                Log.d("QUERY: ", q);
+                //Log.d("QUERY: ", q);
+
+
+                databaseAccess.open();
+                List<String> results = databaseAccess.getFoodResults(q);
+                databaseAccess.close();
+
+               Log.d("foods: ", String.valueOf(results));
 
                 return false;
             }
