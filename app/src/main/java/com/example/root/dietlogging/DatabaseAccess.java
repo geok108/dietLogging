@@ -73,16 +73,27 @@ public class DatabaseAccess {
      * Search the food database based on the user query
      * @return a list of results
      */
-    public List<String> getFoodResults(String query) {
-        List<String> list = new ArrayList<>();
-        Cursor cursor = database.rawQuery("SELECT * FROM food WHERE 'Food Name' LIKE ?", new String[] {query});
-        //Log.d("CURSOR: ",cursor.getString(0));
+    public ArrayList<Food> getFoodResults(String query) {
+        ArrayList<Food> foodList = new ArrayList<>();
+        Cursor cursor = database.rawQuery("SELECT * FROM food WHERE food_name LIKE '" + query + "%'", null);
+
+        Log.d("Query in db: ", query);
         cursor.moveToFirst();
         while (!cursor.isAfterLast()) {
-            list.add(String.valueOf(cursor.getString(0)));
+            String foodId = cursor.getString(0);
+            String foodName = cursor.getString(1);
+            String protein = cursor.getString(2);
+            String fat = cursor.getString(3);
+            String carbohydrate = cursor.getString(4);
+            String energy = cursor.getString(5);
+            String totalSugars = cursor.getString(6);
+
+            foodList.add(new Food(foodId, foodName, protein, fat, carbohydrate, energy, totalSugars));
+
             cursor.moveToNext();
         }
         cursor.close();
-        return list;
+
+        return foodList;
     }
 }

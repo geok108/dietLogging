@@ -7,15 +7,22 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.SearchView;
 import android.util.Log;
+import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.ListAdapter;
 import android.widget.ListView;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class SearchActivity extends AppCompatActivity {
 
     private SearchView searchView;
     private ListView foodListView;
+    private FoodListAdapter foodAdapter;
+
+    public static final int NEW_FOOD_ACTIVITY_REQUEST_CODE = 1;
 
 
     @Override
@@ -33,6 +40,8 @@ public class SearchActivity extends AppCompatActivity {
         searchView.setSearchableInfo(searchManager.getSearchableInfo(getComponentName()));
         searchView.setIconifiedByDefault(false); // Do not iconify the widget; expand it by default
 
+
+
         final DatabaseAccess databaseAccess = DatabaseAccess.getInstance(this);
 
 
@@ -40,27 +49,57 @@ public class SearchActivity extends AppCompatActivity {
             @Override
             public boolean onQueryTextSubmit(String q) {
                 q = searchView.getQuery().toString();
-                //Log.d("QUERY: ", q);
-
 
                 databaseAccess.open();
-                List<String> results = databaseAccess.getFoodResults(q);
+                ArrayList<Food> results = databaseAccess.getFoodResults(q);
                 databaseAccess.close();
 
-               Log.d("foods: ", String.valueOf(results));
+                showResults(results);
 
-                return false;
+                return true;
             }
 
             @Override
-            public boolean onQueryTextChange(String newText) {
+            public boolean onQueryTextChange(String q) {
+                q = searchView.getQuery().toString();
 
-                return false;
+                databaseAccess.open();
+                ArrayList<Food> results = databaseAccess.getFoodResults(q);
+                databaseAccess.close();
+
+                showResults(results);
+                return true;
             }
+
+
 
 
 
         });
+
+        foodListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Log.d("id: ", String.valueOf(foodAdapter.getItem(position).getFoodName()));
+                Log.d("name: ", String.valueOf(foodAdapter.getItem(position).getEnergy()));
+
+                Intent intent = new Intent(SearchActivity.this, AddActivity.class);
+
+                intent.putExtra("foodCode", foodAdapter.getItem(position).getFoodCode());
+                intent.putExtra("foodName", foodAdapter.getItem(position).getFoodName());
+                intent.putExtra("protein", foodAdapter.getItem(position).getProtein());
+                intent.putExtra("fat", foodAdapter.getItem(position).getFat());
+                intent.putExtra("carbohydrate", foodAdapter.getItem(position).getCarbohydrate());
+                intent.putExtra("energy", foodAdapter.getItem(position).getEnergy());
+                intent.putExtra("totalSugars", foodAdapter.getItem(position).getTotalSugars());
+
+                startActivity(intent);
+
+
+            }
+        });
+
+
 
         // Get the intent, verify the action and get the query
         Intent intent = getIntent();
@@ -70,6 +109,19 @@ public class SearchActivity extends AppCompatActivity {
         }
 
     }
+
+    public void showResults(ArrayList results){
+
+        //FoodListAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, results);
+        //this.foodListView.setAdapter(adapter);
+        Log.d("results: ", String.valueOf(results));
+
+        foodAdapter = new FoodListAdapter(this, results);
+        foodListView.setAdapter(foodAdapter);
+    }
+
+
+
 
 
 
