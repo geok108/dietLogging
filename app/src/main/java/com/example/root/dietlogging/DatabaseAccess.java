@@ -27,7 +27,7 @@ public class DatabaseAccess {
      * Return a singleton instance of DatabaseAccess.
      *
      * @param context the Context
-     * @return the instance of DabaseAccess
+     * @return the instance of DatabaseAccess
      */
     public static DatabaseAccess getInstance(Context context) {
         if (instance == null) {
@@ -77,7 +77,6 @@ public class DatabaseAccess {
         ArrayList<Food> foodList = new ArrayList<>();
         Cursor cursor = database.rawQuery("SELECT * FROM food WHERE food_name LIKE '" + query + "%'", null);
 
-        Log.d("Query in db: ", query);
         cursor.moveToFirst();
         while (!cursor.isAfterLast()) {
             String foodId = cursor.getString(0);

@@ -97,7 +97,7 @@
 
     <com.appyvet.materialrangebar.RangeBar
         xmlns:app="http://schemas.android.com/apk/res-auto"
-        android:id="@+id/rangebar"
+        android:id="@+id/hunger"
         android:layout_width="match_parent"
         android:layout_height="72dp"
         app:mrb_rangeBar="false"

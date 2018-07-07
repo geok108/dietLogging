@@ -80,9 +80,6 @@ public class SearchActivity extends AppCompatActivity {
         foodListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Log.d("id: ", String.valueOf(foodAdapter.getItem(position).getFoodName()));
-                Log.d("name: ", String.valueOf(foodAdapter.getItem(position).getEnergy()));
-
                 Intent intent = new Intent(SearchActivity.this, AddActivity.class);
 
                 intent.putExtra("foodCode", foodAdapter.getItem(position).getFoodCode());
@@ -93,7 +90,7 @@ public class SearchActivity extends AppCompatActivity {
                 intent.putExtra("energy", foodAdapter.getItem(position).getEnergy());
                 intent.putExtra("totalSugars", foodAdapter.getItem(position).getTotalSugars());
 
-                startActivity(intent);
+                startActivityForResult(intent, NEW_FOOD_ACTIVITY_REQUEST_CODE);
 
 
             }
@@ -114,15 +111,17 @@ public class SearchActivity extends AppCompatActivity {
 
         //FoodListAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, results);
         //this.foodListView.setAdapter(adapter);
-        Log.d("results: ", String.valueOf(results));
 
         foodAdapter = new FoodListAdapter(this, results);
         foodListView.setAdapter(foodAdapter);
     }
 
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
 
-
-
-
+        Intent intent = new Intent(SearchActivity.this, HomeActivity.class);
+        startActivity(intent);
+    }
 
 }

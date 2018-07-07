@@ -119,7 +119,6 @@ public class HomeActivity extends AppCompatActivity {
                     data.getStringExtra("fullName"),
                     data.getExtras().getInt("dietChoice"));
 
-            Log.d("userHome: ", user.getFull_name());
             mUserViewModel.insert(user);
         } else if(requestCode == UPDATE_USER_ACTIVITY_REQUEST_CODE && resultCode == RESULT_OK) {
             User user = new User(data.getExtras().getInt("participantNumber"),

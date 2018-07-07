@@ -24,7 +24,6 @@ public class FoodListAdapter extends ArrayAdapter<Food> {
 
         mContext = context;
         foodList = list;
-        Log.d("constructor: ", String.valueOf(foodList));
 
     }
 
@@ -35,7 +34,6 @@ public class FoodListAdapter extends ArrayAdapter<Food> {
             listItem = LayoutInflater.from(mContext).inflate(R.layout.search_results,parent,false);
 
         Food currentFood = foodList.get(position);
-        Log.d("pos: ", String.valueOf(foodList.get(0).getFoodName()));
 
         TextView foodName = (TextView) listItem.findViewById(R.id.food_name);
         foodName.setText(currentFood.getFoodName());
