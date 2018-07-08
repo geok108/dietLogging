@@ -1,14 +1,24 @@
 package com.example.root.dietlogging;
 
-class Food {
+import android.arch.persistence.room.Entity;
+
+@Entity(tableName = "food")
+public class Food {
 
     private String foodCode;
+
+    private String foodName;
 
     private String protein;
 
     private String fat;
 
     private String carbohydrate;
+
+    private String energy;
+
+    private String totalSugars;
+
 
     public String getProtein() {
         return protein;
@@ -50,10 +60,6 @@ class Food {
         this.totalSugars = totalSugars;
     }
 
-    private String energy;
-
-    private String totalSugars;
-
     public String getFoodName() {
         return foodName;
     }
@@ -61,8 +67,6 @@ class Food {
     public void setFoodName(String foodName) {
         this.foodName = foodName;
     }
-
-    private String foodName;
 
     public String getFoodCode() {
         return foodCode;

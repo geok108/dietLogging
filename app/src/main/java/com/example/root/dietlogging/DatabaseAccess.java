@@ -57,7 +57,7 @@ public class DatabaseAccess {
      *
      * @return a List of foods
      */
-    public List<String> getQuotes() {
+    public List<String> getFoods() {
         List<String> list = new ArrayList<>();
         Cursor cursor = database.rawQuery("SELECT * FROM food", null);
         cursor.moveToFirst();
@@ -66,6 +66,7 @@ public class DatabaseAccess {
             cursor.moveToNext();
         }
         cursor.close();
+
         return list;
     }
 
@@ -95,4 +96,5 @@ public class DatabaseAccess {
 
         return foodList;
     }
+
 }

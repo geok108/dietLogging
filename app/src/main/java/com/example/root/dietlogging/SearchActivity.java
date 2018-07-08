@@ -120,6 +120,7 @@ public class SearchActivity extends AppCompatActivity {
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
+
         Intent intent = new Intent(SearchActivity.this, HomeActivity.class);
         startActivity(intent);
     }

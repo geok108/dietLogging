@@ -18,7 +18,7 @@ public class FoodActivity extends AppCompatActivity {
         this.listView = (ListView) findViewById(R.id.listView);
         DatabaseAccess databaseAccess = DatabaseAccess.getInstance(this);
         databaseAccess.open();
-        List<String> quotes = databaseAccess.getQuotes();
+        List<String> quotes = databaseAccess.getFoods();
         databaseAccess.close();
 
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, quotes);
