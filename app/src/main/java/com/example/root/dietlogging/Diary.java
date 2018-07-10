@@ -9,8 +9,8 @@ import android.support.annotation.NonNull;
 public class Diary {
 
     @NonNull
-    @PrimaryKey
-    private int id;
+    @PrimaryKey(autoGenerate = true)
+    private Integer id;
 
     @NonNull
     private String foodId;
@@ -31,11 +31,11 @@ public class Diary {
     private int hunger;
 
     @NonNull
-    public int getId() {
+    public Integer getId() {
         return id;
     }
 
-    public void setId(@NonNull int id) {
+    public void setId(@NonNull Integer id) {
         this.id = id;
     }
 
@@ -93,8 +93,8 @@ public class Diary {
         this.hunger = hunger;
     }
 
-    public Diary(@NonNull int id, @NonNull String foodId, @NonNull String foodName, @NonNull String dateTime, @NonNull String meal, @NonNull float grams, @NonNull int hunger) {
-        this.id = id;
+
+    public Diary(@NonNull String foodId, @NonNull String foodName, @NonNull String dateTime, @NonNull String meal, @NonNull float grams, @NonNull int hunger) {
         this.foodId = foodId;
         this.foodName = foodName;
         this.dateTime = dateTime;

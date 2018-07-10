@@ -1,9 +1,11 @@
 package com.example.root.dietlogging;
 
+import android.arch.lifecycle.LiveData;
 import android.arch.lifecycle.Observer;
 import android.arch.lifecycle.ViewModelProviders;
 import android.content.Intent;
 import android.support.annotation.Nullable;
+import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.TabLayout;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -18,6 +20,7 @@ import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.os.Bundle;
 import android.util.Log;
+import android.util.LogPrinter;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -30,6 +33,10 @@ import android.widget.Toast;
 import java.util.List;
 
 public class HomeActivity extends AppCompatActivity {
+
+    private TabLayout tabLayout;
+    private AppBarLayout appBarLayout;
+    private ViewPager viewPager;
 
     /**
      * The {@link android.support.v4.view.PagerAdapter} that will provide
@@ -47,7 +54,9 @@ public class HomeActivity extends AppCompatActivity {
     private ViewPager mViewPager;
     public static final int NEW_USER_ACTIVITY_REQUEST_CODE = 1;
     public static final int UPDATE_USER_ACTIVITY_REQUEST_CODE = 2;
+
     private UserViewModel mUserViewModel;
+    private DiaryViewModel mDiaryViewModel;
 
 
     @Override
@@ -56,6 +65,20 @@ public class HomeActivity extends AppCompatActivity {
         setContentView(R.layout.activity_home);
 
         final UserListAdapter adapter = new UserListAdapter(this);
+
+        mDiaryViewModel = ViewModelProviders.of(this).get(DiaryViewModel.class);
+
+
+
+        mDiaryViewModel.getAllEntries().observe(this, new Observer<List<Diary>>(){
+
+
+            @Override
+            public void onChanged(@Nullable List<Diary> diaries) {
+                Log.d("diary entries:" , String.valueOf(diaries.get(0).getFoodName()));
+
+            }
+        });
 
         mUserViewModel = ViewModelProviders.of(this).get(UserViewModel.class);
 
@@ -75,20 +98,35 @@ public class HomeActivity extends AppCompatActivity {
         });
 
 
+
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+        tabLayout =  findViewById(R.id.tabs);
+        appBarLayout = findViewById(R.id.appbar);
+        viewPager = findViewById(R.id.pager);
+
+        PagerAdapter pagerAdapter = new PagerAdapter(getSupportFragmentManager());
+
+        pagerAdapter.AddFragment(new MacrosFragment(), "MACROS");
+        pagerAdapter.AddFragment(new FoodDiaryFragment(), "FOOD DIARY");
+
+        viewPager.setAdapter(pagerAdapter);
+        tabLayout.setupWithViewPager(viewPager);
+
         // Create the adapter that will return a fragment for each of the three
         // primary sections of the activity.
-        mSectionsPagerAdapter = new SectionsPagerAdapter(getSupportFragmentManager());
+        //mSectionsPagerAdapter = new SectionsPagerAdapter(getSupportFragmentManager());
 
         // Set up the ViewPager with the sections adapter.
-        mViewPager = (ViewPager) findViewById(R.id.container);
-        mViewPager.setAdapter(mSectionsPagerAdapter);
+        //mViewPager = (ViewPager) findViewById(R.id.container);
+        //mViewPager.setAdapter(mSectionsPagerAdapter);
 
-        TabLayout tabLayout = (TabLayout) findViewById(R.id.tabs);
 
-        mViewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tabLayout));
-        tabLayout.addOnTabSelectedListener(new TabLayout.ViewPagerOnTabSelectedListener(mViewPager));
+        //mViewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tabLayout));
+        //tabLayout.addOnTabSelectedListener(new TabLayout.ViewPagerOnTabSelectedListener(mViewPager));
+
+
+
 
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
@@ -127,7 +165,8 @@ public class HomeActivity extends AppCompatActivity {
 
             mUserViewModel.update(user);
 
-        } else {
+        }
+        else {
             Toast.makeText(
                     getApplicationContext(),
                     R.string.empty_not_saved,
@@ -157,6 +196,7 @@ public class HomeActivity extends AppCompatActivity {
 
         return super.onOptionsItemSelected(item);
     }
+
 
     /**
      * A placeholder fragment containing a simple view.
@@ -188,6 +228,7 @@ public class HomeActivity extends AppCompatActivity {
                                  Bundle savedInstanceState) {
             View rootView = inflater.inflate(R.layout.fragment_home, container, false);
             TextView textView = (TextView) rootView.findViewById(R.id.section_label);
+
             textView.setText(getString(R.string.section_format, getArguments().getInt(ARG_SECTION_NUMBER)));
             return rootView;
         }

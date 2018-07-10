@@ -82,12 +82,15 @@ public class AddActivity extends AppCompatActivity {
                         String hunger_now = hunger.getRightPinValue();
 
                         Log.d("food: ", food_name);
+                        Log.d("carbohydrate: ", carbohydrate);
                         Log.d("grams:", food_grams);
                         Log.d("meal: ", meal);
                         Log.d("hunger", hunger_now);
 
+
                         replyIntent.putExtra("foodCode", food_code);
                         replyIntent.putExtra("foodName", food_name);
+                        replyIntent.putExtra("dateTime", timeStamp);
                         replyIntent.putExtra("grams", food_grams);
                         replyIntent.putExtra("protein", protein);
                         replyIntent.putExtra("fat", fat);
@@ -107,14 +110,5 @@ public class AddActivity extends AppCompatActivity {
 
     }
 
-    @Override
-    public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-
-        if (requestCode == NEW_FOOD_ACTIVITY_REQUEST_CODE && resultCode == RESULT_OK) {
-            Log.d("RECEIVED:", "200");
-
-        }
-    }
 
 }

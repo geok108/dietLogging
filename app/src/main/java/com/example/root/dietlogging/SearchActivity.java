@@ -1,6 +1,7 @@
 package com.example.root.dietlogging;
 
 import android.app.SearchManager;
+import android.arch.lifecycle.ViewModelProviders;
 import android.content.Context;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
@@ -21,6 +22,8 @@ public class SearchActivity extends AppCompatActivity {
     private SearchView searchView;
     private ListView foodListView;
     private FoodListAdapter foodAdapter;
+    private DiaryViewModel mDiaryViewModel;
+
 
     public static final int NEW_FOOD_ACTIVITY_REQUEST_CODE = 1;
 
@@ -31,6 +34,8 @@ public class SearchActivity extends AppCompatActivity {
         setContentView(R.layout.activity_search);
 
         this.foodListView = (ListView) findViewById(R.id.foodListView);
+
+        mDiaryViewModel = ViewModelProviders.of(this).get(DiaryViewModel.class);
 
 
         // Get the SearchView and set the searchable configuration
@@ -120,9 +125,31 @@ public class SearchActivity extends AppCompatActivity {
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
+        if (requestCode == NEW_FOOD_ACTIVITY_REQUEST_CODE && resultCode == RESULT_OK) {
 
-        Intent intent = new Intent(SearchActivity.this, HomeActivity.class);
-        startActivity(intent);
+            String foodCode = data.getStringExtra("foodCode");
+            String foodName = data.getStringExtra("foodName");
+            String dateTime = data.getStringExtra("dateTime");
+            String meal = data.getStringExtra("meal");
+            float grams = Float.parseFloat(data.getStringExtra("grams"));
+            int hunger = Integer.parseInt(data.getStringExtra("hunger"));
+
+            Diary diary = new Diary(foodCode, foodName, dateTime, meal, grams, hunger);
+
+            Log.d("received food data", diary.getDateTime());
+            Log.d("received food data", diary.getFoodId());
+            Log.d("received food data", diary.getFoodName());
+            Log.d("received food data", diary.getMeal());
+            Log.d("received food data", String.valueOf(diary.getGrams()));
+            Log.d("received food data", String.valueOf(diary.getHunger()));
+
+
+            mDiaryViewModel.insert(diary);
+
+
+            Intent intent = new Intent(SearchActivity.this, HomeActivity.class);
+            startActivity(intent);
+        }
     }
 
 }

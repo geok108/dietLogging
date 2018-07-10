@@ -12,7 +12,7 @@ public interface DiaryDao {
 
 
     @Insert
-    void insert(Diary diaryEntry);
+    void insert(Diary diary);
 
     @Query("DELETE FROM diary")
     void deleteAll();
