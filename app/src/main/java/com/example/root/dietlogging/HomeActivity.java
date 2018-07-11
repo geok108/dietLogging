@@ -75,7 +75,7 @@ public class HomeActivity extends AppCompatActivity {
 
             @Override
             public void onChanged(@Nullable List<Diary> diaries) {
-                Log.d("diary entries:" , String.valueOf(diaries.get(0).getFoodName()));
+           //     Log.d("diary entries:" , String.valueOf(diaries.get(0).getFoodName()));
 
             }
         });

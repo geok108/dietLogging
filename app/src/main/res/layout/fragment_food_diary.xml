@@ -11,51 +11,22 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:text="@string/food_diary_fr" />
-
 
         <TableLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:stretchColumns="0, 1, 2"
-            >
+            android:id="@+id/table_food"
+            android:layout_gravity="center_horizontal">
 
 
-            <TableRow>
+           <View
+               android:layout_height="2dip"
+               android:background="@color/colorPrimaryDark" />
 
-                <TextView
-                    android:id="@+id/meal_time"
-                    style="@style/user_name"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="@string/food"
-                    android:gravity="center_horizontal"/>
-                <TextView
-                    android:id="@+id/food_name"
-                    style="@style/user_name"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="@string/food"
-                    android:gravity="center_horizontal"/>
-                <TextView
-                    android:id="@+id/food_grams"
-                    style="@style/user_name"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="@string/food"
-                    android:gravity="center_horizontal"/>
-
-            </TableRow>
-            <View
-                android:layout_height="2dip"
-                android:background="@color/colorPrimaryDark" />
-
-        </TableLayout>
+       </TableLayout>
 
 
-    </LinearLayout>
+   </LinearLayout>
 
 </FrameLayout>
