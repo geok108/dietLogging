@@ -12,7 +12,7 @@ public class DiaryViewModel extends AndroidViewModel {
 
     private LiveData<List<Diary>> mAllEntries;
 
-    public DiaryViewModel (Application application) {
+    public DiaryViewModel(Application application) {
         super(application);
         mRepository = new DiaryRepository(application);
         mAllEntries = mRepository.getAllEntries();
@@ -21,4 +21,9 @@ public class DiaryViewModel extends AndroidViewModel {
     LiveData<List<Diary>> getAllEntries() { return mAllEntries; }
 
     public void insert(Diary diary) { mRepository.insert(diary); }
+
+    public void update(Diary diary) { mRepository.update(diary); }
+
+    public void delete(Diary diary) { mRepository.delete(diary); }
+
 }

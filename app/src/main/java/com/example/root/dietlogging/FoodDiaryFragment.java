@@ -4,6 +4,7 @@ import android.annotation.SuppressLint;
 import android.arch.lifecycle.Observer;
 import android.arch.lifecycle.ViewModelProviders;
 import android.content.Context;
+import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -83,7 +84,7 @@ public class FoodDiaryFragment extends Fragment {
 
 
             @Override
-            public void onChanged(@Nullable List<Diary> diaries) {
+            public void onChanged(@Nullable final List<Diary> diaries) {
 
                if (!diaries.isEmpty()) {
 
@@ -97,7 +98,7 @@ public class FoodDiaryFragment extends Fragment {
                        }
 
 
-                       TextView time = new TextView(getActivity());
+                       final TextView time = new TextView(getActivity());
                        TextView foodName = new TextView(getActivity());
                        TextView foodGrams = new TextView(getActivity());
 
@@ -127,6 +128,26 @@ public class FoodDiaryFragment extends Fragment {
                        row.addView(time);
                        row.addView(foodName);
                        row.addView(foodGrams);
+
+                       final int finalI = i;
+                       row.setOnClickListener(new View.OnClickListener()
+                       {
+                           @Override
+                           public void onClick(View v)
+                           {
+                               v.setBackgroundColor(getResources().getColor(android.R.color.holo_red_dark));
+
+                               Intent updateIntent = new Intent(getActivity(), UpdateActivity.class);
+                               updateIntent.putExtra("diaryId", diaries.get(finalI).getId().toString());
+                               updateIntent.putExtra("foodName", diaries.get(finalI).getFoodName());
+                               updateIntent.putExtra("dateTime", diaries.get(finalI).getDateTime());
+                               updateIntent.putExtra("meal", diaries.get(finalI).getMeal());
+                               updateIntent.putExtra("hunger", diaries.get(finalI).getHunger());
+                               updateIntent.putExtra("grams", diaries.get(finalI).getGrams());
+
+                               startActivity(updateIntent);
+                           }
+                       });
 
                    }
                }

@@ -24,6 +24,7 @@
     </string-array>
 
     <string name="edit_food">Edit Food</string>
+    <string name="button_delete">Delete</string>
     <string name="button_update">Update</string>
     <string name="home">Home</string>
     <string name="settings">Settings</string>
