@@ -32,15 +32,11 @@ public class UpdateActivity extends AppCompatActivity {
         grams = findViewById(R.id.grams);
         hunger = findViewById(R.id.hunger);
 
-        final Button button_update = findViewById(R.id.button_update);
+        final Button button_update = findViewById(R.id.button_update_food);
         final Button button_delete = findViewById(R.id.button_delete);
 
-        Intent receivedIntent = getIntent();
-        Log.d("received food : ", receivedIntent.getStringExtra("diaryId"));
-        Log.d("received food : ", receivedIntent.getStringExtra("foodName"));
-        Log.d("received food : ", receivedIntent.getStringExtra("dateTime"));
-        Log.d("received food : ", receivedIntent.getStringExtra("meal"));
-        Log.d("received food : ", String.valueOf(receivedIntent.getExtras().getFloat("grams")));
+        final Intent receivedIntent = getIntent();
+
 
         dateTime.setText(receivedIntent.getStringExtra("dateTime"));
         chosenFood.setText(receivedIntent.getStringExtra("foodName"));
@@ -86,12 +82,81 @@ public class UpdateActivity extends AppCompatActivity {
         button_update.setOnClickListener(new View.OnClickListener() {
             public void onClick(View view) {
 
+                Intent replyIntent = new Intent();
+                if (TextUtils.isEmpty(grams.getText())) {
+                    setResult(RESULT_CANCELED, replyIntent);
+                } else {
+
+
+                    int diaryId = receivedIntent.getExtras().getInt("diaryId");
+                    String food_name = receivedIntent.getStringExtra("foodName");
+                    String dateTime_old = receivedIntent.getStringExtra("dateTime");
+                    String dateTime_new = dateTime.getText().toString();
+                    String food_code = receivedIntent.getStringExtra("foodCode");
+                    String food_grams = grams.getText().toString();
+                    String protein = receivedIntent.getStringExtra("protein");
+                    String fat = receivedIntent.getStringExtra("fat");
+                    String carbohydrate = receivedIntent.getStringExtra("carbohydrate");
+                    String energy = receivedIntent.getStringExtra("energy");
+                    String totalSugars = receivedIntent.getStringExtra("totalSugars");
+                    String meal = mealDropdown.getSelectedItem().toString();
+                    Integer hunger_now = Integer.valueOf(hunger.getRightPinValue());
+
+                    replyIntent.putExtra("diaryId", diaryId);
+                    replyIntent.putExtra("foodCode", food_code);
+                    replyIntent.putExtra("foodName", food_name);
+                    replyIntent.putExtra("dateTime", dateTime_new);
+                    replyIntent.putExtra("grams", Float.valueOf(food_grams));
+                    replyIntent.putExtra("protein", protein);
+                    replyIntent.putExtra("fat", fat);
+                    replyIntent.putExtra("carbohydrate", carbohydrate);
+                    replyIntent.putExtra("energy", energy);
+                    replyIntent.putExtra("totalSugars", totalSugars);
+                    replyIntent.putExtra("meal", meal);
+                    replyIntent.putExtra("hunger", hunger_now);
+                    replyIntent.putExtra("DELETE CODE", 0);
+
+
+
+                    setResult(RESULT_OK, replyIntent);
+                }
+                finish();
+
+
             }
         });
 
 
         button_delete.setOnClickListener(new View.OnClickListener() {
             public void onClick(View view) {
+                Intent replyIntent = new Intent();
+                if (TextUtils.isEmpty(grams.getText())) {
+                    setResult(RESULT_CANCELED, replyIntent);
+                } else {
+
+
+                    int diaryId = receivedIntent.getExtras().getInt("diaryId");
+                    String food_name = receivedIntent.getStringExtra("foodName");
+                    String dateTime = receivedIntent.getStringExtra("dateTime");
+                    String food_code = receivedIntent.getStringExtra("foodCode");
+                    String food_grams = grams.getText().toString();
+                    String meal = mealDropdown.getSelectedItem().toString();
+                    Integer hunger_now = Integer.valueOf(hunger.getRightPinValue());
+
+                    replyIntent.putExtra("diaryId", diaryId);
+                    replyIntent.putExtra("foodCode", food_code);
+                    replyIntent.putExtra("foodName", food_name);
+                    replyIntent.putExtra("dateTime", dateTime);
+                    replyIntent.putExtra("grams", Float.valueOf(food_grams));
+                    replyIntent.putExtra("meal", meal);
+                    replyIntent.putExtra("hunger", hunger_now);
+                    replyIntent.putExtra("DELETE CODE", 1);
+
+                    setResult(RESULT_OK, replyIntent);
+                }
+                finish();
+
+
 
             }
         });

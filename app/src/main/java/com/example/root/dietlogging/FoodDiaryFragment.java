@@ -18,18 +18,24 @@ import android.widget.LinearLayout;
 import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 
+import static android.app.Activity.RESULT_OK;
 import static com.example.root.dietlogging.R.*;
 
 
 public class FoodDiaryFragment extends Fragment {
     View view;
     private DiaryViewModel mDiaryViewModel;
+
+    public static final int  UPDATE_FOOD_REQUEST_CODE = 3;
+    public static final int  DELETE_FOOD_REQUEST_CODE = 1;
+    public static final int NOT_DELETE_FOOD_REQUEST_CODE = 0;
 
 
     public FoodDiaryFragment() {
@@ -85,7 +91,7 @@ public class FoodDiaryFragment extends Fragment {
 
             @Override
             public void onChanged(@Nullable final List<Diary> diaries) {
-
+                tableLayout.removeAllViews();
                if (!diaries.isEmpty()) {
 
                    for (int i=0; i<diaries.size(); i++) {
@@ -138,14 +144,15 @@ public class FoodDiaryFragment extends Fragment {
                                v.setBackgroundColor(getResources().getColor(android.R.color.holo_red_dark));
 
                                Intent updateIntent = new Intent(getActivity(), UpdateActivity.class);
-                               updateIntent.putExtra("diaryId", diaries.get(finalI).getId().toString());
+                               updateIntent.putExtra("diaryId", diaries.get(finalI).getId());
+                               updateIntent.putExtra("foodCode", diaries.get(finalI).getFoodId());
                                updateIntent.putExtra("foodName", diaries.get(finalI).getFoodName());
                                updateIntent.putExtra("dateTime", diaries.get(finalI).getDateTime());
                                updateIntent.putExtra("meal", diaries.get(finalI).getMeal());
                                updateIntent.putExtra("hunger", diaries.get(finalI).getHunger());
                                updateIntent.putExtra("grams", diaries.get(finalI).getGrams());
 
-                               startActivity(updateIntent);
+                               startActivityForResult(updateIntent, UPDATE_FOOD_REQUEST_CODE);
                            }
                        });
 
@@ -155,5 +162,50 @@ public class FoodDiaryFragment extends Fragment {
         });
 
         return view;
+    }
+
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+         if (requestCode == UPDATE_FOOD_REQUEST_CODE && resultCode == RESULT_OK
+                 && data.getExtras().getInt("DELETE CODE") == NOT_DELETE_FOOD_REQUEST_CODE) {
+
+            int diaryId = data.getExtras().getInt("diaryId");
+            String foodCode = data.getStringExtra("foodCode");
+            String foodName = data.getStringExtra("foodName");
+
+            String dateTime = data.getStringExtra("dateTime");
+            String meal = data.getStringExtra("meal");
+            float grams = data.getExtras().getFloat("grams");
+            Integer hunger = data.getExtras().getInt("hunger");
+
+            Diary diary = new Diary(diaryId, foodCode, foodName, dateTime, meal, grams, hunger);
+
+            mDiaryViewModel.update(diary);
+
+        } else if (requestCode == UPDATE_FOOD_REQUEST_CODE && resultCode == RESULT_OK
+                && data.getExtras().getInt("DELETE CODE") == DELETE_FOOD_REQUEST_CODE){
+
+            int diaryId = data.getExtras().getInt("diaryId");
+            String foodCode = data.getStringExtra("foodCode");
+            String foodName = data.getStringExtra("foodName");
+
+            String dateTime = data.getStringExtra("dateTime");
+            String meal = data.getStringExtra("meal");
+            float grams = data.getExtras().getFloat("grams");
+            Integer hunger = data.getExtras().getInt("hunger");
+
+            Diary diary = new Diary(diaryId, foodCode, foodName, dateTime, meal, grams, hunger);
+
+            mDiaryViewModel.delete(diary);
+
+        } else {
+
+             Toast.makeText(getContext(),
+                     string.not_action_performed,
+                     Toast.LENGTH_LONG).show();         }
+
     }
 }

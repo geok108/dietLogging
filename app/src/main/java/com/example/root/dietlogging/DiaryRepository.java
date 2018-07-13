@@ -59,8 +59,8 @@ public class DiaryRepository {
         }
 
         @Override
-        protected Void doInBackground(Diary... diaries) {
-            mAsyncTaskDao.update(diaries[0]);
+        protected Void doInBackground(Diary... params) {
+            mAsyncTaskDao.update(params[0]);
 
             return null;
         }
@@ -74,8 +74,8 @@ public class DiaryRepository {
         }
 
         @Override
-        protected Void doInBackground(Diary... diaries) {
-            mAsyncTaskDao.delete(diaries[0]);
+        protected Void doInBackground(Diary... params) {
+            mAsyncTaskDao.delete(params[0]);
 
             return null;
         }

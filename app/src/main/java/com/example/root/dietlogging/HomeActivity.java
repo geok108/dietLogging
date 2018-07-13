@@ -133,7 +133,7 @@ public class HomeActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(HomeActivity.this, SearchActivity.class);
-                startActivityForResult(intent, NEW_USER_ACTIVITY_REQUEST_CODE);
+                startActivity(intent);
             }
         });
 
@@ -153,13 +153,15 @@ public class HomeActivity extends AppCompatActivity {
         super.onActivityResult(requestCode, resultCode, data);
 
         if (requestCode == NEW_USER_ACTIVITY_REQUEST_CODE && resultCode == RESULT_OK) {
-            User user = new User(data.getExtras().getInt("participantNumber"),
+            User user = new User(0, data.getExtras().getInt("participantNumber"),
                     data.getStringExtra("fullName"),
                     data.getExtras().getInt("dietChoice"));
 
             mUserViewModel.insert(user);
         } else if(requestCode == UPDATE_USER_ACTIVITY_REQUEST_CODE && resultCode == RESULT_OK) {
-            User user = new User(data.getExtras().getInt("participantNumber"),
+
+            Log.d("got in update", String.valueOf(data.getExtras().getInt("participantNumber")));
+            User user = new User(0, data.getExtras().getInt("participantNumber"),
                     data.getStringExtra("fullName"),
                     data.getExtras().getInt("dietChoice"));
 
@@ -167,10 +169,11 @@ public class HomeActivity extends AppCompatActivity {
 
         }
         else {
-            Toast.makeText(
+
+           /** Toast.makeText(
                     getApplicationContext(),
                     R.string.empty_not_saved,
-                    Toast.LENGTH_LONG).show();
+                    Toast.LENGTH_LONG).show();*/
         }
     }
 

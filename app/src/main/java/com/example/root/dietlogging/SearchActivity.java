@@ -134,7 +134,8 @@ public class SearchActivity extends AppCompatActivity {
             float grams = Float.parseFloat(data.getStringExtra("grams"));
             int hunger = Integer.parseInt(data.getStringExtra("hunger"));
 
-            Diary diary = new Diary(foodCode, foodName, dateTime, meal, grams, hunger);
+            Integer id = null;
+            Diary diary = new Diary(id, foodCode, foodName, dateTime, meal, grams, hunger);
 
             Log.d("received food data", diary.getDateTime());
             Log.d("received food data", diary.getFoodId());

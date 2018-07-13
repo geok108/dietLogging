@@ -94,7 +94,8 @@ public class Diary {
     }
 
 
-    public Diary(@NonNull String foodId, @NonNull String foodName, @NonNull String dateTime, @NonNull String meal, @NonNull float grams, @NonNull int hunger) {
+    public Diary(@NonNull Integer id, @NonNull String foodId, @NonNull String foodName, @NonNull String dateTime, @NonNull String meal, @NonNull float grams, @NonNull int hunger) {
+        this.id = id;
         this.foodId = foodId;
         this.foodName = foodName;
         this.dateTime = dateTime;

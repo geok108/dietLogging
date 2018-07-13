@@ -8,7 +8,10 @@ import android.support.annotation.NonNull;
 public class User {
 
     @NonNull
-    @PrimaryKey
+    @PrimaryKey(autoGenerate = true)
+    private Integer id;
+
+    @NonNull
     private int participant_number;
 
     private String full_name;
@@ -16,13 +19,21 @@ public class User {
     @NonNull
     private int diet_choice;
 
-    public User(@NonNull int participant_number, String full_name, int diet_choice) {
+    public User(@NonNull Integer id, @NonNull int participant_number, String full_name, @NonNull int diet_choice) {
+        this.id = id;
         this.participant_number = participant_number;
         this.full_name = full_name;
         this.diet_choice = diet_choice;
-
     }
 
+    @NonNull
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(@NonNull Integer id) {
+        this.id = id;
+    }
 
     @NonNull
     public int getDiet_choice() {

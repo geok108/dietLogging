@@ -8,7 +8,8 @@
     <string name="diet_low_sug">LOW SUG</string>
     <string name="diet_low_cho">LOW CHO</string>
     <string name="grams">Serving in Grams</string>
-    <string name="empty_not_saved">User not saved because it is empty.</string>
+    <string name="empty_not_saved">Not saved because it is empty.</string>
+    <string name="not_action_performed">Not any action performed.</string>
     <string name="date_time">Date/Time DD/MM/YY HH:MM</string>
     <string name="food">Food</string>
     <string name="meal">Meal</string>
