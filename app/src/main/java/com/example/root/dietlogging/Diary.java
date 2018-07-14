@@ -18,8 +18,21 @@ public class Diary {
     @NonNull
     private String foodName;
 
+    private float protein;
+
+    private float carbohydrates;
+
+    private float fat;
+
+    private float energy;
+
+    private float totalSugars;
+
     @NonNull
-    private String dateTime;
+    private String date;
+
+    @NonNull
+    private String time;
 
     @NonNull
     private String meal;
@@ -57,13 +70,63 @@ public class Diary {
         this.foodName = foodName;
     }
 
-    @NonNull
-    public String getDateTime() {
-        return dateTime;
+
+    public float getProtein() {
+        return protein;
     }
 
-    public void setDateTime(@NonNull String dateTime) {
-        this.dateTime = dateTime;
+    public void setProtein(float protein) {
+        this.protein = protein;
+    }
+
+    public float getCarbohydrates() {
+        return carbohydrates;
+    }
+
+    public void setCarbohydrates(float carbohydrates) {
+        this.carbohydrates = carbohydrates;
+    }
+
+    public float getFat() {
+        return fat;
+    }
+
+    public void setFat(float fat) {
+        this.fat = fat;
+    }
+
+    public float getEnergy() {
+        return energy;
+    }
+
+    public void setEnergy(float energy) {
+        this.energy = energy;
+    }
+
+    public float getTotalSugars() {
+        return totalSugars;
+    }
+
+    public void setTotalSugars(float totalSugars) {
+        this.totalSugars = totalSugars;
+    }
+
+    @NonNull
+    public String getDate() {
+        return date;
+    }
+
+    public void setDate(@NonNull String date) {
+        this.date = date;
+    }
+
+    @NonNull
+    public String getTime() {
+        return time;
+    }
+
+    public void setTime(@NonNull String time) {
+        this.time = time;
     }
 
     @NonNull
@@ -94,11 +157,17 @@ public class Diary {
     }
 
 
-    public Diary(@NonNull Integer id, @NonNull String foodId, @NonNull String foodName, @NonNull String dateTime, @NonNull String meal, @NonNull float grams, @NonNull int hunger) {
+    public Diary(@NonNull Integer id, @NonNull String foodId, @NonNull String foodName, float protein, float fat, float carbohydrates, float energy, float totalSugars, @NonNull String date, @NonNull String time, @NonNull String meal, @NonNull float grams, @NonNull int hunger) {
         this.id = id;
         this.foodId = foodId;
         this.foodName = foodName;
-        this.dateTime = dateTime;
+        this.protein = protein;
+        this.carbohydrates = carbohydrates;
+        this.fat = fat;
+        this.energy = energy;
+        this.totalSugars = totalSugars;
+        this.date = date;
+        this.time = time;
         this.meal = meal;
         this.grams = grams;
         this.hunger = hunger;

@@ -11,16 +11,22 @@ public class DiaryRepository {
 
     private DiaryDao mDiaryDao;
     private LiveData<List<Diary>> mAllDiaryEntries;
+    private LiveData<List<Diary>> mTodayEntries;
 
     DiaryRepository(Application application) {
         DietLoggingRoomDatabase db = DietLoggingRoomDatabase.getDatabase(application);
         mDiaryDao = db.diaryDao();
         mAllDiaryEntries = mDiaryDao.getAllEntries();
+        mTodayEntries = mDiaryDao.getTodayEntries("14.07.2018");
 
     }
 
     LiveData<List<Diary>> getAllEntries() {
         return mAllDiaryEntries;
+    }
+
+    LiveData<List<Diary>> getTodayEntries(String date) {
+        return mTodayEntries;
     }
 
 

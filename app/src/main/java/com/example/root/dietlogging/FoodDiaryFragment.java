@@ -114,14 +114,14 @@ public class FoodDiaryFragment extends Fragment {
 
                        //Log.d("diary entries:", String.valueOf(diaries.get(0).getFoodName()));
 
-                       String originalDate = diaries.get(i).getDateTime();
-                       Date date = null;
+                       String foodTime = diaries.get(i).getTime();
+                       /**Date date = null;
                        try {
                            date = new SimpleDateFormat("dd.MM.yyyy.HH.mm").parse(originalDate);
                        } catch (ParseException e) {
                            e.printStackTrace();
                        }
-                       String foodTime = new SimpleDateFormat("HH:mm").format(date);
+                       String foodTime = new SimpleDateFormat("HH:mm").format(date);*/
 
                        time.setText(foodTime);
                        foodName.setText(diaries.get(i).getFoodName());
@@ -147,10 +147,26 @@ public class FoodDiaryFragment extends Fragment {
                                updateIntent.putExtra("diaryId", diaries.get(finalI).getId());
                                updateIntent.putExtra("foodCode", diaries.get(finalI).getFoodId());
                                updateIntent.putExtra("foodName", diaries.get(finalI).getFoodName());
-                               updateIntent.putExtra("dateTime", diaries.get(finalI).getDateTime());
+                               updateIntent.putExtra("date", diaries.get(finalI).getDate());
+                               updateIntent.putExtra("time", diaries.get(finalI).getTime());
                                updateIntent.putExtra("meal", diaries.get(finalI).getMeal());
                                updateIntent.putExtra("hunger", diaries.get(finalI).getHunger());
                                updateIntent.putExtra("grams", diaries.get(finalI).getGrams());
+
+
+                               Log.d("diaryId", String.valueOf(diaries.get(finalI).getId()));
+                               Log.d("foodCode", diaries.get(finalI).getFoodId());
+                               Log.d("foodName", diaries.get(finalI).getFoodName());
+                               Log.d("date", diaries.get(finalI).getDate());
+                               Log.d("protein", String.valueOf(diaries.get(finalI).getProtein()));
+                               Log.d("fat", String.valueOf(diaries.get(finalI).getFat()));
+                               Log.d("carbohydrate", String.valueOf(diaries.get(finalI).getCarbohydrates()));
+                               Log.d("energy", String.valueOf(diaries.get(finalI).getEnergy()));
+                               Log.d("totalSugars", String.valueOf(diaries.get(finalI).getTotalSugars()));
+                               Log.d("time", diaries.get(finalI).getTime());
+                               Log.d("meal", diaries.get(finalI).getMeal());
+                               Log.d("hunger", String.valueOf(diaries.get(finalI).getHunger()));
+                               Log.d("grams", String.valueOf(diaries.get(finalI).getGrams()));
 
                                startActivityForResult(updateIntent, UPDATE_FOOD_REQUEST_CODE);
                            }
@@ -175,13 +191,18 @@ public class FoodDiaryFragment extends Fragment {
             int diaryId = data.getExtras().getInt("diaryId");
             String foodCode = data.getStringExtra("foodCode");
             String foodName = data.getStringExtra("foodName");
-
-            String dateTime = data.getStringExtra("dateTime");
+            float protein= data.getExtras().getFloat("protein");
+            float fat = data.getExtras().getFloat("fat");
+            float carbohydrates = data.getExtras().getFloat("carbohydrates");
+            float energy = data.getExtras().getFloat("energy");
+            float totalSugars = data.getExtras().getFloat("totalSugars");
+            String date = data.getStringExtra("date");
+            String time = data.getStringExtra("time");
             String meal = data.getStringExtra("meal");
             float grams = data.getExtras().getFloat("grams");
             Integer hunger = data.getExtras().getInt("hunger");
 
-            Diary diary = new Diary(diaryId, foodCode, foodName, dateTime, meal, grams, hunger);
+            Diary diary = new Diary(diaryId, foodCode, foodName, protein, fat, carbohydrates, energy, totalSugars , date, time, meal, grams, hunger);
 
             mDiaryViewModel.update(diary);
 
@@ -191,13 +212,18 @@ public class FoodDiaryFragment extends Fragment {
             int diaryId = data.getExtras().getInt("diaryId");
             String foodCode = data.getStringExtra("foodCode");
             String foodName = data.getStringExtra("foodName");
-
-            String dateTime = data.getStringExtra("dateTime");
+            float protein= data.getExtras().getFloat("protein");
+            float fat = data.getExtras().getFloat("fat");
+            float carbohydrates = data.getExtras().getFloat("carbohydrates");
+            float energy = data.getExtras().getFloat("energy");
+            float totalSugars = data.getExtras().getFloat("totalSugars");
+            String date = data.getStringExtra("date");
+            String time = data.getStringExtra("time");
             String meal = data.getStringExtra("meal");
             float grams = data.getExtras().getFloat("grams");
             Integer hunger = data.getExtras().getInt("hunger");
 
-            Diary diary = new Diary(diaryId, foodCode, foodName, dateTime, meal, grams, hunger);
+            Diary diary = new Diary(diaryId, foodCode, foodName, protein, fat, carbohydrates, energy, totalSugars , date, time, meal, grams, hunger);
 
             mDiaryViewModel.delete(diary);
 

@@ -12,13 +12,19 @@ public class DiaryViewModel extends AndroidViewModel {
 
     private LiveData<List<Diary>> mAllEntries;
 
+    private LiveData<List<Diary>> mTodayEntries;
+
+
     public DiaryViewModel(Application application) {
         super(application);
         mRepository = new DiaryRepository(application);
         mAllEntries = mRepository.getAllEntries();
+        mTodayEntries = mRepository.getTodayEntries("14.07.2018");
+
     }
 
     LiveData<List<Diary>> getAllEntries() { return mAllEntries; }
+    LiveData<List<Diary>> getTodayEntries(String date) { return mTodayEntries; }
 
     public void insert(Diary diary) { mRepository.insert(diary); }
 

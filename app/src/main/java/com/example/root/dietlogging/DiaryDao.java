@@ -28,5 +28,8 @@ public interface DiaryDao {
     @Query("SELECT * from diary ORDER BY id ASC")
     LiveData<List<Diary>> getAllEntries();
 
+    @Query("SELECT * FROM diary WHERE date = :date")
+    LiveData<List<Diary>> getTodayEntries(String date);
+
 
 }

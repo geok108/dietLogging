@@ -95,6 +95,13 @@ public class SearchActivity extends AppCompatActivity {
                 intent.putExtra("energy", foodAdapter.getItem(position).getEnergy());
                 intent.putExtra("totalSugars", foodAdapter.getItem(position).getTotalSugars());
 
+
+                Log.d("food macros", foodAdapter.getItem(position).getProtein());
+                Log.d("food macros", foodAdapter.getItem(position).getFat());
+                Log.d("food macros", foodAdapter.getItem(position).getCarbohydrate());
+                Log.d("food macros", foodAdapter.getItem(position).getEnergy());
+
+
                 startActivityForResult(intent, NEW_FOOD_ACTIVITY_REQUEST_CODE);
 
 
@@ -129,15 +136,56 @@ public class SearchActivity extends AppCompatActivity {
 
             String foodCode = data.getStringExtra("foodCode");
             String foodName = data.getStringExtra("foodName");
-            String dateTime = data.getStringExtra("dateTime");
+            String date = data.getStringExtra("date");
+            String time = data.getStringExtra("time");
+            float protein;
+            if(data.getStringExtra("protein").equals("Tr") || data.getStringExtra("protein").equals("N")){
+                protein = 0;
+            }else{
+                protein = Float.parseFloat(data.getStringExtra("protein"));
+
+            }
+
+            float fat;
+            if(data.getStringExtra("fat") == "Tr" || data.getStringExtra("fat") == "N"){
+                fat = 0;
+            }else{
+                fat = Float.parseFloat(data.getStringExtra("fat"));
+
+            }
+
+            float carbohydrates;
+            if(data.getStringExtra("carbohydrate") == "Tr" || data.getStringExtra("carbohydrate") == "N"){
+                carbohydrates = 0;
+            }else{
+                carbohydrates = Float.parseFloat(data.getStringExtra("carbohydrate"));
+
+            }
+
+            float energy;
+            if(data.getStringExtra("energy") == "Tr" || data.getStringExtra("energy") == "N"){
+                energy = 0;
+            }else{
+                energy = Float.parseFloat(data.getStringExtra("energy"));
+
+            }
+
+            float totalSugars;
+            if(data.getStringExtra("totalSugars") == "Tr" || data.getStringExtra("totalSugars") == "N"){
+                totalSugars = 0;
+            }else{
+                totalSugars = Float.parseFloat(data.getStringExtra("totalSugars"));
+
+            }
+
             String meal = data.getStringExtra("meal");
             float grams = Float.parseFloat(data.getStringExtra("grams"));
             int hunger = Integer.parseInt(data.getStringExtra("hunger"));
 
             Integer id = null;
-            Diary diary = new Diary(id, foodCode, foodName, dateTime, meal, grams, hunger);
+            Diary diary = new Diary(id, foodCode, foodName, protein, fat, carbohydrates, energy, totalSugars, date, time, meal, grams, hunger);
 
-            Log.d("received food data", diary.getDateTime());
+            Log.d("received food data", diary.getDate());
             Log.d("received food data", diary.getFoodId());
             Log.d("received food data", diary.getFoodName());
             Log.d("received food data", diary.getMeal());

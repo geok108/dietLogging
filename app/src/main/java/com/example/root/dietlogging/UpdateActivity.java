@@ -38,7 +38,7 @@ public class UpdateActivity extends AppCompatActivity {
         final Intent receivedIntent = getIntent();
 
 
-        dateTime.setText(receivedIntent.getStringExtra("dateTime"));
+        dateTime.setText(receivedIntent.getStringExtra("date") + " " + (receivedIntent.getStringExtra("time")));
         chosenFood.setText(receivedIntent.getStringExtra("foodName"));
 
 
@@ -90,28 +90,19 @@ public class UpdateActivity extends AppCompatActivity {
 
                     int diaryId = receivedIntent.getExtras().getInt("diaryId");
                     String food_name = receivedIntent.getStringExtra("foodName");
-                    String dateTime_old = receivedIntent.getStringExtra("dateTime");
-                    String dateTime_new = dateTime.getText().toString();
+                    String time_new = dateTime.getText().toString().substring(11);
+                    String date_new = dateTime.getText().toString().substring(0, 10);
                     String food_code = receivedIntent.getStringExtra("foodCode");
                     String food_grams = grams.getText().toString();
-                    String protein = receivedIntent.getStringExtra("protein");
-                    String fat = receivedIntent.getStringExtra("fat");
-                    String carbohydrate = receivedIntent.getStringExtra("carbohydrate");
-                    String energy = receivedIntent.getStringExtra("energy");
-                    String totalSugars = receivedIntent.getStringExtra("totalSugars");
                     String meal = mealDropdown.getSelectedItem().toString();
                     Integer hunger_now = Integer.valueOf(hunger.getRightPinValue());
 
                     replyIntent.putExtra("diaryId", diaryId);
                     replyIntent.putExtra("foodCode", food_code);
                     replyIntent.putExtra("foodName", food_name);
-                    replyIntent.putExtra("dateTime", dateTime_new);
+                    replyIntent.putExtra("date", date_new);
+                    replyIntent.putExtra("time", time_new);
                     replyIntent.putExtra("grams", Float.valueOf(food_grams));
-                    replyIntent.putExtra("protein", protein);
-                    replyIntent.putExtra("fat", fat);
-                    replyIntent.putExtra("carbohydrate", carbohydrate);
-                    replyIntent.putExtra("energy", energy);
-                    replyIntent.putExtra("totalSugars", totalSugars);
                     replyIntent.putExtra("meal", meal);
                     replyIntent.putExtra("hunger", hunger_now);
                     replyIntent.putExtra("DELETE CODE", 0);
@@ -137,7 +128,8 @@ public class UpdateActivity extends AppCompatActivity {
 
                     int diaryId = receivedIntent.getExtras().getInt("diaryId");
                     String food_name = receivedIntent.getStringExtra("foodName");
-                    String dateTime = receivedIntent.getStringExtra("dateTime");
+                    String date = receivedIntent.getStringExtra("date");
+                    String time = receivedIntent.getStringExtra("time");
                     String food_code = receivedIntent.getStringExtra("foodCode");
                     String food_grams = grams.getText().toString();
                     String meal = mealDropdown.getSelectedItem().toString();
@@ -146,7 +138,8 @@ public class UpdateActivity extends AppCompatActivity {
                     replyIntent.putExtra("diaryId", diaryId);
                     replyIntent.putExtra("foodCode", food_code);
                     replyIntent.putExtra("foodName", food_name);
-                    replyIntent.putExtra("dateTime", dateTime);
+                    replyIntent.putExtra("date", date);
+                    replyIntent.putExtra("time", time);
                     replyIntent.putExtra("grams", Float.valueOf(food_grams));
                     replyIntent.putExtra("meal", meal);
                     replyIntent.putExtra("hunger", hunger_now);

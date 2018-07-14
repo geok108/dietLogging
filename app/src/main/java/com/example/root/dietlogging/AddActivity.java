@@ -55,8 +55,9 @@ public class AddActivity extends AppCompatActivity {
 
 
 
-            final String timeStamp = new SimpleDateFormat("dd.MM.yyyy.HH.mm").format(new java.util.Date());
-            dateTime.setText(timeStamp);
+            final String date = new SimpleDateFormat("dd.MM.yyyy").format(new java.util.Date());
+            final String time = new SimpleDateFormat("HH.mm").format(new java.util.Date());
+            dateTime.setText(date + time);
             chosenFood.setText(receivedIntent.getStringExtra("foodName"));
 
             button.setOnClickListener(new View.OnClickListener(){
@@ -90,7 +91,8 @@ public class AddActivity extends AppCompatActivity {
 
                         replyIntent.putExtra("foodCode", food_code);
                         replyIntent.putExtra("foodName", food_name);
-                        replyIntent.putExtra("dateTime", timeStamp);
+                        replyIntent.putExtra("date", date);
+                        replyIntent.putExtra("time", time);
                         replyIntent.putExtra("grams", food_grams);
                         replyIntent.putExtra("protein", protein);
                         replyIntent.putExtra("fat", fat);
