@@ -147,7 +147,7 @@ public class SearchActivity extends AppCompatActivity {
             }
 
             float fat;
-            if(data.getStringExtra("fat") == "Tr" || data.getStringExtra("fat") == "N"){
+            if(data.getStringExtra("fat").equals("Tr") || data.getStringExtra("fat").equals("N")){
                 fat = 0;
             }else{
                 fat = Float.parseFloat(data.getStringExtra("fat"));
@@ -155,7 +155,7 @@ public class SearchActivity extends AppCompatActivity {
             }
 
             float carbohydrates;
-            if(data.getStringExtra("carbohydrate") == "Tr" || data.getStringExtra("carbohydrate") == "N"){
+            if(data.getStringExtra("carbohydrate").equals("Tr") || data.getStringExtra("carbohydrate").equals("N")){
                 carbohydrates = 0;
             }else{
                 carbohydrates = Float.parseFloat(data.getStringExtra("carbohydrate"));
@@ -163,7 +163,7 @@ public class SearchActivity extends AppCompatActivity {
             }
 
             float energy;
-            if(data.getStringExtra("energy") == "Tr" || data.getStringExtra("energy") == "N"){
+            if(data.getStringExtra("energy").equals("Tr") || data.getStringExtra("energy").equals("N")){
                 energy = 0;
             }else{
                 energy = Float.parseFloat(data.getStringExtra("energy"));
@@ -171,7 +171,7 @@ public class SearchActivity extends AppCompatActivity {
             }
 
             float totalSugars;
-            if(data.getStringExtra("totalSugars") == "Tr" || data.getStringExtra("totalSugars") == "N"){
+            if(data.getStringExtra("totalSugars").equals("Tr") || data.getStringExtra("totalSugars").equals("N")){
                 totalSugars = 0;
             }else{
                 totalSugars = Float.parseFloat(data.getStringExtra("totalSugars"));

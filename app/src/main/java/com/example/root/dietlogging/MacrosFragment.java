@@ -24,8 +24,6 @@ public class MacrosFragment extends Fragment {
     private DiaryViewModel mDiaryViewModel;
     private DiaryDao diaryDao;
 
-
-
     public MacrosFragment() {
         // Required empty public constructor
     }
@@ -52,13 +50,35 @@ public class MacrosFragment extends Fragment {
 
                    Log.d("todays diarys empty:" , date);
                }else{
+                   float totalProtein = 0;
+                   float totalFat = 0;
+                   float totalCarbs = 0;
+                   float totalSugars = 0;
 
                    for (int i=0; i<diaries.size(); i++) {
+                       float protein = 0;
+                       float fat = 0;
+                       float carbs = 0;
+                       float sugars = 0;
 
-                       Log.d("todays diary:" , diaries.get(i).getFoodName());
+                       protein = getMacroGrams(diaries.get(i).getProtein(), diaries.get(i).getGrams());
+                       fat = getMacroGrams(diaries.get(i).getFat(), diaries.get(i).getGrams());
+                       carbs = getMacroGrams(diaries.get(i).getCarbohydrates(), diaries.get(i).getGrams());
+                       sugars = getMacroGrams(diaries.get(i).getTotalSugars(), diaries.get(i).getGrams());
 
+
+                       totalProtein += protein;
+                       totalFat += fat;
+                       totalCarbs += carbs;
+                       totalSugars += sugars;
 
                    }
+
+                   Log.d("tot pro:" , String.valueOf(totalProtein));
+                   Log.d("tot fat:" , String.valueOf(totalFat));
+                   Log.d("tot carbs:" , String.valueOf(totalCarbs));
+                   Log.d("tot sug:" , String.valueOf(totalSugars));
+
                }
             }
 
@@ -67,6 +87,14 @@ public class MacrosFragment extends Fragment {
 
 
         return view;
+    }
+
+    public float getMacroGrams(float macro, float grams){
+        float macroGrams;
+
+        macroGrams = (macro * grams) / 100;
+
+        return macroGrams;
     }
 
 }
