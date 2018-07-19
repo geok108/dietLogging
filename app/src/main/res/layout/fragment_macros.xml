@@ -6,12 +6,17 @@
     tools:context=".MacrosFragment"
     android:id="@+id/fragment_macros">
 
-    
+
     <com.github.mikephil.charting.charts.PieChart
         android:id="@+id/macros_chart"
         android:layout_width="match_parent"
         android:layout_height="match_parent"/>
 
-
+    <TableLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:stretchColumns="*"
+        android:id="@+id/table_macros"
+        android:layout_gravity="center_horizontal"/>
 
 </FrameLayout>

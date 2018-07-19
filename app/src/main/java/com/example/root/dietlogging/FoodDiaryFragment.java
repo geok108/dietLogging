@@ -9,6 +9,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.content.ContextCompat;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -93,11 +94,41 @@ public class FoodDiaryFragment extends Fragment {
             public void onChanged(@Nullable final List<Diary> diaries) {
                 tableLayout.removeAllViews();
                if (!diaries.isEmpty()) {
+                   TableRow titleRow = new TableRow(getActivity());
+                   TextView timeTitle = new TextView(getActivity());
+                   TextView foodNameTitle = new TextView(getActivity());
+                   TextView foodGramsTitle = new TextView(getActivity());
+                   timeTitle.setText("TIME");
+                   foodNameTitle.setText("FOOD");
+                   foodGramsTitle.setText("GRAMS");
+                   tableLayout.addView(titleRow);
+                   titleRow.addView(timeTitle);
+                   titleRow.addView(foodNameTitle);
+                   titleRow.addView(foodGramsTitle);
+                   timeTitle.setTextSize(18);
+                   foodNameTitle.setTextSize(18);
+                   foodGramsTitle.setTextSize(18);
+                   tableLayout.setBackgroundColor(getResources().getColor(color.colorPrimary));
+
+
+                   TableRow.LayoutParams params = new TableRow.LayoutParams(
+                           TableRow.LayoutParams.WRAP_CONTENT,
+                           TableRow.LayoutParams.WRAP_CONTENT
+                   );
+                   params.setMargins(2, 2, 2, 2);
+                   titleRow.setLayoutParams(params);
+
+                   timeTitle.setBackgroundColor(getResources().getColor(color.colorWhite));
+                   foodNameTitle.setBackgroundColor(getResources().getColor(color.colorWhite));
+                   foodGramsTitle.setBackgroundColor(getResources().getColor(color.colorWhite));
+
+                   timeTitle.setLayoutParams(params);
+                   foodNameTitle.setLayoutParams(params);
+                   foodGramsTitle.setLayoutParams(params);
+
 
                    for (int i=0; i<diaries.size(); i++) {
                        TableRow row = new TableRow(getActivity());
-                       View lineSep = new View(getActivity());
-
                        ViewGroup parent = (ViewGroup) row.getParent();
                        if (parent != null) {
                            parent.removeAllViews();
@@ -108,9 +139,9 @@ public class FoodDiaryFragment extends Fragment {
                        TextView foodName = new TextView(getActivity());
                        TextView foodGrams = new TextView(getActivity());
 
-                       time.setTextSize(15);
-                       foodName.setTextSize(15);
-                       foodGrams.setTextSize(15);
+                       time.setTextSize(18);
+                       foodName.setTextSize(18);
+                       foodGrams.setTextSize(18);
 
                        //Log.d("diary entries:", String.valueOf(diaries.get(0).getFoodName()));
 
@@ -124,10 +155,29 @@ public class FoodDiaryFragment extends Fragment {
                        String foodTime = new SimpleDateFormat("HH:mm").format(date);*/
 
                        time.setText(foodTime);
-                       foodName.setText(diaries.get(i).getFoodName());
+
+                       String foodNameMinLen = diaries.get(i).getFoodName();
+                       foodNameMinLen = foodNameMinLen.substring(0, Math.min(foodNameMinLen.length(), 33));
+                       if(foodNameMinLen.length() == 33){
+                           foodNameMinLen = foodNameMinLen.concat("...");
+                       }
+
+                       foodName.setText(foodNameMinLen);
 
                        String grams = Float.toString(diaries.get(i).getGrams());
                        foodGrams.setText(grams + " g");
+
+
+                       row.setLayoutParams(params);
+
+                       time.setBackgroundColor(getResources().getColor(color.colorWhite));
+                       foodName.setBackgroundColor(getResources().getColor(color.colorWhite));
+                       foodGrams.setBackgroundColor(getResources().getColor(color.colorWhite));
+
+                       time.setLayoutParams(params);
+                       foodName.setLayoutParams(params);
+                       foodGrams.setLayoutParams(params);
+
 
                        tableLayout.addView(row);
 

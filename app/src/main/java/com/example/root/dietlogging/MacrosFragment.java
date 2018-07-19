@@ -10,9 +10,13 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TableLayout;
+import android.widget.TableRow;
+import android.widget.TextView;
 
 import com.github.mikephil.charting.charts.LineChart;
 import com.github.mikephil.charting.charts.PieChart;
@@ -111,6 +115,33 @@ public class MacrosFragment extends Fragment {
 
 
             });
+
+
+
+        final TableLayout tableLayout = view.findViewById(R.id.table_macros);
+
+        tableLayout.setGravity(Gravity.CENTER);
+
+        TableRow row = new TableRow(getActivity());
+
+        final TextView timeTitle = new TextView(getActivity());
+        final TextView foodNameTitle = new TextView(getActivity());
+        final TextView foodGramsTitle = new TextView(getActivity());
+
+        timeTitle.setText(R.string.time);
+        foodNameTitle.setText(R.string.food);
+        foodGramsTitle.setText(R.string.grams);
+
+        timeTitle.setTextSize(18);
+        foodNameTitle.setTextSize(18);
+        foodGramsTitle.setTextSize(18);
+
+        tableLayout.addView(row);
+
+        row.addView(timeTitle);
+        row.addView(foodNameTitle);
+        row.addView(foodGramsTitle);
+
 
 
         return view;

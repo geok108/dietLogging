@@ -15,14 +15,10 @@
         <TableLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:stretchColumns="0, 1, 2"
+            android:stretchColumns="*"
             android:id="@+id/table_food"
             android:layout_gravity="center_horizontal">
 
-
-           <View
-               android:layout_height="2dip"
-               android:background="@color/colorPrimaryDark" />
 
        </TableLayout>
 
