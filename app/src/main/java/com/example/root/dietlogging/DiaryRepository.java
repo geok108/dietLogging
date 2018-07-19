@@ -17,7 +17,7 @@ public class DiaryRepository {
         DietLoggingRoomDatabase db = DietLoggingRoomDatabase.getDatabase(application);
         mDiaryDao = db.diaryDao();
         mAllDiaryEntries = mDiaryDao.getAllEntries();
-        mTodayEntries = mDiaryDao.getTodayEntries("17.07.2018");
+        mTodayEntries = mDiaryDao.getTodayEntries("18.07.2018");
 
     }
 

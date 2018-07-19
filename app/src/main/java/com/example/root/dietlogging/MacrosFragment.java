@@ -14,7 +14,14 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.github.mikephil.charting.charts.LineChart;
+import com.github.mikephil.charting.charts.PieChart;
+import com.github.mikephil.charting.data.PieData;
+import com.github.mikephil.charting.data.PieDataSet;
+import com.github.mikephil.charting.data.PieEntry;
+
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.List;
 
 
@@ -23,6 +30,7 @@ public class MacrosFragment extends Fragment {
     View view;
     private DiaryViewModel mDiaryViewModel;
     private DiaryDao diaryDao;
+    private PieChart macrosChart;
 
     public MacrosFragment() {
         // Required empty public constructor
@@ -33,6 +41,8 @@ public class MacrosFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         view = inflater.inflate(R.layout.fragment_macros, container, false);
+
+        macrosChart = view.findViewById(R.id.macros_chart);
 
         final String date = new SimpleDateFormat("dd.MM.yyyy").format(new java.util.Date());
 
@@ -49,6 +59,7 @@ public class MacrosFragment extends Fragment {
                if (diaries.isEmpty()){
 
                    Log.d("todays diarys empty:" , date);
+
                }else{
                    float totalProtein = 0;
                    float totalFat = 0;
@@ -74,10 +85,26 @@ public class MacrosFragment extends Fragment {
 
                    }
 
+                   ArrayList<Integer> colors = new ArrayList<Integer>();;
+                   colors.add(getResources().getColor(R.color.colorPrimary));
+                   colors.add(getResources().getColor(R.color.colorRed));
+                   colors.add(getResources().getColor(R.color.colorWhite));
+
                    Log.d("tot pro:" , String.valueOf(totalProtein));
                    Log.d("tot fat:" , String.valueOf(totalFat));
                    Log.d("tot carbs:" , String.valueOf(totalCarbs));
                    Log.d("tot sug:" , String.valueOf(totalSugars));
+
+                   List<PieEntry> entries = new ArrayList<PieEntry>();
+                   entries.add(new PieEntry(totalProtein, "protein"));
+                   entries.add(new PieEntry(totalFat, "fat"));
+                   entries.add(new PieEntry(totalCarbs, "carbs"));
+                   PieDataSet dataset = new PieDataSet(entries, "data");
+                   dataset.setColors(colors);
+
+                   PieData pieData = new PieData(dataset);
+                   macrosChart.setData(pieData);
+                   macrosChart.invalidate();
 
                }
             }

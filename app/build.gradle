@@ -31,6 +31,7 @@ dependencies {
     implementation 'com.appyvet:materialrangebar:1.4.2'
     //sqlite db import
     implementation 'com.readystatesoftware.sqliteasset:sqliteassethelper:+'
+    implementation 'com.github.PhilJay:MPAndroidChart:v3.0.3'
 
     // Room components
     implementation "android.arch.persistence.room:runtime:$rootProject.roomVersion"
