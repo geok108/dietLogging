@@ -4,6 +4,7 @@ import android.app.Application;
 import android.arch.lifecycle.LiveData;
 import android.os.AsyncTask;
 
+import java.text.SimpleDateFormat;
 import java.util.List;
 
 public class DiaryRepository {
@@ -17,7 +18,9 @@ public class DiaryRepository {
         DietLoggingRoomDatabase db = DietLoggingRoomDatabase.getDatabase(application);
         mDiaryDao = db.diaryDao();
         mAllDiaryEntries = mDiaryDao.getAllEntries();
-        mTodayEntries = mDiaryDao.getTodayEntries("18.07.2018");
+
+        String date = new SimpleDateFormat("dd.MM.yyyy").format(new java.util.Date());
+        mTodayEntries = mDiaryDao.getTodayEntries(date);
 
     }
 

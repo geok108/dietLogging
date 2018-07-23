@@ -33,8 +33,19 @@ public class MacrosFragment extends Fragment {
 
     View view;
     private DiaryViewModel mDiaryViewModel;
+    private UserViewModel mUserViewModel;
     private DiaryDao diaryDao;
     private PieChart macrosChart;
+    private TextView choTarget;
+    private TextView fatTarget;
+    private TextView proTarget;
+    private TextView choCons;
+    private TextView fatCons;
+    private TextView proCons;
+    private TextView choRem;
+    private TextView fatRem;
+    private TextView proRem;
+
 
     public MacrosFragment() {
         // Required empty public constructor
@@ -92,7 +103,7 @@ public class MacrosFragment extends Fragment {
                    ArrayList<Integer> colors = new ArrayList<Integer>();;
                    colors.add(getResources().getColor(R.color.colorPrimary));
                    colors.add(getResources().getColor(R.color.colorRed));
-                   colors.add(getResources().getColor(R.color.colorWhite));
+                   colors.add(getResources().getColor(R.color.colorAccent));
 
                    Log.d("tot pro:" , String.valueOf(totalProtein));
                    Log.d("tot fat:" , String.valueOf(totalFat));
@@ -105,8 +116,11 @@ public class MacrosFragment extends Fragment {
                    entries.add(new PieEntry(totalCarbs, "carbs"));
                    PieDataSet dataset = new PieDataSet(entries, "data");
                    dataset.setColors(colors);
+                   dataset.setValueTextSize(20);
 
                    PieData pieData = new PieData(dataset);
+                   macrosChart.setHoleRadius(20);
+                   macrosChart.setTransparentCircleRadius(25);
                    macrosChart.setData(pieData);
                    macrosChart.invalidate();
 
@@ -120,27 +134,50 @@ public class MacrosFragment extends Fragment {
 
         final TableLayout tableLayout = view.findViewById(R.id.table_macros);
 
-        tableLayout.setGravity(Gravity.CENTER);
+        choTarget = view.findViewById(R.id.cho_target);
+        choCons = view.findViewById(R.id.cho_cons);
+        choRem = view.findViewById(R.id.cho_rem);
 
-        TableRow row = new TableRow(getActivity());
+        fatTarget = view.findViewById(R.id.fat_target);
+        fatCons = view.findViewById(R.id.fat_cons);
+        fatRem = view.findViewById(R.id.fat_rem);
 
-        final TextView timeTitle = new TextView(getActivity());
-        final TextView foodNameTitle = new TextView(getActivity());
-        final TextView foodGramsTitle = new TextView(getActivity());
+        proTarget = view.findViewById(R.id.pro_target);
+        proCons = view.findViewById(R.id.pro_cons);
+        proRem = view.findViewById(R.id.pro_rem);
 
-        timeTitle.setText(R.string.time);
-        foodNameTitle.setText(R.string.food);
-        foodGramsTitle.setText(R.string.grams);
+        mUserViewModel = ViewModelProviders.of(this).get(UserViewModel.class);
 
-        timeTitle.setTextSize(18);
-        foodNameTitle.setTextSize(18);
-        foodGramsTitle.setTextSize(18);
+        mUserViewModel.getUser().observe(this, new Observer<List<User>>() {
+            @Override
+            public void onChanged(@Nullable final List<User> user) {
 
-        tableLayout.addView(row);
+                int dietChoice = user.get(0).getDiet_choice();
 
-        row.addView(timeTitle);
-        row.addView(foodNameTitle);
-        row.addView(foodGramsTitle);
+                switch(dietChoice){
+                    case 0:
+                        choTarget.setText("50[20]");
+                        fatTarget.setText("35");
+                        proTarget.setText("15");
+
+                        break;
+                    case 1:
+                        choTarget.setText("50[<5]");
+                        fatTarget.setText("35");
+                        proTarget.setText("15");
+                        break;
+                    case 2:
+                        choTarget.setText("8[<5]");
+                        fatTarget.setText("77");
+                        proTarget.setText("15");
+                        break;
+
+
+
+
+                }
+            }
+        });
 
 
 
