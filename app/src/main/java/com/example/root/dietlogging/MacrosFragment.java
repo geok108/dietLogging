@@ -159,7 +159,6 @@ public class MacrosFragment extends Fragment {
                         choTarget.setText("50[20]");
                         fatTarget.setText("35");
                         proTarget.setText("15");
-
                         break;
                     case 1:
                         choTarget.setText("50[<5]");
