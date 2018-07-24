@@ -25,7 +25,7 @@ public interface DiaryDao {
     @Query("DELETE FROM diary")
     void deleteAll();
 
-    @Query("SELECT * from diary ORDER BY id ASC")
+    @Query("SELECT * from diary ORDER BY id ASC LIMIT 10")
     LiveData<List<Diary>> getAllEntries();
 
     @Query("SELECT * FROM diary WHERE date = :date")

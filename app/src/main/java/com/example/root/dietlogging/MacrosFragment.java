@@ -45,6 +45,10 @@ public class MacrosFragment extends Fragment {
     private TextView choRem;
     private TextView fatRem;
     private TextView proRem;
+    private String tabPro;
+    private String tabFat;
+    private String tabCarb;
+    private String tabSug;
 
 
     public MacrosFragment() {
@@ -110,6 +114,12 @@ public class MacrosFragment extends Fragment {
                    Log.d("tot carbs:" , String.valueOf(totalCarbs));
                    Log.d("tot sug:" , String.valueOf(totalSugars));
 
+                   float totals = totalProtein + totalFat + totalCarbs;
+                   tabPro = String.valueOf((totalProtein * 100) / totals);
+                   tabFat = String.valueOf((totalFat* 100) / totals);
+                   tabCarb = String.valueOf((totalCarbs* 100) / totals);
+                   tabSug = String.valueOf((totalSugars * 100) / totals);
+
                    List<PieEntry> entries = new ArrayList<PieEntry>();
                    entries.add(new PieEntry(totalProtein, "protein"));
                    entries.add(new PieEntry(totalFat, "fat"));
@@ -124,6 +134,97 @@ public class MacrosFragment extends Fragment {
                    macrosChart.setData(pieData);
                    macrosChart.invalidate();
 
+
+
+
+                   final TableLayout tableLayout = view.findViewById(R.id.table_macros);
+
+                   choTarget = view.findViewById(R.id.cho_target);
+                   choCons = view.findViewById(R.id.cho_cons);
+                   choRem = view.findViewById(R.id.cho_rem);
+
+                   fatTarget = view.findViewById(R.id.fat_target);
+                   fatCons = view.findViewById(R.id.fat_cons);
+                   fatRem = view.findViewById(R.id.fat_rem);
+
+                   proTarget = view.findViewById(R.id.pro_target);
+                   proCons = view.findViewById(R.id.pro_cons);
+                   proRem = view.findViewById(R.id.pro_rem);
+
+                   mUserViewModel = ViewModelProviders.of(getActivity()).get(UserViewModel.class);
+
+                   mUserViewModel.getUser().observe(getActivity(), new Observer<List<User>>() {
+                       @Override
+                       public void onChanged(@Nullable final List<User> user) {
+
+                           if(!user.isEmpty()) {
+                               int dietChoice = user.get(0).getDiet_choice();
+
+                               switch (dietChoice) {
+                                   case 0:
+                                       choTarget.setText("50[20]");
+                                       fatTarget.setText("35");
+                                       proTarget.setText("15");
+
+                                       Log.d("tab tot pro:" , tabPro);
+                                       Log.d("tab tot fat:" , tabFat);
+                                       Log.d("tab tot carbs:" , tabCarb);
+                                       Log.d("tab tot sug:" , tabSug);
+
+
+                                       choCons.setText(tabCarb + "[" + tabSug + "]");
+                                       fatCons.setText(tabFat);
+                                       proCons.setText(tabPro);
+
+                                       float cho_rem = 50 - Float.parseFloat(tabCarb);
+                                       float sug_rem = 50 - Float.parseFloat(tabSug);
+                                       float fat_rem = 35 - Float.parseFloat(tabFat);
+                                       float pro_rem = 15 - Float.parseFloat(tabPro);
+
+                                       choRem.setText((cho_rem) + "[" + sug_rem + "]");
+                                       fatRem.setText(fat_rem + "");
+                                       proRem.setText(pro_rem + "");
+
+                                       break;
+                                   case 1:
+                                       choTarget.setText("50[<5]");
+                                       fatTarget.setText("35");
+                                       proTarget.setText("15");
+
+                                       float cho_rem_ls = 50 - Float.parseFloat(tabCarb);
+                                       float sug_rem_ls = 5 - Float.parseFloat(tabSug);
+                                       float fat_rem_ls = 35 - Float.parseFloat(tabFat);
+                                       float pro_rem_ls = 15 - Float.parseFloat(tabPro);
+
+                                       choRem.setText((cho_rem_ls) + "[" + sug_rem_ls + "]");
+                                       fatRem.setText(fat_rem_ls + "");
+                                       proRem.setText(pro_rem_ls + "");
+
+                                       break;
+                                   case 2:
+                                       choTarget.setText("8[<5]");
+                                       fatTarget.setText("77");
+                                       proTarget.setText("15");
+
+                                       float cho_rem_lc = 50 - Float.parseFloat(tabCarb);
+                                       float sug_rem_lc = 5 - Float.parseFloat(tabSug);
+                                       float fat_rem_lc = 35 - Float.parseFloat(tabFat);
+                                       float pro_rem_lc = 15 - Float.parseFloat(tabPro);
+
+                                       choRem.setText((cho_rem_lc) + "[" + sug_rem_lc + "]");
+                                       fatRem.setText(fat_rem_lc + "");
+                                       proRem.setText(pro_rem_lc + "");
+                                       break;
+                                   default:
+                                       break;
+
+                               }
+                           }
+                       }
+                   });
+
+
+
                }
             }
 
@@ -132,51 +233,7 @@ public class MacrosFragment extends Fragment {
 
 
 
-        final TableLayout tableLayout = view.findViewById(R.id.table_macros);
 
-        choTarget = view.findViewById(R.id.cho_target);
-        choCons = view.findViewById(R.id.cho_cons);
-        choRem = view.findViewById(R.id.cho_rem);
-
-        fatTarget = view.findViewById(R.id.fat_target);
-        fatCons = view.findViewById(R.id.fat_cons);
-        fatRem = view.findViewById(R.id.fat_rem);
-
-        proTarget = view.findViewById(R.id.pro_target);
-        proCons = view.findViewById(R.id.pro_cons);
-        proRem = view.findViewById(R.id.pro_rem);
-
-        mUserViewModel = ViewModelProviders.of(this).get(UserViewModel.class);
-
-        mUserViewModel.getUser().observe(this, new Observer<List<User>>() {
-            @Override
-            public void onChanged(@Nullable final List<User> user) {
-
-                int dietChoice = user.get(0).getDiet_choice();
-
-                switch(dietChoice){
-                    case 0:
-                        choTarget.setText("50[20]");
-                        fatTarget.setText("35");
-                        proTarget.setText("15");
-                        break;
-                    case 1:
-                        choTarget.setText("50[<5]");
-                        fatTarget.setText("35");
-                        proTarget.setText("15");
-                        break;
-                    case 2:
-                        choTarget.setText("8[<5]");
-                        fatTarget.setText("77");
-                        proTarget.setText("15");
-                        break;
-
-
-
-
-                }
-            }
-        });
 
 
 
