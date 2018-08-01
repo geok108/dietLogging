@@ -67,7 +67,8 @@ public class AddActivity extends AppCompatActivity {
                 public void onClick(View v) {
                     Intent replyIntent = new Intent();
                     if (TextUtils.isEmpty(grams.getText())) {
-                        setResult(RESULT_CANCELED, replyIntent);
+                        //setResult(RESULT_CANCELED, replyIntent);
+                        grams.setError("Please enter amount of grams");
                     } else {
 
                         String food_name = receivedIntent.getStringExtra("foodName");
@@ -103,8 +104,9 @@ public class AddActivity extends AppCompatActivity {
                         replyIntent.putExtra("hunger", hunger_now);
 
                         setResult(RESULT_OK, replyIntent);
+                        finish();
                     }
-                    finish();
+
                 }
             });
 

@@ -71,7 +71,8 @@
                 android:layout_height="wrap_content"
                 android:text="@string/diet_control"
                 android:paddingHorizontal="100dp"
-                android:textSize="20sp"/>
+                android:textSize="20sp"
+                android:checked="true"/>
             <RadioButton
                 android:id="@+id/diet_choice_2"
                 android:layout_width="match_parent"

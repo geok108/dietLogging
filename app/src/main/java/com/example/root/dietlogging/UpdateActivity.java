@@ -84,7 +84,8 @@ public class UpdateActivity extends AppCompatActivity {
 
                 Intent replyIntent = new Intent();
                 if (TextUtils.isEmpty(grams.getText())) {
-                    setResult(RESULT_CANCELED, replyIntent);
+                    //setResult(RESULT_CANCELED, replyIntent);
+                    grams.setError("Please enter amount of grams");
                 } else {
 
 
@@ -110,8 +111,9 @@ public class UpdateActivity extends AppCompatActivity {
 
 
                     setResult(RESULT_OK, replyIntent);
+                    finish();
                 }
-                finish();
+
 
 
             }

@@ -5,6 +5,7 @@ import android.arch.lifecycle.Observer;
 import android.arch.lifecycle.ViewModelProviders;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Typeface;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -21,6 +22,9 @@ import android.widget.TableRow;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import org.w3c.dom.Text;
+
+import java.text.Format;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -33,6 +37,7 @@ import static com.example.root.dietlogging.R.*;
 public class FoodDiaryFragment extends Fragment {
     View view;
     private DiaryViewModel mDiaryViewModel;
+    private TextView todayDate;
 
     public static final int  UPDATE_FOOD_REQUEST_CODE = 3;
     public static final int  DELETE_FOOD_REQUEST_CODE = 1;
@@ -82,6 +87,11 @@ public class FoodDiaryFragment extends Fragment {
         row.addView(foodNameTitle);
         row.addView(foodGramsTitle);
 
+        Format formatter = new SimpleDateFormat("EEEE, dd MMMM yyyy");
+        String today = formatter.format(new Date());
+        Log.d("today", today);
+        todayDate = view.findViewById(id.date);
+        todayDate.setText(today);
 
         mDiaryViewModel = ViewModelProviders.of(this).get(DiaryViewModel.class);
 
@@ -99,23 +109,29 @@ public class FoodDiaryFragment extends Fragment {
                    TextView foodNameTitle = new TextView(getActivity());
                    TextView foodGramsTitle = new TextView(getActivity());
                    timeTitle.setText("TIME");
+                   timeTitle.setTypeface(null, Typeface.BOLD);
                    foodNameTitle.setText("FOOD");
+                   foodNameTitle.setTypeface(null, Typeface.BOLD);
                    foodGramsTitle.setText("GRAMS");
+                   foodGramsTitle.setTypeface(null, Typeface.BOLD);
                    tableLayout.addView(titleRow);
                    titleRow.addView(timeTitle);
                    titleRow.addView(foodNameTitle);
                    titleRow.addView(foodGramsTitle);
                    timeTitle.setTextSize(18);
+                   timeTitle.setTextColor(getResources().getColor(color.colorBlack));
                    foodNameTitle.setTextSize(18);
+                   foodNameTitle.setTextColor(getResources().getColor(color.colorBlack));
                    foodGramsTitle.setTextSize(18);
-                   tableLayout.setBackgroundColor(getResources().getColor(color.colorPrimary));
+                   foodGramsTitle.setTextColor(getResources().getColor(color.colorBlack));
+                   tableLayout.setBackgroundColor(getResources().getColor(color.colorGrey));
 
 
                    TableRow.LayoutParams params = new TableRow.LayoutParams(
-                           TableRow.LayoutParams.WRAP_CONTENT,
-                           TableRow.LayoutParams.WRAP_CONTENT
+                           TableRow.LayoutParams.MATCH_PARENT,
+                           TableRow.LayoutParams.MATCH_PARENT
                    );
-                   params.setMargins(2, 2, 2, 2);
+                   params.setMargins(1, 1, 1, 1);
                    titleRow.setLayoutParams(params);
 
                    timeTitle.setBackgroundColor(getResources().getColor(color.colorWhite));
@@ -165,7 +181,7 @@ public class FoodDiaryFragment extends Fragment {
                        foodName.setText(foodNameMinLen);
 
                        String grams = Float.toString(diaries.get(i).getGrams());
-                       foodGrams.setText(grams + " g");
+                       foodGrams.setText(grams + "");
 
 
                        row.setLayoutParams(params);

@@ -48,7 +48,8 @@ public class RegisterActivity extends AppCompatActivity {
             public void onClick(View view) {
                 Intent replyIntent = new Intent();
                 if (TextUtils.isEmpty(mEditParticipantNumber.getText())) {
-                    setResult(RESULT_CANCELED, replyIntent);
+                    //setResult(RESULT_CANCELED, replyIntent);
+                    mEditParticipantNumber.setError("Please enter participant number");
                 } else {
 
                     int selectedId = mEditDietChoiceGroup.getCheckedRadioButtonId();
@@ -75,8 +76,9 @@ public class RegisterActivity extends AppCompatActivity {
                     replyIntent.putExtra("fullName", fullName);
                     replyIntent.putExtra("dietChoice", dietChoiceValue);
                     setResult(RESULT_OK, replyIntent);
+                    finish();
                 }
-                finish();
+
             }
         });
 

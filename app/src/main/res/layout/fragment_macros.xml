@@ -16,6 +16,7 @@
         android:id="@+id/macros_chart"
         android:layout_width="match_parent"
         android:layout_height="230dp"
+        android:layout_marginBottom="15dp"
         />
 
     <TableLayout
@@ -24,105 +25,150 @@
         android:stretchColumns="*"
         android:layout_gravity="center"
         android:id="@+id/table_macros"
-        android:paddingTop="15dp">
+        android:background="@color/colorGrey">
 
 
 
-        <TableRow>
+        <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginBottom="1px"
+            android:layout_marginTop="1px"
+            android:layout_marginLeft="1px"
+            android:layout_marginRight="1px"
+            >
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:background="@color/colorWhite"
                 />
 
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="@string/cho"/>
+                android:text="@string/cho"
+                android:textStyle="bold"
+                android:background="@color/colorWhite"/>
 
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="@string/fat"/>
+                android:text="@string/fat"
+                android:textStyle="bold"
+                android:background="@color/colorWhite"/>
 
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="@string/pro"/>
+                android:text="@string/pro"
+                android:textStyle="bold"
+                android:background="@color/colorWhite"/>
 
         </TableRow>
 
-        <TableRow>
+        <TableRow android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginBottom="1px"
+            android:layout_marginTop="1px"
+            android:layout_marginLeft="1px"
+            android:layout_marginRight="1px">
 
 
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="@string/target"/>
+                android:text="@string/target"
+                android:textStyle="bold"
+                android:background="@color/colorWhite"/>
 
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:id="@+id/cho_target"/>
+                android:id="@+id/cho_target"
+                android:background="@color/colorWhite"/>
 
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:id="@+id/fat_target"/>
+                android:id="@+id/fat_target"
+                android:background="@color/colorWhite"/>
 
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:id="@+id/pro_target"/>
+                android:id="@+id/pro_target"
+                android:background="@color/colorWhite"/>
 
 
         </TableRow>
 
-        <TableRow>
+        <TableRow android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginBottom="1px"
+            android:layout_marginTop="1px"
+            android:layout_marginLeft="1px"
+            android:layout_marginRight="1px">
 
 
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="@string/cons"/>
+                android:text="@string/cons"
+                android:textStyle="bold"
+                android:background="@color/colorWhite"/>
 
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:id="@+id/cho_cons"/>
+                android:id="@+id/cho_cons"
+                android:background="@color/colorWhite"/>
 
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:id="@+id/fat_cons"/>
+                android:id="@+id/fat_cons"
+                android:background="@color/colorWhite"
+                />
 
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:id="@+id/pro_cons"/>
+                android:id="@+id/pro_cons"
+                android:background="@color/colorWhite"/>
 
         </TableRow>
-        <TableRow>
+        <TableRow android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginBottom="1px"
+            android:layout_marginTop="1px"
+            android:layout_marginLeft="1px"
+            android:layout_marginRight="1px">
 
 
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="@string/rem"/>
+                android:text="@string/rem"
+                android:textStyle="bold"
+                android:background="@color/colorWhite"/>
 
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:id="@+id/cho_rem"/>
+                android:id="@+id/cho_rem"
+                android:background="@color/colorWhite"/>
 
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:id="@+id/fat_rem"/>
+                android:id="@+id/fat_rem"
+                android:background="@color/colorWhite"/>
 
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:id="@+id/pro_rem"/>
+                android:id="@+id/pro_rem"
+                android:background="@color/colorWhite"/>
 
         </TableRow>
 

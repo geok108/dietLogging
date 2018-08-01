@@ -1,14 +1,19 @@
 package com.example.root.dietlogging;
 
+import android.app.ActionBar;
 import android.arch.lifecycle.LiveData;
 import android.arch.lifecycle.Observer;
 import android.arch.lifecycle.ViewModelProviders;
 import android.content.Intent;
+import android.graphics.PorterDuff;
+import android.graphics.PorterDuffColorFilter;
+import android.graphics.drawable.Drawable;
 import android.support.annotation.Nullable;
 import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.TabLayout;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -27,6 +32,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 
+import android.view.Window;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -64,11 +70,10 @@ public class HomeActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
 
+
         final UserListAdapter adapter = new UserListAdapter(this);
 
         mDiaryViewModel = ViewModelProviders.of(this).get(DiaryViewModel.class);
-
-
 
         mDiaryViewModel.getAllEntries().observe(this, new Observer<List<Diary>>(){
 
@@ -99,8 +104,8 @@ public class HomeActivity extends AppCompatActivity {
 
 
 
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
+       // Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+       // setSupportActionBar(toolbar);
         tabLayout =  findViewById(R.id.tabs);
         appBarLayout = findViewById(R.id.appbar);
         viewPager = findViewById(R.id.pager);
