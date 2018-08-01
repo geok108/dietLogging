@@ -40,7 +40,7 @@ public class UpdateActivity extends AppCompatActivity {
 
         dateTime.setText(receivedIntent.getStringExtra("date") + " " + (receivedIntent.getStringExtra("time")));
         chosenFood.setText(receivedIntent.getStringExtra("foodName"));
-
+        chosenFood.setEnabled(false);
 
 
         String mealItem = receivedIntent.getStringExtra("meal");
