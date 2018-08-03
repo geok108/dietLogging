@@ -3,6 +3,8 @@ package com.example.root.dietlogging;
 import android.app.Application;
 import android.arch.lifecycle.AndroidViewModel;
 import android.arch.lifecycle.LiveData;
+import android.arch.lifecycle.MutableLiveData;
+import android.util.Log;
 
 import java.util.List;
 
@@ -15,11 +17,13 @@ public class DiaryViewModel extends AndroidViewModel {
     private LiveData<List<Diary>> mTodayEntries;
 
 
-    public DiaryViewModel(Application application) {
+
+    public DiaryViewModel(Application application, String mParam) {
         super(application);
-        mRepository = new DiaryRepository(application);
+        mRepository = new DiaryRepository(application, mParam);
         mAllEntries = mRepository.getAllEntries();
-        mTodayEntries = mRepository.getTodayEntries("14.07.2018");
+        mTodayEntries = mRepository.getTodayEntries(mParam);
+        Log.w("mparam", mParam);
 
     }
 

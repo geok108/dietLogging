@@ -35,7 +35,7 @@ public class SearchActivity extends AppCompatActivity {
 
         this.foodListView = (ListView) findViewById(R.id.foodListView);
 
-        mDiaryViewModel = ViewModelProviders.of(this).get(DiaryViewModel.class);
+        mDiaryViewModel = ViewModelProviders.of(this, new MyViewModelFactory(this.getApplication(), "")).get(DiaryViewModel.class);
 
 
         // Get the SearchView and set the searchable configuration

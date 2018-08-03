@@ -75,7 +75,7 @@ public class UpdateActivity extends AppCompatActivity {
         mealDropdown.setAdapter(adapter);
         mealDropdown.setSelection(mealNo);
 
-        grams.setText(String.valueOf(receivedIntent.getExtras().getFloat(   "grams")));
+        grams.setText(String.valueOf(receivedIntent.getExtras().getFloat("grams")));
         hunger.setSeekPinByValue((receivedIntent.getExtras().getInt("hunger")));
 
 
@@ -91,16 +91,28 @@ public class UpdateActivity extends AppCompatActivity {
 
                     int diaryId = receivedIntent.getExtras().getInt("diaryId");
                     String food_name = receivedIntent.getStringExtra("foodName");
+                    float protein = receivedIntent.getExtras().getFloat("protein");
+                    float fat = receivedIntent.getExtras().getFloat("fat");
+                    float carbs = receivedIntent.getExtras().getFloat("carbohydrate");
+                    float tot_sugars = receivedIntent.getExtras().getFloat("totalSugars");
+                    float energy = receivedIntent.getExtras().getFloat("energy");
                     String time_new = dateTime.getText().toString().substring(11);
                     String date_new = dateTime.getText().toString().substring(0, 10);
                     String food_code = receivedIntent.getStringExtra("foodCode");
                     String food_grams = grams.getText().toString();
+                    Log.w("grams_upd: ", food_grams);
+
                     String meal = mealDropdown.getSelectedItem().toString();
                     Integer hunger_now = Integer.valueOf(hunger.getRightPinValue());
 
                     replyIntent.putExtra("diaryId", diaryId);
                     replyIntent.putExtra("foodCode", food_code);
                     replyIntent.putExtra("foodName", food_name);
+                    replyIntent.putExtra("protein", protein);
+                    replyIntent.putExtra("fat", fat);
+                    replyIntent.putExtra("carbohydrate", carbs);
+                    replyIntent.putExtra("totalSugars", tot_sugars);
+                    replyIntent.putExtra("energy", energy);
                     replyIntent.putExtra("date", date_new);
                     replyIntent.putExtra("time", time_new);
                     replyIntent.putExtra("grams", Float.valueOf(food_grams));

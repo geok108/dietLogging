@@ -2,6 +2,7 @@ package com.example.root.dietlogging;
 
 import android.app.Application;
 import android.arch.lifecycle.LiveData;
+import android.arch.lifecycle.MutableLiveData;
 import android.os.AsyncTask;
 
 import java.text.SimpleDateFormat;
@@ -14,13 +15,12 @@ public class DiaryRepository {
     private LiveData<List<Diary>> mAllDiaryEntries;
     private LiveData<List<Diary>> mTodayEntries;
 
-    DiaryRepository(Application application) {
+    DiaryRepository(Application application, String mParam) {
         DietLoggingRoomDatabase db = DietLoggingRoomDatabase.getDatabase(application);
         mDiaryDao = db.diaryDao();
         mAllDiaryEntries = mDiaryDao.getAllEntries();
 
-        String date = new SimpleDateFormat("dd.MM.yyyy").format(new java.util.Date());
-        mTodayEntries = mDiaryDao.getTodayEntries(date);
+        mTodayEntries = mDiaryDao.getTodayEntries(mParam);
 
     }
 

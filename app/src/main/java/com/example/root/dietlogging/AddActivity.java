@@ -57,7 +57,7 @@ public class AddActivity extends AppCompatActivity {
 
             final String date = new SimpleDateFormat("dd.MM.yyyy").format(new java.util.Date());
             final String time = new SimpleDateFormat("HH.mm").format(new java.util.Date());
-            dateTime.setText(date + time);
+            dateTime.setText(date +" "+ time);
             chosenFood.setText(receivedIntent.getStringExtra("foodName"));
             chosenFood.setEnabled(false);
 

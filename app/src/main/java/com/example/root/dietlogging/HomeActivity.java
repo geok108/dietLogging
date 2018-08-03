@@ -73,7 +73,7 @@ public class HomeActivity extends AppCompatActivity {
 
         final UserListAdapter adapter = new UserListAdapter(this);
 
-        mDiaryViewModel = ViewModelProviders.of(this).get(DiaryViewModel.class);
+      /*  mDiaryViewModel = ViewModelProviders.of(this).get(DiaryViewModel.class);
 
         mDiaryViewModel.getAllEntries().observe(this, new Observer<List<Diary>>(){
 
@@ -83,7 +83,8 @@ public class HomeActivity extends AppCompatActivity {
            //     Log.d("diary entries:" , String.valueOf(diaries.get(0).getFoodName()));
 
             }
-        });
+        });*/
+
 
         mUserViewModel = ViewModelProviders.of(this).get(UserViewModel.class);
 
