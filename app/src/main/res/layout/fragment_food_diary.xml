@@ -3,6 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
+    android:id="@+id/fragment_diary"
     tools:context=".FoodDiaryFragment">
 
 
@@ -52,6 +53,10 @@
 
 
         </TableLayout>
+
+
+        <include layout="@layout/content_main" />
+
 
         <Button
             android:id="@+id/export_csv"

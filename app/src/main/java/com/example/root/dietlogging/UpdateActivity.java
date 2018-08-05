@@ -113,12 +113,13 @@ public class UpdateActivity extends AppCompatActivity {
                     replyIntent.putExtra("carbohydrate", carbs);
                     replyIntent.putExtra("totalSugars", tot_sugars);
                     replyIntent.putExtra("energy", energy);
-                    replyIntent.putExtra("date", date_new);
+                    replyIntent.putExtra("date_new", date_new);
                     replyIntent.putExtra("time", time_new);
                     replyIntent.putExtra("grams", Float.valueOf(food_grams));
                     replyIntent.putExtra("meal", meal);
                     replyIntent.putExtra("hunger", hunger_now);
                     replyIntent.putExtra("DELETE CODE", 0);
+                    Log.w("date failed: ", date_new);
 
 
 

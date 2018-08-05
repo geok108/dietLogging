@@ -50,6 +50,7 @@
     <string name="cons">CONSUMED</string>
     <string name="rem">REMAINING</string>
     <string name="export_csv">EXPORT CSV</string>
+    <string name="csv_exported">The CSV file is exported to your device</string>
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>

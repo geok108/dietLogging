@@ -14,6 +14,8 @@ public class DiaryRepository {
     private DiaryDao mDiaryDao;
     private LiveData<List<Diary>> mAllDiaryEntries;
     private LiveData<List<Diary>> mTodayEntries;
+    private LiveData<List<Diary>> mDateEntries;
+
 
     DiaryRepository(Application application, String mParam) {
         DietLoggingRoomDatabase db = DietLoggingRoomDatabase.getDatabase(application);
@@ -21,6 +23,7 @@ public class DiaryRepository {
         mAllDiaryEntries = mDiaryDao.getAllEntries();
 
         mTodayEntries = mDiaryDao.getTodayEntries(mParam);
+        mDateEntries = mDiaryDao.getDateEntries(mParam);
 
     }
 
@@ -30,6 +33,10 @@ public class DiaryRepository {
 
     LiveData<List<Diary>> getTodayEntries(String date) {
         return mTodayEntries;
+    }
+
+    LiveData<List<Diary>> getDateEntries(String date) {
+        return mDateEntries;
     }
 
 

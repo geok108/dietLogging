@@ -32,5 +32,8 @@ public interface DiaryDao {
     @Query("SELECT * FROM diary WHERE date = :date")
     LiveData<List<Diary>> getTodayEntries(String date);
 
+    @Query("SELECT * FROM diary WHERE date = :date")
+    LiveData<List<Diary>> getDateEntries(String date);
+
 
 }
