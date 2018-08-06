@@ -18,6 +18,6 @@ public class MyViewModelFactory extends ViewModelProvider.NewInstanceFactory {
 
     @Override
     public <T extends ViewModel> T create(Class<T> modelClass) {
-        return (T) new DiaryViewModel(mApplication, mParam);
+        return (T) new DiaryViewModel(mApplication);
     }
 }

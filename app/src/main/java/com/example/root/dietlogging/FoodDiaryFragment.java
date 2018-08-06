@@ -1,29 +1,22 @@
 package com.example.root.dietlogging;
 
-import android.annotation.SuppressLint;
 
-import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.text.DateFormat;
-import java.time.LocalDate;
-import java.util.Arrays;
 import java.util.Calendar;
 
 import android.arch.lifecycle.Lifecycle;
 import android.arch.lifecycle.LifecycleOwner;
 import android.arch.lifecycle.LifecycleRegistry;
+import android.arch.lifecycle.LiveData;
 import android.arch.lifecycle.Observer;
 import android.arch.lifecycle.ViewModelProviders;
-import android.content.Context;
 import android.content.Intent;
 import android.graphics.Typeface;
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentTransaction;
-import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -33,7 +26,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageButton;
-import android.widget.LinearLayout;
 import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
@@ -41,10 +33,7 @@ import android.widget.Toast;
 
 import com.opencsv.CSVWriter;
 
-import org.w3c.dom.Text;
-
 import java.text.Format;
-import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
@@ -56,12 +45,13 @@ import static com.example.root.dietlogging.R.*;
 public class FoodDiaryFragment extends Fragment implements View.OnClickListener {
     View view;
     private DiaryViewModel mDiaryViewModel;
-    private  DiaryViewModel diaryVm;
     private TextView todayDate;
     private ImageButton backArrow;
     private ImageButton forArrow;
     private TableLayout tableLayout;
     private RecyclerView recyclerView;
+    private LiveData<List<Diary>> diaryList;
+    private LiveData<List<Diary>> diaryInitList;
 
     public static final int UPDATE_FOOD_REQUEST_CODE = 3;
     public static final int DELETE_FOOD_REQUEST_CODE = 1;
@@ -87,8 +77,6 @@ public class FoodDiaryFragment extends Fragment implements View.OnClickListener 
     public void readBundle(Bundle bundle) {
         if (bundle != null) {
             date = bundle.getString("date");
-            mDiaryViewModel = ViewModelProviders.of(this, new MyViewModelFactory(this.getActivity().getApplication(), date)).get(DiaryViewModel.class);
-
 
         }
     }
@@ -117,7 +105,7 @@ public class FoodDiaryFragment extends Fragment implements View.OnClickListener 
         btn_export_csv.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-               exportDiary();
+                exportDiary();
             }
         });
 
@@ -126,8 +114,7 @@ public class FoodDiaryFragment extends Fragment implements View.OnClickListener 
     }
 
 
-
-    public void exportDiary(){
+    public void exportDiary() {
         mDiaryViewModel.getAllEntries().observe(getActivity(), new Observer<List<Diary>>() {
             @Override
             public void onChanged(@Nullable final List<Diary> diary) {
@@ -183,23 +170,17 @@ public class FoodDiaryFragment extends Fragment implements View.OnClickListener 
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
 
-
-        recyclerView = view.findViewById(R.id.recyclerview);
-
-        final DiaryListAdapter adapter = new DiaryListAdapter(getContext());
-        recyclerView.setAdapter(adapter);
-        recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
-
         Log.w("date on actcre:", date);
-        mDiaryViewModel.getTodayEntries(date).observe(this, new Observer<List<Diary>>() {
-            @Override
-            public void onChanged(@Nullable final List<Diary> diary) {
-                // Update the cached copy of the words in the adapter.
-                adapter.setDiary(diary);
-                adapter.notifyDataSetChanged();
+        /**mDiaryViewModel.getTodayEntries(date).observe(this, new Observer<List<Diary>>() {
+        @Override public void onChanged(@Nullable final List<Diary> diary) {
+        // Update the cached copy of the words in the adapter.
+        adapter.setDiary(diary);
+        adapter.notifyDataSetChanged();
 
-            }
-        });
+        }
+        });*/
+
+        listDiary();
 
         backArrow = view.findViewById(id.date_arrow_back);
         forArrow = view.findViewById(id.date_arrow_for);
@@ -246,10 +227,10 @@ public class FoodDiaryFragment extends Fragment implements View.OnClickListener 
         row.addView(foodGramsTitle);
 
 
-        mDiaryViewModel = ViewModelProviders.of(this, new MyViewModelFactory(this.getActivity().getApplication(), "")).get(DiaryViewModel.class);
-
-
-        mDiaryViewModel.getTodayEntries("").observe(this, new Observer<List<Diary>>() {
+        mDiaryViewModel = ViewModelProviders.of(this, new MyViewModelFactory(this.getActivity().getApplication(), date)).get(DiaryViewModel.class);
+        Log.w("INITIAL DATE:", date);
+        diaryInitList = mDiaryViewModel.getTodayEntries();
+        diaryInitList.observe(this, new Observer<List<Diary>>() {
 
 
             @Override
@@ -405,20 +386,25 @@ public class FoodDiaryFragment extends Fragment implements View.OnClickListener 
                 }
             }
 
+
         });
-
-
 
     }
 
 
     public void listDiary() {
 
+        recyclerView = view.findViewById(R.id.recyclerview);
+
         final DiaryListAdapter adapter = new DiaryListAdapter(getContext());
+        recyclerView.setAdapter(adapter);
+        recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
 
-        diaryVm = ViewModelProviders.of(this, new MyViewModelFactory(this.getActivity().getApplication(), "01.08.2018")).get(DiaryViewModel.class);
+//        diaryInitList.removeObservers(this);
+        mDiaryViewModel = ViewModelProviders.of(this, new MyViewModelFactory(this.getActivity().getApplication(), date)).get(DiaryViewModel.class);
 
-        diaryVm.getDateEntries("01.08.2018").observe(this, new Observer<List<Diary>>() {
+        diaryList = mDiaryViewModel.getDateEntries(date);
+        diaryList.observe(this, new Observer<List<Diary>>() {
 
             @Override
             public void onChanged(@Nullable final List<Diary> diary) {
@@ -429,14 +415,15 @@ public class FoodDiaryFragment extends Fragment implements View.OnClickListener 
                 adapter.notifyDataSetChanged();
 
 
-                for(int i = 0; i < diary.size(); i ++ ){
+                for (int i = 0; i < diary.size(); i++) {
 
                     Log.w("record in onchanged: ", diary.get(i).getFoodName());
 
                 }
 
 
-                }
+            }
+
         });
 
 
@@ -452,6 +439,7 @@ public class FoodDiaryFragment extends Fragment implements View.OnClickListener 
 
                 Fragment fragmentBack = FoodDiaryFragment.newInstance(chosenDate);
                 readBundle(fragmentBack.getArguments());
+
                 listDiary();
 
                 //FragmentTransaction ft = getFragmentManager().beginTransaction();

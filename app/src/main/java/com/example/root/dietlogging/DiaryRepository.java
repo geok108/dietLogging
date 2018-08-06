@@ -2,54 +2,46 @@ package com.example.root.dietlogging;
 
 import android.app.Application;
 import android.arch.lifecycle.LiveData;
-import android.arch.lifecycle.MutableLiveData;
 import android.os.AsyncTask;
 
 import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
 public class DiaryRepository {
 
-
     private DiaryDao mDiaryDao;
-    private LiveData<List<Diary>> mAllDiaryEntries;
-    private LiveData<List<Diary>> mTodayEntries;
-    private LiveData<List<Diary>> mDateEntries;
 
-
-    DiaryRepository(Application application, String mParam) {
+    DiaryRepository(Application application) {
         DietLoggingRoomDatabase db = DietLoggingRoomDatabase.getDatabase(application);
-        mDiaryDao = db.diaryDao();
-        mAllDiaryEntries = mDiaryDao.getAllEntries();
-
-        mTodayEntries = mDiaryDao.getTodayEntries(mParam);
-        mDateEntries = mDiaryDao.getDateEntries(mParam);
-
+        this.mDiaryDao = db.diaryDao();
     }
 
     LiveData<List<Diary>> getAllEntries() {
-        return mAllDiaryEntries;
+        return this.mDiaryDao.getAllEntries();
     }
 
-    LiveData<List<Diary>> getTodayEntries(String date) {
-        return mTodayEntries;
+    LiveData<List<Diary>> getTodayEntries() {
+        String dt = new SimpleDateFormat("dd.MM.yyyy").format(new Date());
+        return this.mDiaryDao.getTodayEntries(dt);
     }
 
     LiveData<List<Diary>> getDateEntries(String date) {
-        return mDateEntries;
+        return this.mDiaryDao.getDateEntries(date);
     }
 
 
-    public void insert (Diary diary) {
+    public void insert(Diary diary) {
         new insertAsyncTask(mDiaryDao).execute(diary);
     }
-    public void update (Diary diary) {
+
+    public void update(Diary diary) {
         new updateAsyncTask(mDiaryDao).execute(diary);
     }
-    public void delete (Diary diary) {
+
+    public void delete(Diary diary) {
         new deleteAsyncTask(mDiaryDao).execute(diary);
     }
-
 
 
     private static class insertAsyncTask extends AsyncTask<Diary, Void, Void> {

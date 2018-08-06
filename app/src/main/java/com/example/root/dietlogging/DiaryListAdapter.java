@@ -34,6 +34,7 @@ public class DiaryListAdapter extends RecyclerView.Adapter<DiaryListAdapter.Diar
     @Override
     public DiaryListAdapter.DiaryViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View itemView = mInflater.inflate(R.layout.recyclerview_diary, parent, false);
+
         return new DiaryListAdapter.DiaryViewHolder(itemView);
     }
 
