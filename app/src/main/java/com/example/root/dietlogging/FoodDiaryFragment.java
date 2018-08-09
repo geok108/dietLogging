@@ -170,18 +170,6 @@ public class FoodDiaryFragment extends Fragment implements View.OnClickListener 
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
 
-        Log.w("date on actcre:", date);
-        /**mDiaryViewModel.getTodayEntries(date).observe(this, new Observer<List<Diary>>() {
-        @Override public void onChanged(@Nullable final List<Diary> diary) {
-        // Update the cached copy of the words in the adapter.
-        adapter.setDiary(diary);
-        adapter.notifyDataSetChanged();
-
-        }
-        });*/
-
-        listDiary();
-
         backArrow = view.findViewById(id.date_arrow_back);
         forArrow = view.findViewById(id.date_arrow_for);
 
@@ -196,8 +184,7 @@ public class FoodDiaryFragment extends Fragment implements View.OnClickListener 
         // convert date to calendar
         c.setTime(currentDate);
         Log.w("cal: ", dateFormat.format(c.getTime()));
-        todayDate.setText(dateFormat.format(c.getTime()));
-        //dat = dateFormat.format(c.getTime());
+        todayDate.setText(formatter.format(c.getTime()));
 
         backArrow.setOnClickListener(this);
         forArrow.setOnClickListener(this);
@@ -226,10 +213,46 @@ public class FoodDiaryFragment extends Fragment implements View.OnClickListener 
         row.addView(foodNameTitle);
         row.addView(foodGramsTitle);
 
+        listDiary();
+
+    }
+
+
+    public void listDiary() {
+
+        /*recyclerView = view.findViewById(R.id.recyclerview);
+
+        final DiaryListAdapter adapter = new DiaryListAdapter(getContext());
+        recyclerView.setAdapter(adapter);
+        recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
 
         mDiaryViewModel = ViewModelProviders.of(this, new MyViewModelFactory(this.getActivity().getApplication(), date)).get(DiaryViewModel.class);
-        Log.w("INITIAL DATE:", date);
-        diaryInitList = mDiaryViewModel.getTodayEntries();
+
+        diaryList = mDiaryViewModel.getDateEntries(date);
+        diaryList.observe(this, new Observer<List<Diary>>() {
+
+            @Override
+            public void onChanged(@Nullable final List<Diary> diary) {
+                // Update the cached copy of the words in the adapter.
+                Log.w("date on listdiary:", date);
+
+                adapter.setDiary(diary);
+                adapter.notifyDataSetChanged();
+
+
+                for (int i = 0; i < diary.size(); i++) {
+
+                    Log.w("record in onchanged: ", diary.get(i).getFoodName());
+
+                }
+
+            }
+
+        });
+*/
+
+        mDiaryViewModel = ViewModelProviders.of(this, new MyViewModelFactory(this.getActivity().getApplication(), date)).get(DiaryViewModel.class);
+        diaryInitList = mDiaryViewModel.getDateEntries(date);
         diaryInitList.observe(this, new Observer<List<Diary>>() {
 
 
@@ -284,7 +307,6 @@ public class FoodDiaryFragment extends Fragment implements View.OnClickListener 
                             parent.removeAllViews();
                         }
 
-
                         final TextView time = new TextView(getActivity());
                         TextView foodName = new TextView(getActivity());
                         TextView foodGrams = new TextView(getActivity());
@@ -293,22 +315,13 @@ public class FoodDiaryFragment extends Fragment implements View.OnClickListener 
                         foodName.setTextSize(18);
                         foodGrams.setTextSize(18);
 
-                        //Log.d("diary entries:", String.valueOf(diaries.get(0).getFoodName()));
-
                         String foodTime = diaries.get(i).getTime();
-                        /**Date date = null;
-                         try {
-                         date = new SimpleDateFormat("dd.MM.yyyy.HH.mm").parse(originalDate);
-                         } catch (ParseException e) {
-                         e.printStackTrace();
-                         }
-                         String foodTime = new SimpleDateFormat("HH:mm").format(date);*/
 
                         time.setText(foodTime);
 
                         String foodNameMinLen = diaries.get(i).getFoodName();
-                        foodNameMinLen = foodNameMinLen.substring(0, Math.min(foodNameMinLen.length(), 33));
-                        if (foodNameMinLen.length() == 33) {
+                        foodNameMinLen = foodNameMinLen.substring(0, Math.min(foodNameMinLen.length(), 25));
+                        if (foodNameMinLen.length() == 25) {
                             foodNameMinLen = foodNameMinLen.concat("...");
                         }
 
@@ -316,7 +329,6 @@ public class FoodDiaryFragment extends Fragment implements View.OnClickListener 
 
                         String grams = Float.toString(diaries.get(i).getGrams());
                         foodGrams.setText(grams + "");
-
 
                         row.setLayoutParams(params);
 
@@ -328,7 +340,6 @@ public class FoodDiaryFragment extends Fragment implements View.OnClickListener 
                         foodName.setLayoutParams(params);
                         foodGrams.setLayoutParams(params);
 
-
                         tableLayout.addView(row);
 
                         row.addView(time);
@@ -339,8 +350,6 @@ public class FoodDiaryFragment extends Fragment implements View.OnClickListener 
                         row.setOnClickListener(new View.OnClickListener() {
                             @Override
                             public void onClick(View v) {
-                                v.setBackgroundColor(getResources().getColor(android.R.color.holo_red_dark));
-
                                 Intent updateIntent = new Intent(getActivity(), UpdateActivity.class);
                                 updateIntent.putExtra("diaryId", diaries.get(finalI).getId());
                                 updateIntent.putExtra("foodCode", diaries.get(finalI).getFoodId());
@@ -358,26 +367,6 @@ public class FoodDiaryFragment extends Fragment implements View.OnClickListener 
                                 updateIntent.putExtra("hunger", diaries.get(finalI).getHunger());
                                 updateIntent.putExtra("grams", diaries.get(finalI).getGrams());
 
-                                Log.w("pr_upd: ", String.valueOf(diaries.get(finalI).getProtein()));
-                                Log.w("fat_upd: ", String.valueOf(diaries.get(finalI).getFat()));
-                                Log.w("carb_upd: ", String.valueOf(diaries.get(finalI).getCarbohydrates()));
-                                Log.w("sug_upd: ", String.valueOf(diaries.get(finalI).getTotalSugars()));
-
-
-                                Log.d("diaryId", String.valueOf(diaries.get(finalI).getId()));
-                                Log.d("foodCode", diaries.get(finalI).getFoodId());
-                                Log.d("foodName", diaries.get(finalI).getFoodName());
-                                Log.d("date", diaries.get(finalI).getDate());
-                                Log.d("protein", String.valueOf(diaries.get(finalI).getProtein()));
-                                Log.d("fat", String.valueOf(diaries.get(finalI).getFat()));
-                                Log.d("carbohydrate", String.valueOf(diaries.get(finalI).getCarbohydrates()));
-                                Log.d("energy", String.valueOf(diaries.get(finalI).getEnergy()));
-                                Log.d("totalSugars", String.valueOf(diaries.get(finalI).getTotalSugars()));
-                                Log.d("time", diaries.get(finalI).getTime());
-                                Log.d("meal", diaries.get(finalI).getMeal());
-                                Log.d("hunger", String.valueOf(diaries.get(finalI).getHunger()));
-                                Log.d("grams", String.valueOf(diaries.get(finalI).getGrams()));
-
                                 startActivityForResult(updateIntent, UPDATE_FOOD_REQUEST_CODE);
                             }
                         });
@@ -391,50 +380,14 @@ public class FoodDiaryFragment extends Fragment implements View.OnClickListener 
 
     }
 
-
-    public void listDiary() {
-
-        recyclerView = view.findViewById(R.id.recyclerview);
-
-        final DiaryListAdapter adapter = new DiaryListAdapter(getContext());
-        recyclerView.setAdapter(adapter);
-        recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
-
-//        diaryInitList.removeObservers(this);
-        mDiaryViewModel = ViewModelProviders.of(this, new MyViewModelFactory(this.getActivity().getApplication(), date)).get(DiaryViewModel.class);
-
-        diaryList = mDiaryViewModel.getDateEntries(date);
-        diaryList.observe(this, new Observer<List<Diary>>() {
-
-            @Override
-            public void onChanged(@Nullable final List<Diary> diary) {
-                // Update the cached copy of the words in the adapter.
-                Log.w("date on listdiary:", date);
-
-                adapter.setDiary(diary);
-                adapter.notifyDataSetChanged();
-
-
-                for (int i = 0; i < diary.size(); i++) {
-
-                    Log.w("record in onchanged: ", diary.get(i).getFoodName());
-
-                }
-
-
-            }
-
-        });
-
-
-    }
-
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
             case id.date_arrow_back:
                 c.add(Calendar.DATE, -1);
-                todayDate.setText(dateFormat.format(c.getTime()));
+                Format formatter = new SimpleDateFormat("EEEE, dd MMMM yyyy");
+
+                todayDate.setText(formatter.format(c.getTime()));
                 chosenDate = dateFormat.format(c.getTime());
 
                 Fragment fragmentBack = FoodDiaryFragment.newInstance(chosenDate);
@@ -447,7 +400,9 @@ public class FoodDiaryFragment extends Fragment implements View.OnClickListener 
                 break;
             case id.date_arrow_for:
                 c.add(Calendar.DATE, 1);
-                todayDate.setText(dateFormat.format(c.getTime()));
+                Format formatterm = new SimpleDateFormat("EEEE, dd MMMM yyyy");
+
+                todayDate.setText(formatterm.format(c.getTime()));
                 chosenDate = dateFormat.format(c.getTime());
 
                 Fragment fragmentFor = FoodDiaryFragment.newInstance(chosenDate);

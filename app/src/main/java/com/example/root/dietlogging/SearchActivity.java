@@ -1,9 +1,11 @@
 package com.example.root.dietlogging;
 
 import android.app.SearchManager;
+import android.arch.lifecycle.Observer;
 import android.arch.lifecycle.ViewModelProviders;
 import android.content.Context;
 import android.content.Intent;
+import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.SearchView;
@@ -23,6 +25,7 @@ public class SearchActivity extends AppCompatActivity {
     private ListView foodListView;
     private FoodListAdapter foodAdapter;
     private DiaryViewModel mDiaryViewModel;
+    private FreqFoodViewModel mFreqFoodViewModel;
 
 
     public static final int NEW_FOOD_ACTIVITY_REQUEST_CODE = 1;
@@ -36,6 +39,7 @@ public class SearchActivity extends AppCompatActivity {
         this.foodListView = (ListView) findViewById(R.id.foodListView);
 
         mDiaryViewModel = ViewModelProviders.of(this, new MyViewModelFactory(this.getApplication(), "")).get(DiaryViewModel.class);
+        mFreqFoodViewModel = ViewModelProviders.of(this).get(FreqFoodViewModel.class);
 
 
         // Get the SearchView and set the searchable configuration
@@ -44,7 +48,6 @@ public class SearchActivity extends AppCompatActivity {
         // Assumes current activity is the searchable activity
         searchView.setSearchableInfo(searchManager.getSearchableInfo(getComponentName()));
         searchView.setIconifiedByDefault(false); // Do not iconify the widget; expand it by default
-
 
 
         final DatabaseAccess databaseAccess = DatabaseAccess.getInstance(this);
@@ -77,9 +80,6 @@ public class SearchActivity extends AppCompatActivity {
             }
 
 
-
-
-
         });
 
         foodListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -109,7 +109,6 @@ public class SearchActivity extends AppCompatActivity {
         });
 
 
-
         // Get the intent, verify the action and get the query
         Intent intent = getIntent();
         if (Intent.ACTION_SEARCH.equals(intent.getAction())) {
@@ -117,9 +116,24 @@ public class SearchActivity extends AppCompatActivity {
             //doMySearch(query);
         }
 
+
+        mFreqFoodViewModel.getAll().observe(this, new Observer<List<FreqFood>>() {
+            @Override
+            public void onChanged(@Nullable List<FreqFood> food) {
+
+                for (int i = 0; i < food.size(); i++) {
+                    Log.w("FFOOD:", food.get(i).getFoodId());
+
+                }
+
+            }
+
+
+        });
+
     }
 
-    public void showResults(ArrayList results){
+    public void showResults(ArrayList results) {
 
         //FoodListAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, results);
         //this.foodListView.setAdapter(adapter);
@@ -134,52 +148,52 @@ public class SearchActivity extends AppCompatActivity {
 
         if (requestCode == NEW_FOOD_ACTIVITY_REQUEST_CODE && resultCode == RESULT_OK) {
 
-            String foodCode = data.getStringExtra("foodCode");
+            final String foodCode = data.getStringExtra("foodCode");
             String foodName = data.getStringExtra("foodName");
             String date = data.getStringExtra("date");
             String time = data.getStringExtra("time");
             float protein;
-            if(data.getStringExtra("protein").equals("Tr") || data.getStringExtra("protein").equals("N")){
+            if (data.getStringExtra("protein").equals("Tr") || data.getStringExtra("protein").equals("N")) {
                 protein = 0;
-            }else{
+            } else {
                 protein = Float.parseFloat(data.getStringExtra("protein"));
 
             }
 
             float fat;
-            if(data.getStringExtra("fat").equals("Tr") || data.getStringExtra("fat").equals("N")){
+            if (data.getStringExtra("fat").equals("Tr") || data.getStringExtra("fat").equals("N")) {
                 fat = 0;
-            }else{
+            } else {
                 fat = Float.parseFloat(data.getStringExtra("fat"));
 
             }
 
             float carbohydrates;
-            if(data.getStringExtra("carbohydrate").equals("Tr") || data.getStringExtra("carbohydrate").equals("N")){
+            if (data.getStringExtra("carbohydrate").equals("Tr") || data.getStringExtra("carbohydrate").equals("N")) {
                 carbohydrates = 0;
-            }else{
+            } else {
                 carbohydrates = Float.parseFloat(data.getStringExtra("carbohydrate"));
 
             }
 
             float energy;
-            if(data.getStringExtra("energy").equals("Tr") || data.getStringExtra("energy").equals("N")){
+            if (data.getStringExtra("energy").equals("Tr") || data.getStringExtra("energy").equals("N")) {
                 energy = 0;
-            }else{
+            } else {
                 energy = Float.parseFloat(data.getStringExtra("energy"));
 
             }
 
             float totalSugars;
-            if(data.getStringExtra("totalSugars").equals("Tr") || data.getStringExtra("totalSugars").equals("N")){
+            if (data.getStringExtra("totalSugars").equals("Tr") || data.getStringExtra("totalSugars").equals("N")) {
                 totalSugars = 0;
-            }else{
+            } else {
                 totalSugars = Float.parseFloat(data.getStringExtra("totalSugars"));
 
             }
 
             String meal = data.getStringExtra("meal");
-            float grams = Float.parseFloat(data.getStringExtra("grams"));
+            final float grams = Float.parseFloat(data.getStringExtra("grams"));
             int hunger = Integer.parseInt(data.getStringExtra("hunger"));
 
             Integer id = null;
@@ -191,8 +205,53 @@ public class SearchActivity extends AppCompatActivity {
             Log.d("received food data", diary.getMeal());
             Log.d("received food data", String.valueOf(diary.getGrams()));
             Log.d("received food data", String.valueOf(diary.getHunger()));
+            final boolean[] found = {false};
+            final FreqFood[] foundFood = {null};
+            mFreqFoodViewModel.getAll().observe(this, new Observer<List<FreqFood>>() {
+                @Override
+                public void onChanged(@Nullable List<FreqFood> food) {
 
 
+                    for (int i = 0; i < food.size(); i++) {
+
+                        if (foodCode == food.get(i).getFoodId()) {
+
+                            found[0] = true;
+                            foundFood[0] = (FreqFood) food.get(i);
+                            break;
+
+                        }
+
+                    }
+
+
+
+                }
+            });
+
+            if (found[0]) {
+
+                //update freqFood entry, add 1 to counter
+                Integer fFoodId = foundFood[0].getId();
+                String freqFoodId = foundFood[0].getFoodId();
+                Integer count = foundFood[0].getCounter() + 1;
+                float freqFoodGrams = foundFood[0].getGrams();
+                Log.w("found food count:", count + "");
+
+                FreqFood fFood = new FreqFood(fFoodId, freqFoodId, count, freqFoodGrams);
+                mFreqFoodViewModel.update(fFood);
+
+            } else {
+
+                //insert new entry
+                Integer fFoodId = null;
+                Integer count = 1;
+                FreqFood fFood = new FreqFood(fFoodId, foodCode, count, grams);
+                mFreqFoodViewModel.insert(fFood);
+                Log.w("ffood inserted", foodCode);
+                Log.w("ffood inserted", String.valueOf(count + " " + grams));
+
+            }
             mDiaryViewModel.insert(diary);
 
 

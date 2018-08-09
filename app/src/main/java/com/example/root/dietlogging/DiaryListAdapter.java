@@ -23,12 +23,19 @@ public class DiaryListAdapter extends RecyclerView.Adapter<DiaryListAdapter.Diar
             gramsItemView = itemView.findViewById(R.id.f_grams);
 
         }
+
     }
 
-    private final LayoutInflater mInflater;
-    private List<Diary> mDiary; // Cached copy of user
 
-    DiaryListAdapter(Context context) { mInflater = LayoutInflater.from(context); }
+    private final LayoutInflater mInflater;
+    private List<Diary> mDiary; // Cached copy of diaries
+
+
+
+
+    DiaryListAdapter(Context context) {
+        mInflater = LayoutInflater.from(context);
+    }
 
 
     @Override

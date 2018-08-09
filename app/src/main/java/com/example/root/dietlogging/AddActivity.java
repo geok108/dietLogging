@@ -48,20 +48,19 @@ public class AddActivity extends AppCompatActivity {
 
         final Intent receivedIntent = getIntent();
 
-        if(receivedIntent.getExtras() != null) {
+        if (receivedIntent.getExtras() != null) {
             Log.d("received data:", receivedIntent.getStringExtra("foodName"));
 
             String food_name = receivedIntent.getStringExtra("foodName");
 
 
-
             final String date = new SimpleDateFormat("dd.MM.yyyy").format(new java.util.Date());
             final String time = new SimpleDateFormat("HH.mm").format(new java.util.Date());
-            dateTime.setText(date +" "+ time);
+            dateTime.setText(date + " " + time);
             chosenFood.setText(receivedIntent.getStringExtra("foodName"));
             chosenFood.setEnabled(false);
 
-            button.setOnClickListener(new View.OnClickListener(){
+            button.setOnClickListener(new View.OnClickListener() {
 
 
                 @Override
