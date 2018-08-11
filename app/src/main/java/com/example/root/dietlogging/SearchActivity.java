@@ -1,20 +1,23 @@
 package com.example.root.dietlogging;
 
 import android.app.SearchManager;
-import android.arch.lifecycle.Observer;
 import android.arch.lifecycle.ViewModelProviders;
 import android.content.Context;
 import android.content.Intent;
-import android.support.annotation.Nullable;
+import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.SearchView;
 import android.util.Log;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.ListAdapter;
 import android.widget.ListView;
+import android.widget.TableLayout;
+import android.widget.TableRow;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -22,12 +25,11 @@ import java.util.List;
 public class SearchActivity extends AppCompatActivity {
 
     private SearchView searchView;
+    private TableLayout freqAddedView;
     private ListView foodListView;
     private FoodListAdapter foodAdapter;
     private DiaryViewModel mDiaryViewModel;
     private FreqFoodViewModel mFreqFoodViewModel;
-
-
     public static final int NEW_FOOD_ACTIVITY_REQUEST_CODE = 1;
 
 
@@ -36,10 +38,56 @@ public class SearchActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_search);
 
-        this.foodListView = (ListView) findViewById(R.id.foodListView);
+        foodListView = (ListView) findViewById(R.id.foodListView);
+
+        freqAddedView = findViewById(R.id.freq_added);
+        mFreqFoodViewModel = ViewModelProviders.of(this).get(FreqFoodViewModel.class);
+
+        new Thread(new Runnable() {
+            public void run() {
+                List<FreqFood> freqFoodList = mFreqFoodViewModel.getAll();
+
+
+                for (FreqFood fd : freqFoodList) {
+
+                    TableRow row = new TableRow(getApplicationContext());
+                    ViewGroup parent = (ViewGroup) row.getParent();
+                    if (parent != null) {
+                        parent.removeAllViews();
+                    }
+
+                    TextView fFoodName = new TextView(getApplicationContext());
+
+                    fFoodName.setTextSize(18);
+
+                    fFoodName.setText(fd.getFoodId());
+
+                    /*String foodNameMinLen = diaries.get(i).getFoodName();
+                    foodNameMinLen = foodNameMinLen.substring(0, Math.min(foodNameMinLen.length(), 25));
+                    if (foodNameMinLen.length() == 25) {
+                        foodNameMinLen = foodNameMinLen.concat("...");
+                    }*/
+
+                    freqAddedView.addView(row);
+
+                    row.addView(fFoodName);
+
+                    row.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            Toast.makeText(
+                                    getApplicationContext(),
+                                    R.string.food,
+                                    Toast.LENGTH_LONG).show();
+                        }
+                    });
+                }
+
+            }
+        }).start();
+
 
         mDiaryViewModel = ViewModelProviders.of(this, new MyViewModelFactory(this.getApplication(), "")).get(DiaryViewModel.class);
-        mFreqFoodViewModel = ViewModelProviders.of(this).get(FreqFoodViewModel.class);
 
 
         // Get the SearchView and set the searchable configuration
@@ -117,20 +165,6 @@ public class SearchActivity extends AppCompatActivity {
         }
 
 
-        mFreqFoodViewModel.getAll().observe(this, new Observer<List<FreqFood>>() {
-            @Override
-            public void onChanged(@Nullable List<FreqFood> food) {
-
-                for (int i = 0; i < food.size(); i++) {
-                    Log.w("FFOOD:", food.get(i).getFoodId());
-
-                }
-
-            }
-
-
-        });
-
     }
 
     public void showResults(ArrayList results) {
@@ -147,6 +181,7 @@ public class SearchActivity extends AppCompatActivity {
         super.onActivityResult(requestCode, resultCode, data);
 
         if (requestCode == NEW_FOOD_ACTIVITY_REQUEST_CODE && resultCode == RESULT_OK) {
+            super.onActivityResult(requestCode, resultCode, data);
 
             final String foodCode = data.getStringExtra("foodCode");
             String foodName = data.getStringExtra("foodName");
@@ -199,59 +234,79 @@ public class SearchActivity extends AppCompatActivity {
             Integer id = null;
             Diary diary = new Diary(id, foodCode, foodName, protein, fat, carbohydrates, energy, totalSugars, date, time, meal, grams, hunger);
 
-            Log.d("received food data", diary.getDate());
+        /*    Log.d("received food data", diary.getDate());
             Log.d("received food data", diary.getFoodId());
             Log.d("received food data", diary.getFoodName());
             Log.d("received food data", diary.getMeal());
             Log.d("received food data", String.valueOf(diary.getGrams()));
             Log.d("received food data", String.valueOf(diary.getHunger()));
-            final boolean[] found = {false};
-            final FreqFood[] foundFood = {null};
-            mFreqFoodViewModel.getAll().observe(this, new Observer<List<FreqFood>>() {
-                @Override
-                public void onChanged(@Nullable List<FreqFood> food) {
+*/
+
+            new Thread(new Runnable() {
+                public void run() {
+                    List<FreqFood> fFoodList = mFreqFoodViewModel.getAll();
+                    // Log.d("food list", fFoodList.get(0).getFoodId());
 
 
-                    for (int i = 0; i < food.size(); i++) {
+                    ArrayList<String> fdList = new ArrayList<String>();
+                    for (FreqFood fd : fFoodList) {
+                        fdList.add(fd.getFoodId());
 
-                        if (foodCode == food.get(i).getFoodId()) {
-
-                            found[0] = true;
-                            foundFood[0] = (FreqFood) food.get(i);
-                            break;
-
-                        }
+                        Log.d("fid:", fd.getFoodId());
+                        Log.d("counter:", fd.getCounter() + "");
+                        Log.d("grams:", fd.getGrams() + "");
 
                     }
 
 
+                    for (String fl : fdList) {
+
+                        Log.d("LIST: ", fl);
+                    }
+
+                    if (fdList.contains(foodCode)) {
+
+                        Log.d("EXIST", "!!!");
+
+
+                        for (FreqFood fd : fFoodList) {
+                            Log.w("ASDASDASD fd food id:", fd.getFoodId());
+                            Log.w("SDSFSFS foodcode:", foodCode);
+
+                            if (fd.getFoodId().equals(foodCode)) {
+                                Log.w("here", "HERE DUUUDE");
+                                //update freqFood entry, add 1 to counter
+                                Integer fFoodId = fd.getId();
+                                String freqFoodId = fd.getFoodId();
+                                Integer count = fd.getCounter() + 1;
+                                float freqFoodGrams = fd.getGrams();
+                                Log.w("found food count:", count + "");
+
+                                FreqFood fFood = new FreqFood(fFoodId, freqFoodId, count, freqFoodGrams);
+                                mFreqFoodViewModel.update(fFood);
+                                break;
+
+                            }
+
+
+                        }
+
+                    } else {
+                        Log.w("NOT IN LIST", foodCode);
+                        //insert new entry
+                        Integer fFoodId = null;
+                        Integer count = 1;
+                        FreqFood fFood = new FreqFood(fFoodId, foodCode, count, grams);
+                        mFreqFoodViewModel.insert(fFood);
+                        Log.w("ffood inserted", foodCode);
+                        Log.w("ffood inserted", String.valueOf(count + " " + grams));
+                    }
+
 
                 }
-            });
+            }).start();
 
-            if (found[0]) {
 
-                //update freqFood entry, add 1 to counter
-                Integer fFoodId = foundFood[0].getId();
-                String freqFoodId = foundFood[0].getFoodId();
-                Integer count = foundFood[0].getCounter() + 1;
-                float freqFoodGrams = foundFood[0].getGrams();
-                Log.w("found food count:", count + "");
-
-                FreqFood fFood = new FreqFood(fFoodId, freqFoodId, count, freqFoodGrams);
-                mFreqFoodViewModel.update(fFood);
-
-            } else {
-
-                //insert new entry
-                Integer fFoodId = null;
-                Integer count = 1;
-                FreqFood fFood = new FreqFood(fFoodId, foodCode, count, grams);
-                mFreqFoodViewModel.insert(fFood);
-                Log.w("ffood inserted", foodCode);
-                Log.w("ffood inserted", String.valueOf(count + " " + grams));
-
-            }
             mDiaryViewModel.insert(diary);
 
 

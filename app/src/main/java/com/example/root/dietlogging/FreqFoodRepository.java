@@ -18,7 +18,7 @@ public class FreqFoodRepository {
         this.mFreqFoodDao = db.freqFoodDao();
     }
 
-    LiveData<List<FreqFood>> getAll() {
+    List<FreqFood> getAll() {
         return this.mFreqFoodDao.getAll();
     }
 

@@ -17,6 +17,6 @@ public interface FreqFoodDao {
     @Update
     void update(FreqFood food);
 
-    @Query("SELECT * from freq_food ORDER BY id ASC LIMIT 5")
-    LiveData<List<FreqFood>> getAll();
+    @Query("SELECT * from freq_food")
+    List<FreqFood> getAll();
 }

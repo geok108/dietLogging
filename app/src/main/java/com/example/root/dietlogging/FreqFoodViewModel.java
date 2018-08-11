@@ -14,7 +14,7 @@ public class FreqFoodViewModel extends AndroidViewModel {
         mRepository = new FreqFoodRepository(application);
     }
 
-    LiveData<List<FreqFood>> getAll() { return mRepository.getAll(); }
+    List<FreqFood> getAll() { return mRepository.getAll(); }
 
     public void insert(FreqFood food) { mRepository.insert(food); }
     public void update(FreqFood food) { mRepository.update(food); }
