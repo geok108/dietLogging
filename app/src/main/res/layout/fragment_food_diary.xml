@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/fragment_diary"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
-    android:id="@+id/fragment_diary"
     tools:context=".FoodDiaryFragment">
 
 
@@ -44,16 +44,23 @@
 
         </LinearLayout>
 
-        <TableLayout
-            android:id="@+id/table_food"
+
+        <ScrollView
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
-            android:stretchColumns="*">
+            android:layout_height="250dp"
+            >
+
+            <TableLayout
+                android:id="@+id/table_food"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_horizontal"
+                android:stretchColumns="*">
 
 
-        </TableLayout>
+            </TableLayout>
 
+        </ScrollView>
 
         <include layout="@layout/content_main" />
 
@@ -65,7 +72,8 @@
             android:layout_marginTop="25dp"
             android:background="@color/colorRed"
             android:text="@string/export_csv"
-            android:textColor="@color/colorWhite" />
+            android:textColor="@color/colorWhite"
+            />
 
     </LinearLayout>
 

@@ -5,7 +5,7 @@ import android.arch.persistence.room.PrimaryKey;
 import android.support.annotation.NonNull;
 
 @Entity(tableName = "freq_food")
-public class FreqFood {
+public class FreqFood implements Comparable<FreqFood> {
 
     @NonNull
     @PrimaryKey(autoGenerate = true)
@@ -62,4 +62,14 @@ public class FreqFood {
         this.counter = counter;
         this.grams = grams;
     }
+
+
+    @Override
+    public int compareTo(@NonNull FreqFood fFood) {
+
+        int cnt =  fFood.getCounter();
+        return this.counter - cnt;
+    }
+
+
 }

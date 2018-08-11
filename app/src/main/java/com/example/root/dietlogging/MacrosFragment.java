@@ -89,7 +89,7 @@ public class MacrosFragment extends Fragment {
 
         mDiaryViewModel = ViewModelProviders.of(this, new MyViewModelFactory(this.getActivity().getApplication(), date)).get(DiaryViewModel.class);
 
-        LiveData <List<Diary>> todayDiary = mDiaryViewModel.getTodayEntries();
+        LiveData<List<Diary>> todayDiary = mDiaryViewModel.getTodayEntries();
 
         todayDiary.observe(this, new Observer<List<Diary>>() {
 
@@ -97,17 +97,17 @@ public class MacrosFragment extends Fragment {
             @Override
             public void onChanged(@Nullable final List<Diary> diaries) {
 
-                if (diaries.isEmpty()){
+                if (diaries.isEmpty()) {
 
-                    Log.d("todays diarys empty:" , date);
+                    Log.d("todays diarys empty:", date);
 
-                }else{
+                } else {
                     float totalProtein = 0;
                     float totalFat = 0;
                     float totalCarbs = 0;
                     float totalSugars = 0;
 
-                    for (int i=0; i<diaries.size(); i++) {
+                    for (int i = 0; i < diaries.size(); i++) {
                         float protein;
                         float fat;
                         float carbs;
@@ -118,10 +118,10 @@ public class MacrosFragment extends Fragment {
                         carbs = getMacroGrams(diaries.get(i).getCarbohydrates(), diaries.get(i).getGrams());
                         sugars = getMacroGrams(diaries.get(i).getTotalSugars(), diaries.get(i).getGrams());
 
-                        Log.d("pro:" , String.valueOf(diaries.get(i).getProtein() +"    "+ diaries.get(i).getGrams()));
-                        Log.d("fat:" , String.valueOf(diaries.get(i).getFat()+ "    "+diaries.get(i).getGrams()));
-                        Log.d("carbs:" , String.valueOf(diaries.get(i).getCarbohydrates()+"    "+ diaries.get(i).getGrams()));
-                        Log.d("size:" , String.valueOf(diaries.get(i).getGrams()));
+                        Log.d("pro:", String.valueOf(diaries.get(i).getProtein() + "    " + diaries.get(i).getGrams()));
+                        Log.d("fat:", String.valueOf(diaries.get(i).getFat() + "    " + diaries.get(i).getGrams()));
+                        Log.d("carbs:", String.valueOf(diaries.get(i).getCarbohydrates() + "    " + diaries.get(i).getGrams()));
+                        Log.d("size:", String.valueOf(diaries.get(i).getGrams()));
 
                         totalProtein += protein;
                         totalFat += fat;
@@ -133,20 +133,21 @@ public class MacrosFragment extends Fragment {
 
                     }
 
-                    ArrayList<Integer> colors = new ArrayList<Integer>();;
+                    ArrayList<Integer> colors = new ArrayList<Integer>();
+                    ;
                     colors.add(getResources().getColor(R.color.colorPrimary));
                     colors.add(getResources().getColor(R.color.colorRed));
                     colors.add(getResources().getColor(R.color.colorAccent));
 
-                    Log.d("tot pro:" , String.valueOf(totalProtein));
-                    Log.d("tot fat:" , String.valueOf(totalFat));
-                    Log.d("tot carbs:" , String.valueOf(totalCarbs));
-                    Log.d("tot sug:" , String.valueOf(totalSugars));
+                    Log.d("tot pro:", String.valueOf(totalProtein));
+                    Log.d("tot fat:", String.valueOf(totalFat));
+                    Log.d("tot carbs:", String.valueOf(totalCarbs));
+                    Log.d("tot sug:", String.valueOf(totalSugars));
 
                     float totals = totalProtein + totalFat + totalCarbs;
                     tabPro = String.valueOf((totalProtein * 100) / totals);
-                    tabFat = String.valueOf((totalFat* 100) / totals);
-                    tabCarb = String.valueOf((totalCarbs* 100) / totals);
+                    tabFat = String.valueOf((totalFat * 100) / totals);
+                    tabCarb = String.valueOf((totalCarbs * 100) / totals);
                     tabSug = String.valueOf((totalSugars * 100) / totals);
 
                     List<PieEntry> entries = new ArrayList<PieEntry>();
@@ -184,7 +185,7 @@ public class MacrosFragment extends Fragment {
                         @Override
                         public void onChanged(@Nullable final List<User> user) {
 
-                            if(!user.isEmpty()) {
+                            if (!user.isEmpty()) {
                                 int dietChoice = user.get(0).getDiet_choice();
 
                                 switch (dietChoice) {
@@ -202,7 +203,34 @@ public class MacrosFragment extends Fragment {
                                         float fat_rem = 35 - Float.parseFloat(tabFat);
                                         float pro_rem = 15 - Float.parseFloat(tabPro);
 
-                                        choRem.setText((Math.round(cho_rem)) + "[" +Math.round(sug_rem) + "]");
+                                        if (cho_rem > 0 && cho_rem < 5) {
+                                            //green
+                                            choRem.setBackgroundColor(getResources().getColor(R.color.green));
+                                        } else if (cho_rem < 0) {
+                                            //red
+                                            choRem.setBackgroundColor(getResources().getColor(R.color.lightRed));
+
+                                        }
+
+                                        if (fat_rem > 0 && fat_rem < 5) {
+                                            //green
+                                            fatRem.setBackgroundColor(getResources().getColor(R.color.green));
+                                        } else if (fat_rem < 0) {
+                                            //red
+                                            fatRem.setBackgroundColor(getResources().getColor(R.color.lightRed));
+
+                                        }
+
+                                        if (pro_rem > 0 && pro_rem < 5) {
+                                            //green
+                                            proRem.setBackgroundColor(getResources().getColor(R.color.green));
+                                        } else if (pro_rem < 0) {
+                                            //red
+                                            proRem.setBackgroundColor(getResources().getColor(R.color.lightRed));
+
+                                        }
+
+                                        choRem.setText((Math.round(cho_rem)) + "[" + Math.round(sug_rem) + "]");
                                         fatRem.setText(Math.round(fat_rem) + "");
                                         proRem.setText(Math.round(pro_rem) + "");
 
@@ -221,9 +249,37 @@ public class MacrosFragment extends Fragment {
                                         float fat_rem_ls = 35 - Float.parseFloat(tabFat);
                                         float pro_rem_ls = 15 - Float.parseFloat(tabPro);
 
+                                        if (cho_rem_ls > 0 && cho_rem_ls < 5) {
+                                            //green
+                                            choRem.setBackgroundColor(getResources().getColor(R.color.green));
+                                        } else if (cho_rem_ls < 0) {
+                                            //red
+                                            choRem.setBackgroundColor(getResources().getColor(R.color.lightRed));
+
+                                        }
+
+                                        if (fat_rem_ls > 0 && fat_rem_ls < 5) {
+                                            //green
+                                            fatRem.setBackgroundColor(getResources().getColor(R.color.green));
+                                        } else if (fat_rem_ls < 0) {
+                                            //red
+                                            fatRem.setBackgroundColor(getResources().getColor(R.color.lightRed));
+
+                                        }
+
+                                        if (pro_rem_ls > 0 && pro_rem_ls < 5) {
+                                            //green
+                                            proRem.setBackgroundColor(getResources().getColor(R.color.green));
+                                        } else if (pro_rem_ls < 0) {
+                                            //red
+                                            proRem.setBackgroundColor(getResources().getColor(R.color.lightRed));
+
+                                        }
+
                                         choRem.setText((Math.round(cho_rem_ls)) + "[" + Math.round(sug_rem_ls) + "]");
                                         fatRem.setText(Math.round(fat_rem_ls) + "");
                                         proRem.setText(Math.round(pro_rem_ls) + "");
+
 
                                         break;
                                     case 2:
@@ -240,6 +296,33 @@ public class MacrosFragment extends Fragment {
                                         float fat_rem_lc = 77 - Float.parseFloat(tabFat);
                                         float pro_rem_lc = 15 - Float.parseFloat(tabPro);
 
+                                        if (cho_rem_lc > 0 && cho_rem_lc < 5) {
+                                            //green
+                                            choRem.setBackgroundColor(getResources().getColor(R.color.green));
+                                        } else if (cho_rem_lc < 0) {
+                                            //red
+                                            choRem.setBackgroundColor(getResources().getColor(R.color.lightRed));
+
+                                        }
+
+                                        if (fat_rem_lc > 0 && fat_rem_lc < 5) {
+                                            //green
+                                            fatRem.setBackgroundColor(getResources().getColor(R.color.green));
+                                        } else if (fat_rem_lc < 0) {
+                                            //red
+                                            fatRem.setBackgroundColor(getResources().getColor(R.color.lightRed));
+
+                                        }
+
+                                        if (pro_rem_lc > 0 && pro_rem_lc < 5) {
+                                            //green
+                                            proRem.setBackgroundColor(getResources().getColor(R.color.green));
+                                        } else if (pro_rem_lc < 0) {
+                                            //red
+                                            proRem.setBackgroundColor(getResources().getColor(R.color.lightRed));
+
+                                        }
+
                                         choRem.setText((Math.round(cho_rem_lc)) + "[" + Math.round(sug_rem_lc) + "]");
                                         fatRem.setText(Math.round(fat_rem_lc) + "");
                                         proRem.setText(Math.round(pro_rem_lc) + "");
@@ -253,7 +336,6 @@ public class MacrosFragment extends Fragment {
                     });
 
 
-
                 }
             }
 
@@ -261,16 +343,13 @@ public class MacrosFragment extends Fragment {
         });
     }
 
-    public float getMacroGrams(float macro, float grams){
+    public float getMacroGrams(float macro, float grams) {
         float macroGrams;
 
         macroGrams = (macro * grams) / 100;
 
         return macroGrams;
     }
-
-
-
 
 
     static class ViewLifecycleOwner implements LifecycleOwner {

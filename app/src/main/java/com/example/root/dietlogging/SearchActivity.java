@@ -9,17 +9,24 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.SearchView;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.FrameLayout;
+import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.RelativeLayout;
 import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.text.CollationElementIterator;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 public class SearchActivity extends AppCompatActivity {
@@ -47,38 +54,84 @@ public class SearchActivity extends AppCompatActivity {
             public void run() {
                 List<FreqFood> freqFoodList = mFreqFoodViewModel.getAll();
 
+                DatabaseAccess dbAccess = DatabaseAccess.getInstance(getApplicationContext());
 
-                for (FreqFood fd : freqFoodList) {
+                Collections.sort(freqFoodList, Collections.reverseOrder());
 
-                    TableRow row = new TableRow(getApplicationContext());
+                freqFoodList = freqFoodList.subList(0, 8);
+                for (final FreqFood fd : freqFoodList) {
+
+                    dbAccess.open();
+                    final ArrayList<Food> results = dbAccess.getFoodByCode(fd.getFoodId());
+                    dbAccess.close();
+
+
+                    final TableRow row = new TableRow(getApplicationContext());
                     ViewGroup parent = (ViewGroup) row.getParent();
                     if (parent != null) {
                         parent.removeAllViews();
                     }
 
-                    TextView fFoodName = new TextView(getApplicationContext());
+                    final TextView fFoodName = new TextView(getApplicationContext());
 
-                    fFoodName.setTextSize(18);
+                    fFoodName.setTextSize(22);
+                    TableRow.LayoutParams params = new TableRow.LayoutParams(
+                            TableRow.LayoutParams.MATCH_PARENT,
+                            TableRow.LayoutParams.MATCH_PARENT
+                    );
+                    params.setMargins(0, 0, 0, 12);
+                    row.setLayoutParams(params);
+                    fFoodName.setLayoutParams(params);
 
-                    fFoodName.setText(fd.getFoodId());
-
-                    /*String foodNameMinLen = diaries.get(i).getFoodName();
-                    foodNameMinLen = foodNameMinLen.substring(0, Math.min(foodNameMinLen.length(), 25));
-                    if (foodNameMinLen.length() == 25) {
+                    String foodNameMinLen = results.get(0).getFoodName();
+                    foodNameMinLen = foodNameMinLen.substring(0, Math.min(foodNameMinLen.length(), 35));
+                    if (foodNameMinLen.length() == 35) {
                         foodNameMinLen = foodNameMinLen.concat("...");
-                    }*/
+                    }
+                    fFoodName.setText(foodNameMinLen);
+                    fFoodName.setTextColor(getResources().getColor(R.color.colorBlack));
 
-                    freqAddedView.addView(row);
 
-                    row.addView(fFoodName);
+                    runOnUiThread(new Runnable() {
+
+                        @Override
+                        public void run() {
+
+                            // Stuff that updates the UI
+                            freqAddedView.addView(row);
+
+                            row.addView(fFoodName);
+                            row.setGravity(Gravity.CENTER);
+
+                        }
+                    });
+
 
                     row.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
-                            Toast.makeText(
-                                    getApplicationContext(),
-                                    R.string.food,
-                                    Toast.LENGTH_LONG).show();
+
+                            Intent intent = new Intent(SearchActivity.this, AddActivity.class);
+
+                            intent.putExtra("foodCode", results.get(0).getFoodCode());
+                            intent.putExtra("foodName", results.get(0).getFoodName());
+                            intent.putExtra("protein", results.get(0).getProtein());
+                            intent.putExtra("fat", results.get(0).getFat());
+                            intent.putExtra("carbohydrate", results.get(0).getCarbohydrate());
+                            intent.putExtra("energy", results.get(0).getEnergy());
+                            intent.putExtra("totalSugars", results.get(0).getTotalSugars());
+                            intent.putExtra("grams", fd.getGrams());
+                            intent.putExtra("from", "freqAdded");
+
+
+                            Log.d("food macros", results.get(0).getProtein());
+                            Log.d("food macros", results.get(0).getFat());
+                            Log.d("food macros", results.get(0).getCarbohydrate());
+                            Log.d("food macros", results.get(0).getEnergy());
+
+
+                            startActivityForResult(intent, NEW_FOOD_ACTIVITY_REQUEST_CODE);
+
                         }
                     });
                 }
@@ -142,7 +195,7 @@ public class SearchActivity extends AppCompatActivity {
                 intent.putExtra("carbohydrate", foodAdapter.getItem(position).getCarbohydrate());
                 intent.putExtra("energy", foodAdapter.getItem(position).getEnergy());
                 intent.putExtra("totalSugars", foodAdapter.getItem(position).getTotalSugars());
-
+                intent.putExtra("from", "search");
 
                 Log.d("food macros", foodAdapter.getItem(position).getProtein());
                 Log.d("food macros", foodAdapter.getItem(position).getFat());

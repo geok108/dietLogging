@@ -60,6 +60,11 @@ public class AddActivity extends AppCompatActivity {
             chosenFood.setText(receivedIntent.getStringExtra("foodName"));
             chosenFood.setEnabled(false);
 
+            if (receivedIntent.getExtras().getString("from").equals("freqAdded")) {
+                String fGrams = String.valueOf(receivedIntent.getExtras().getFloat("grams"));
+                grams.setText(fGrams);
+            }
+
             button.setOnClickListener(new View.OnClickListener() {
 
 
@@ -74,6 +79,7 @@ public class AddActivity extends AppCompatActivity {
                         String food_name = receivedIntent.getStringExtra("foodName");
 
                         String food_code = receivedIntent.getStringExtra("foodCode");
+
                         String food_grams = grams.getText().toString();
                         String protein = receivedIntent.getStringExtra("protein");
                         String fat = receivedIntent.getStringExtra("fat");
