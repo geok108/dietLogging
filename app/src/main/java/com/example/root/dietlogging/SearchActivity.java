@@ -1,5 +1,6 @@
 package com.example.root.dietlogging;
 
+import android.app.ActionBar;
 import android.app.SearchManager;
 import android.arch.lifecycle.ViewModelProviders;
 import android.content.Context;
@@ -41,9 +42,18 @@ public class SearchActivity extends AppCompatActivity {
 
 
     @Override
+    public boolean onSupportNavigateUp() {
+        finish();
+        return true;
+    }
+
+
+    @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_search);
+
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         foodListView = (ListView) findViewById(R.id.foodListView);
 
@@ -58,7 +68,9 @@ public class SearchActivity extends AppCompatActivity {
 
                 Collections.sort(freqFoodList, Collections.reverseOrder());
 
-                freqFoodList = freqFoodList.subList(0, 8);
+                if (freqFoodList.size() > 7) {
+                    freqFoodList = freqFoodList.subList(0, 8);
+                }
                 for (final FreqFood fd : freqFoodList) {
 
                     dbAccess.open();

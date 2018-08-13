@@ -1,198 +1,213 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/fragment_macros"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".MacrosFragment"
-    android:id="@+id/fragment_macros"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    tools:context=".MacrosFragment">
 
     <TextView
+        android:id="@+id/curr_date"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
         android:layout_marginBottom="20dp"
         android:layout_marginTop="10dp"
         android:textAlignment="center"
-        android:layout_gravity="center_horizontal"
-        android:textSize="22dp"
-        android:id="@+id/curr_date"/>
+        android:textSize="22dp" />
 
     <com.github.mikephil.charting.charts.PieChart
         android:id="@+id/macros_chart"
         android:layout_width="match_parent"
         android:layout_height="230dp"
-        android:layout_marginBottom="15dp"
-        />
+        android:layout_marginBottom="15dp" />
 
     <TableLayout
+        android:id="@+id/table_macros"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:stretchColumns="*"
         android:layout_gravity="center"
-        android:id="@+id/table_macros"
-        android:background="@color/colorGrey">
-
+        android:background="@color/colorGrey"
+        android:stretchColumns="*">
 
 
         <TableRow
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_marginBottom="1px"
-            android:layout_marginTop="1px"
             android:layout_marginLeft="1px"
             android:layout_marginRight="1px"
-            >
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="@color/colorWhite"
-                android:textSize="18sp"
-                />
+            android:layout_marginTop="1px">
 
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:background="@color/colorWhite"
+                android:textColor="@color/colorBlack"
+                android:textSize="18sp" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/colorWhite"
                 android:text="@string/cho"
-                android:textStyle="bold"
-                android:background="@color/colorWhite"
-                android:textSize="18sp"/>
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="@string/fat"
-                android:textStyle="bold"
-                android:background="@color/colorWhite"
-                android:textSize="18sp"/>
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="@string/pro"
-                android:textStyle="bold"
-                android:background="@color/colorWhite"
-                android:textSize="18sp"/>
-
-        </TableRow>
-
-        <TableRow android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_marginBottom="1px"
-            android:layout_marginTop="1px"
-            android:layout_marginLeft="1px"
-            android:layout_marginRight="1px">
-
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="@string/target"
-                android:textStyle="bold"
-                android:background="@color/colorWhite"
-                android:textSize="18sp"/>
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:id="@+id/cho_target"
-                android:background="@color/colorWhite"
-                android:textSize="18sp"/>
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:id="@+id/fat_target"
-                android:background="@color/colorWhite"
-                android:textSize="18sp"/>
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:id="@+id/pro_target"
-                android:background="@color/colorWhite"
-                android:textSize="18sp"/>
-
-
-        </TableRow>
-
-        <TableRow android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_marginBottom="1px"
-            android:layout_marginTop="1px"
-            android:layout_marginLeft="1px"
-            android:layout_marginRight="1px">
-
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="@string/cons"
-                android:textStyle="bold"
-                android:background="@color/colorWhite"
-                android:textSize="18sp"/>
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:id="@+id/cho_cons"
-                android:background="@color/colorWhite"
-                android:textSize="18sp"/>
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:id="@+id/fat_cons"
-                android:background="@color/colorWhite"
+                android:textColor="@color/colorBlack"
                 android:textSize="18sp"
-                />
+                android:textStyle="bold" />
 
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:id="@+id/pro_cons"
                 android:background="@color/colorWhite"
-                android:textSize="18sp"/>
+                android:text="@string/fat"
+                android:textColor="@color/colorBlack"
+                android:textSize="18sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/colorWhite"
+                android:text="@string/pro"
+                android:textColor="@color/colorBlack"
+                android:textSize="18sp"
+                android:textStyle="bold" />
 
         </TableRow>
-        <TableRow android:layout_width="match_parent"
+
+        <TableRow
+            android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_marginBottom="1px"
-            android:layout_marginTop="1px"
             android:layout_marginLeft="1px"
-            android:layout_marginRight="1px">
+            android:layout_marginRight="1px"
+            android:layout_marginTop="1px">
 
 
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="@string/rem"
-                android:textStyle="bold"
                 android:background="@color/colorWhite"
-                android:textSize="18sp"/>
+                android:text="@string/target"
+                android:textColor="@color/colorBlack"
+                android:textSize="18sp"
+                android:textStyle="bold" />
 
             <TextView
+                android:id="@+id/cho_target"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:id="@+id/cho_rem"
                 android:background="@color/colorWhite"
-                android:textSize="18sp"/>
+                android:textColor="@color/colorBlack"
+                android:textSize="18sp" />
 
             <TextView
+                android:id="@+id/fat_target"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:id="@+id/fat_rem"
                 android:background="@color/colorWhite"
-                android:textSize="18sp"/>
+                android:textColor="@color/colorBlack"
+                android:textSize="18sp" />
 
             <TextView
+                android:id="@+id/pro_target"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:id="@+id/pro_rem"
                 android:background="@color/colorWhite"
-                android:textSize="18sp"/>
+                android:textColor="@color/colorBlack"
+                android:textSize="18sp" />
+
 
         </TableRow>
 
+        <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginBottom="1px"
+            android:layout_marginLeft="1px"
+            android:layout_marginRight="1px"
+            android:layout_marginTop="1px">
+
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/colorWhite"
+                android:text="@string/cons"
+                android:textColor="@color/colorBlack"
+                android:textSize="18sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/cho_cons"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/colorWhite"
+                android:textColor="@color/colorBlack"
+                android:textSize="18sp" />
+
+            <TextView
+                android:id="@+id/fat_cons"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/colorWhite"
+                android:textColor="@color/colorBlack"
+                android:textSize="18sp" />
+
+            <TextView
+                android:id="@+id/pro_cons"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/colorWhite"
+                android:textColor="@color/colorBlack"
+                android:textSize="18sp" />
+
+        </TableRow>
+
+        <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginBottom="1px"
+            android:layout_marginLeft="1px"
+            android:layout_marginRight="1px"
+            android:layout_marginTop="1px">
+
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/colorWhite"
+                android:text="@string/rem"
+                android:textColor="@color/colorBlack"
+                android:textSize="18sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/cho_rem"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/colorWhite"
+                android:textColor="@color/colorBlack"
+                android:textSize="18sp" />
+
+            <TextView
+                android:id="@+id/fat_rem"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/colorWhite"
+                android:textColor="@color/colorBlack"
+                android:textSize="18sp" />
+
+            <TextView
+                android:id="@+id/pro_rem"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/colorWhite"
+                android:textColor="@color/colorBlack"
+                android:textSize="18sp" />
+
+        </TableRow>
 
 
     </TableLayout>

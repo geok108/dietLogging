@@ -316,8 +316,9 @@ public class FoodDiaryFragment extends Fragment implements View.OnClickListener 
                         foodGrams.setTextSize(18);
 
                         String foodTime = diaries.get(i).getTime();
+                        String foodTimeN = foodTime.substring(0, 2) + ':' + foodTime.substring(3);
 
-                        time.setText(foodTime);
+                        time.setText(foodTimeN);
 
                         String foodNameMinLen = diaries.get(i).getFoodName();
                         foodNameMinLen = foodNameMinLen.substring(0, Math.min(foodNameMinLen.length(), 25));

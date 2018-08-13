@@ -27,12 +27,18 @@ public class SettingsActivity extends AppCompatActivity {
     private UserViewModel mUserViewModel;
     private UserRepository userRepository;
 
-
+    @Override
+    public boolean onSupportNavigateUp() {
+        finish();
+        return true;
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_settings);
+
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         mEditParticipantNumber = findViewById(R.id.participant_number);
         mEditFullName = findViewById(R.id.full_name);
@@ -56,7 +62,7 @@ public class SettingsActivity extends AppCompatActivity {
                 Integer dietChoice = null;
                 dietChoice = user.get(0).getDiet_choice();
                 //Log.d("diet choice", String.valueOf(dietChoice));
-                switch(dietChoice){
+                switch (dietChoice) {
 
                     case 0:
                         mEditDietChoiceButton = findViewById(R.id.diet_choice_1);
@@ -97,15 +103,18 @@ public class SettingsActivity extends AppCompatActivity {
                     Log.d("diet choice", dietChoice);
 
                     int dietChoiceValue = 0;
-                    switch (dietChoice){
+                    switch (dietChoice) {
 
-                        case "Control": dietChoiceValue = 0;
+                        case "Control":
+                            dietChoiceValue = 0;
                             break;
 
-                        case "LOW SUG": dietChoiceValue = 1;
+                        case "LOW SUG":
+                            dietChoiceValue = 1;
                             break;
 
-                        case "LOW CHO": dietChoiceValue = 2;
+                        case "LOW CHO":
+                            dietChoiceValue = 2;
                             break;
                     }
 

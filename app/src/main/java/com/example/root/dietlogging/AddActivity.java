@@ -25,11 +25,18 @@ public class AddActivity extends AppCompatActivity {
     private EditText grams;
     private RangeBar hunger;
 
+    @Override
+    public boolean onSupportNavigateUp() {
+        finish();
+        return true;
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add);
+
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         dateTime = findViewById(R.id.date_time);
         chosenFood = findViewById(R.id.food);
