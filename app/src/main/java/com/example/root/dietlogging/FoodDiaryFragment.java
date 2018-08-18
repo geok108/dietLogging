@@ -1,11 +1,13 @@
 package com.example.root.dietlogging;
 
 
+import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.text.DateFormat;
 import java.util.Calendar;
 
+import android.Manifest;
 import android.arch.lifecycle.Lifecycle;
 import android.arch.lifecycle.LifecycleOwner;
 import android.arch.lifecycle.LifecycleRegistry;
@@ -13,10 +15,14 @@ import android.arch.lifecycle.LiveData;
 import android.arch.lifecycle.Observer;
 import android.arch.lifecycle.ViewModelProviders;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.graphics.Typeface;
 import android.os.Bundle;
+import android.os.Environment;
 import android.support.annotation.Nullable;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -53,6 +59,7 @@ public class FoodDiaryFragment extends Fragment implements View.OnClickListener 
     private LiveData<List<Diary>> diaryList;
     private LiveData<List<Diary>> diaryInitList;
 
+    private static final int MY_PERMISSIONS_REQUEST_WRITE_EXTERNAL_STORAGE = 51;
     public static final int UPDATE_FOOD_REQUEST_CODE = 3;
     public static final int DELETE_FOOD_REQUEST_CODE = 1;
     public static final int NOT_DELETE_FOOD_REQUEST_CODE = 0;
@@ -105,7 +112,35 @@ public class FoodDiaryFragment extends Fragment implements View.OnClickListener 
         btn_export_csv.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                exportDiary();
+
+                if (ContextCompat.checkSelfPermission(getActivity(), Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
+
+                    // Permission is not granted
+                    // Should we show an explanation?
+                    if (ActivityCompat.shouldShowRequestPermissionRationale(getActivity(),
+                            Manifest.permission.WRITE_EXTERNAL_STORAGE)) {
+                        // Show an explanation to the user *asynchronously* -- don't block
+                        // this thread waiting for the user's response! After the user
+                        // sees the explanation, try again to request the permission.
+
+                    } else {
+                        // No explanation needed; request the permission
+                        ActivityCompat.requestPermissions(getActivity(),
+                                new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE},
+                                51);
+
+                        // MY_PERMISSIONS_REQUEST_READ_CONTACTS is an
+                        // app-defined int constant. The callback method gets the
+                        // result of the request.
+                    }
+
+                } else {
+
+                    exportDiary();
+
+                }
+
+
             }
         });
 
@@ -114,15 +149,45 @@ public class FoodDiaryFragment extends Fragment implements View.OnClickListener 
     }
 
 
+    @Override
+    public void onRequestPermissionsResult(int requestCode,
+                                           String permissions[], int[] grantResults) {
+
+        Log.w(" perm request code: ", String.valueOf(requestCode));
+        switch (requestCode) {
+            case MY_PERMISSIONS_REQUEST_WRITE_EXTERNAL_STORAGE: {
+                // If request is cancelled, the result arrays are empty.
+                if (grantResults.length > 0
+                        && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    // permission was granted, yay! Do the
+                    // contacts-related task you need to do.
+                    exportDiary();
+                } else {
+                    // permission denied, boo! Disable the
+                    // functionality that depends on this permission.
+
+                }
+                return;
+            }
+
+            // other 'case' lines to check for other
+            // permissions this app might request.
+        }
+    }
+
+
     public void exportDiary() {
-        mDiaryViewModel.getAllEntries().observe(getActivity(), new Observer<List<Diary>>() {
+        mDiaryViewModel.getAllDiaries().observe(getActivity(), new Observer<List<Diary>>() {
             @Override
             public void onChanged(@Nullable final List<Diary> diary) {
 
                 FileWriter fileWriter = null;
                 try {
-                    fileWriter = new FileWriter("/sdcard/diet_logging.csv");
 
+                    UserViewModel mUserViewModel = ViewModelProviders.of(getActivity()).get(UserViewModel.class);
+                    User u = mUserViewModel.getUser().getValue().get(0);
+
+                    fileWriter = new FileWriter(Environment.getExternalStorageDirectory() + "/diet_log_participant_" + u.getParticipant_number() + ".csv");
 
                     CSVWriter csvWriter = new CSVWriter(fileWriter,
                             CSVWriter.DEFAULT_SEPARATOR,
@@ -130,6 +195,7 @@ public class FoodDiaryFragment extends Fragment implements View.OnClickListener 
                             CSVWriter.DEFAULT_ESCAPE_CHARACTER,
                             CSVWriter.DEFAULT_LINE_END);
 
+                    //CSV header
                     String[] data = {"DATE/TIME", "FOOD NAME", "GRAMS", "MEAL", "HUNGER"};
                     csvWriter.writeNext(data);
 
@@ -142,9 +208,10 @@ public class FoodDiaryFragment extends Fragment implements View.OnClickListener 
                         String meal = diary.get(i).getMeal();
                         String appetite = String.valueOf(diary.get(i).getHunger()) + "%";
 
+                        //replace commas in food names with dashes since since CSV is a comma separated values format
                         foodName = foodName.replaceAll(",", " -");
 
-                        String[] rec = {date + " " + time + "," + foodName + "," + grams + "," + meal + "," + appetite};
+                        String[] rec = {date + ' ' + time + ',' + foodName + ',' + grams + ',' + meal + ',' + appetite};
                         csvWriter.writeNext(rec);
 
                     }
@@ -252,7 +319,7 @@ public class FoodDiaryFragment extends Fragment implements View.OnClickListener 
 */
 
         mDiaryViewModel = ViewModelProviders.of(this, new MyViewModelFactory(this.getActivity().getApplication(), date)).get(DiaryViewModel.class);
-        diaryInitList = mDiaryViewModel.getDateEntries(date);
+        diaryInitList = mDiaryViewModel.getDiaryByDate(date);
         diaryInitList.observe(this, new Observer<List<Diary>>() {
 
 

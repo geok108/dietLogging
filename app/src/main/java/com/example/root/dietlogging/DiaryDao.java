@@ -26,14 +26,14 @@ public interface DiaryDao {
     @Query("DELETE FROM diary")
     void deleteAll();
 
-    @Query("SELECT * from diary ORDER BY id ASC LIMIT 10")
-    LiveData<List<Diary>> getAllEntries();
+    @Query("SELECT * from diary")
+    LiveData<List<Diary>> getAllDiaries();
 
     @Query("SELECT * FROM diary WHERE date = :date")
-    LiveData<List<Diary>> getTodayEntries(String date);
+    LiveData<List<Diary>> getTodayDiary(String date);
 
     @Query("SELECT * FROM diary WHERE date = :date")
-    LiveData<List<Diary>> getDateEntries(String date);
+    LiveData<List<Diary>> getDiaryByDate(String date);
 
 
 }

@@ -17,9 +17,9 @@ public class DiaryViewModel extends AndroidViewModel {
         mRepository = new DiaryRepository(application);
     }
 
-    LiveData<List<Diary>> getAllEntries() { return mRepository.getAllEntries(); }
-    LiveData<List<Diary>> getTodayEntries() { return mRepository.getTodayEntries(); }
-    LiveData<List<Diary>> getDateEntries(String date) { return mRepository.getDateEntries(date); }
+    LiveData<List<Diary>> getAllDiaries() { return mRepository.getAllDiaries(); }
+    LiveData<List<Diary>> getTodayDiary() { return mRepository.getTodayDiary(); }
+    LiveData<List<Diary>> getDiaryByDate(String date) { return mRepository.getDiaryByDate(date); }
 
 
     public void insert(Diary diary) { mRepository.insert(diary); }

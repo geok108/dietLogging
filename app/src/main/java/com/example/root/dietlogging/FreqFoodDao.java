@@ -18,5 +18,5 @@ public interface FreqFoodDao {
     void update(FreqFood food);
 
     @Query("SELECT * from freq_food")
-    List<FreqFood> getAll();
+    List<FreqFood> getFreqFoods();
 }

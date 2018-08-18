@@ -62,7 +62,7 @@ public class SearchActivity extends AppCompatActivity {
 
         new Thread(new Runnable() {
             public void run() {
-                List<FreqFood> freqFoodList = mFreqFoodViewModel.getAll();
+                List<FreqFood> freqFoodList = mFreqFoodViewModel.getFreqFoods();
 
                 DatabaseAccess dbAccess = DatabaseAccess.getInstance(getApplicationContext());
 
@@ -96,8 +96,8 @@ public class SearchActivity extends AppCompatActivity {
                     fFoodName.setLayoutParams(params);
 
                     String foodNameMinLen = results.get(0).getFoodName();
-                    foodNameMinLen = foodNameMinLen.substring(0, Math.min(foodNameMinLen.length(), 35));
-                    if (foodNameMinLen.length() == 35) {
+                    foodNameMinLen = foodNameMinLen.substring(0, Math.min(foodNameMinLen.length(), 25));
+                    if (foodNameMinLen.length() == 25) {
                         foodNameMinLen = foodNameMinLen.concat("...");
                     }
                     fFoodName.setText(foodNameMinLen);
@@ -134,13 +134,6 @@ public class SearchActivity extends AppCompatActivity {
                             intent.putExtra("totalSugars", results.get(0).getTotalSugars());
                             intent.putExtra("grams", fd.getGrams());
                             intent.putExtra("from", "freqAdded");
-
-
-                            Log.d("food macros", results.get(0).getProtein());
-                            Log.d("food macros", results.get(0).getFat());
-                            Log.d("food macros", results.get(0).getCarbohydrate());
-                            Log.d("food macros", results.get(0).getEnergy());
-
 
                             startActivityForResult(intent, NEW_FOOD_ACTIVITY_REQUEST_CODE);
 
@@ -234,9 +227,6 @@ public class SearchActivity extends AppCompatActivity {
 
     public void showResults(ArrayList results) {
 
-        //FoodListAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, results);
-        //this.foodListView.setAdapter(adapter);
-
         foodAdapter = new FoodListAdapter(this, results);
         foodListView.setAdapter(foodAdapter);
     }
@@ -299,53 +289,26 @@ public class SearchActivity extends AppCompatActivity {
             Integer id = null;
             Diary diary = new Diary(id, foodCode, foodName, protein, fat, carbohydrates, energy, totalSugars, date, time, meal, grams, hunger);
 
-        /*    Log.d("received food data", diary.getDate());
-            Log.d("received food data", diary.getFoodId());
-            Log.d("received food data", diary.getFoodName());
-            Log.d("received food data", diary.getMeal());
-            Log.d("received food data", String.valueOf(diary.getGrams()));
-            Log.d("received food data", String.valueOf(diary.getHunger()));
-*/
-
             new Thread(new Runnable() {
                 public void run() {
-                    List<FreqFood> fFoodList = mFreqFoodViewModel.getAll();
-                    // Log.d("food list", fFoodList.get(0).getFoodId());
-
+                    List<FreqFood> fFoodList = mFreqFoodViewModel.getFreqFoods();
 
                     ArrayList<String> fdList = new ArrayList<String>();
                     for (FreqFood fd : fFoodList) {
                         fdList.add(fd.getFoodId());
 
-                        Log.d("fid:", fd.getFoodId());
-                        Log.d("counter:", fd.getCounter() + "");
-                        Log.d("grams:", fd.getGrams() + "");
-
-                    }
-
-
-                    for (String fl : fdList) {
-
-                        Log.d("LIST: ", fl);
                     }
 
                     if (fdList.contains(foodCode)) {
 
-                        Log.d("EXIST", "!!!");
-
-
                         for (FreqFood fd : fFoodList) {
-                            Log.w("ASDASDASD fd food id:", fd.getFoodId());
-                            Log.w("SDSFSFS foodcode:", foodCode);
 
                             if (fd.getFoodId().equals(foodCode)) {
-                                Log.w("here", "HERE DUUUDE");
                                 //update freqFood entry, add 1 to counter
                                 Integer fFoodId = fd.getId();
                                 String freqFoodId = fd.getFoodId();
                                 Integer count = fd.getCounter() + 1;
                                 float freqFoodGrams = fd.getGrams();
-                                Log.w("found food count:", count + "");
 
                                 FreqFood fFood = new FreqFood(fFoodId, freqFoodId, count, freqFoodGrams);
                                 mFreqFoodViewModel.update(fFood);
@@ -357,14 +320,12 @@ public class SearchActivity extends AppCompatActivity {
                         }
 
                     } else {
-                        Log.w("NOT IN LIST", foodCode);
                         //insert new entry
                         Integer fFoodId = null;
                         Integer count = 1;
                         FreqFood fFood = new FreqFood(fFoodId, foodCode, count, grams);
                         mFreqFoodViewModel.insert(fFood);
-                        Log.w("ffood inserted", foodCode);
-                        Log.w("ffood inserted", String.valueOf(count + " " + grams));
+
                     }
 
 

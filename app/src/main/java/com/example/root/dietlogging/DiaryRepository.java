@@ -17,17 +17,17 @@ public class DiaryRepository {
         this.mDiaryDao = db.diaryDao();
     }
 
-    LiveData<List<Diary>> getAllEntries() {
-        return this.mDiaryDao.getAllEntries();
+    LiveData<List<Diary>> getAllDiaries() {
+        return this.mDiaryDao.getAllDiaries();
     }
 
-    LiveData<List<Diary>> getTodayEntries() {
+    LiveData<List<Diary>> getTodayDiary() {
         String dt = new SimpleDateFormat("dd.MM.yyyy").format(new Date());
-        return this.mDiaryDao.getTodayEntries(dt);
+        return this.mDiaryDao.getTodayDiary(dt);
     }
 
-    LiveData<List<Diary>> getDateEntries(String date) {
-        return this.mDiaryDao.getDateEntries(date);
+    LiveData<List<Diary>> getDiaryByDate(String date) {
+        return this.mDiaryDao.getDiaryByDate(date);
     }
 
 

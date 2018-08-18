@@ -18,8 +18,8 @@ public class FreqFoodRepository {
         this.mFreqFoodDao = db.freqFoodDao();
     }
 
-    List<FreqFood> getAll() {
-        return this.mFreqFoodDao.getAll();
+    List<FreqFood> getFreqFoods() {
+        return this.mFreqFoodDao.getFreqFoods();
     }
 
     public void insert(FreqFood food) {

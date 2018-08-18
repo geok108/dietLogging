@@ -89,7 +89,7 @@ public class MacrosFragment extends Fragment {
 
         mDiaryViewModel = ViewModelProviders.of(this, new MyViewModelFactory(this.getActivity().getApplication(), date)).get(DiaryViewModel.class);
 
-        LiveData<List<Diary>> todayDiary = mDiaryViewModel.getTodayEntries();
+        LiveData<List<Diary>> todayDiary = mDiaryViewModel.getTodayDiary();
 
         todayDiary.observe(this, new Observer<List<Diary>>() {
 

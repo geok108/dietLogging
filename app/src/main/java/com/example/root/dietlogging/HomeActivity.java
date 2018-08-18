@@ -1,6 +1,9 @@
 package com.example.root.dietlogging;
 
 import android.app.ActionBar;
+import android.app.NotificationChannel;
+import android.app.NotificationManager;
+import android.app.PendingIntent;
 import android.arch.lifecycle.LiveData;
 import android.arch.lifecycle.Observer;
 import android.arch.lifecycle.ViewModelProviders;
@@ -8,12 +11,15 @@ import android.content.Intent;
 import android.graphics.PorterDuff;
 import android.graphics.PorterDuffColorFilter;
 import android.graphics.drawable.Drawable;
+import android.os.Build;
 import android.support.annotation.Nullable;
 import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.TabLayout;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v4.app.NotificationCompat;
+import android.support.v4.app.NotificationManagerCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
@@ -62,6 +68,7 @@ public class HomeActivity extends AppCompatActivity {
     private ViewPager mViewPager;
     public static final int NEW_USER_ACTIVITY_REQUEST_CODE = 1;
     public static final int UPDATE_USER_ACTIVITY_REQUEST_CODE = 2;
+    private static final String CHANNEL_ID = "ch";
 
     private UserViewModel mUserViewModel;
     private DiaryViewModel mDiaryViewModel;
@@ -96,7 +103,7 @@ public class HomeActivity extends AppCompatActivity {
                 // Update the cached copy of the words in the adapter.
                 adapter.setUser(user);
                 //Log.d("user:", String.valueOf(user.get(0).getFull_name()));
-                if (user.isEmpty()){
+                if (user.isEmpty()) {
 
                     Intent intent = new Intent(HomeActivity.this, RegisterActivity.class);
                     startActivityForResult(intent, NEW_USER_ACTIVITY_REQUEST_CODE);
@@ -106,10 +113,9 @@ public class HomeActivity extends AppCompatActivity {
         });
 
 
-
-       // Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-       // setSupportActionBar(toolbar);
-        tabLayout =  findViewById(R.id.tabs);
+        // Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        // setSupportActionBar(toolbar);
+        tabLayout = findViewById(R.id.tabs);
         appBarLayout = findViewById(R.id.appbar);
         viewPager = findViewById(R.id.pager);
 
@@ -151,6 +157,45 @@ public class HomeActivity extends AppCompatActivity {
             }
         });
 
+
+        // Create an explicit intent for an Activity in your app
+        Intent intent = new Intent(this, SearchActivity.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+        PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, intent, 0);
+
+        createNotificationChannel();
+
+        NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(this, CHANNEL_ID)
+                .setSmallIcon(R.drawable.ic_add_white_24dp)
+                .setContentTitle("Diet Logging app")
+                .setContentText("Have you added your last meal?")
+                .setContentIntent(pendingIntent)
+                .setAutoCancel(true)
+                .setPriority(NotificationCompat.PRIORITY_DEFAULT);
+
+
+        NotificationManagerCompat notificationManager = NotificationManagerCompat.from(this);
+
+// notificationId is a unique int for each notification that you must define
+        notificationManager.notify(1, mBuilder.build());
+
+
+    }
+
+    private void createNotificationChannel() {
+        // Create the NotificationChannel, but only on API 26+ because
+        // the NotificationChannel class is new and not in the support library
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            CharSequence name = "chann";
+            String description = "not channel";
+            int importance = NotificationManager.IMPORTANCE_DEFAULT;
+            NotificationChannel channel = new NotificationChannel(CHANNEL_ID, name, importance);
+            channel.setDescription(description);
+            // Register the channel with the system; you can't change the importance
+            // or other notification behaviors after this
+            NotificationManager notificationManager = getSystemService(NotificationManager.class);
+            notificationManager.createNotificationChannel(channel);
+        }
     }
 
     @Override
@@ -163,7 +208,7 @@ public class HomeActivity extends AppCompatActivity {
                     data.getExtras().getInt("dietChoice"));
 
             mUserViewModel.insert(user);
-        } else if(requestCode == UPDATE_USER_ACTIVITY_REQUEST_CODE && resultCode == RESULT_OK) {
+        } else if (requestCode == UPDATE_USER_ACTIVITY_REQUEST_CODE && resultCode == RESULT_OK) {
 
             Log.d("got in update", String.valueOf(data.getExtras().getInt("participantNumber")));
             User user = new User(0, data.getExtras().getInt("participantNumber"),
@@ -172,13 +217,12 @@ public class HomeActivity extends AppCompatActivity {
 
             mUserViewModel.update(user);
 
-        }
-        else {
+        } else {
 
-           /** Toast.makeText(
-                    getApplicationContext(),
-                    R.string.empty_not_saved,
-                    Toast.LENGTH_LONG).show();*/
+            /** Toast.makeText(
+             getApplicationContext(),
+             R.string.empty_not_saved,
+             Toast.LENGTH_LONG).show();*/
         }
     }
 
