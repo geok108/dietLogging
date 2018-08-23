@@ -1,8 +1,12 @@
-package com.example.root.dietlogging;
+package com.example.root.dietlogging.Repositories;
 
 import android.app.Application;
 import android.arch.lifecycle.LiveData;
 import android.os.AsyncTask;
+
+import com.example.root.dietlogging.Entities.Diary;
+import com.example.root.dietlogging.Daos.DiaryDao;
+import com.example.root.dietlogging.DietLoggingRoomDatabase;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -12,21 +16,21 @@ public class DiaryRepository {
 
     private DiaryDao mDiaryDao;
 
-    DiaryRepository(Application application) {
+    public DiaryRepository(Application application) {
         DietLoggingRoomDatabase db = DietLoggingRoomDatabase.getDatabase(application);
         this.mDiaryDao = db.diaryDao();
     }
 
-    LiveData<List<Diary>> getAllDiaries() {
+    public LiveData<List<Diary>> getAllDiaries() {
         return this.mDiaryDao.getAllDiaries();
     }
 
-    LiveData<List<Diary>> getTodayDiary() {
+    public LiveData<List<Diary>> getTodayDiary() {
         String dt = new SimpleDateFormat("dd.MM.yyyy").format(new Date());
         return this.mDiaryDao.getTodayDiary(dt);
     }
 
-    LiveData<List<Diary>> getDiaryByDate(String date) {
+    public LiveData<List<Diary>> getDiaryByDate(String date) {
         return this.mDiaryDao.getDiaryByDate(date);
     }
 

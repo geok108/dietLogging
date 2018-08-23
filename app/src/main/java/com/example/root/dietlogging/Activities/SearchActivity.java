@@ -1,11 +1,9 @@
-package com.example.root.dietlogging;
+package com.example.root.dietlogging.Activities;
 
-import android.app.ActionBar;
 import android.app.SearchManager;
 import android.arch.lifecycle.ViewModelProviders;
 import android.content.Context;
 import android.content.Intent;
-import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.SearchView;
@@ -14,20 +12,23 @@ import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
-import android.widget.FrameLayout;
-import android.widget.LinearLayout;
 import android.widget.ListView;
-import android.widget.RelativeLayout;
 import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import java.text.CollationElementIterator;
+import com.example.root.dietlogging.DatabaseAccess;
+import com.example.root.dietlogging.Entities.Diary;
+import com.example.root.dietlogging.ViewModels.DiaryViewModel;
+import com.example.root.dietlogging.Entities.Food;
+import com.example.root.dietlogging.Adapters.FoodListAdapter;
+import com.example.root.dietlogging.Entities.FreqFood;
+import com.example.root.dietlogging.ViewModels.FreqFoodViewModel;
+import com.example.root.dietlogging.MyViewModelFactory;
+import com.example.root.dietlogging.R;
+
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.Comparator;
 import java.util.List;
 
 public class SearchActivity extends AppCompatActivity {

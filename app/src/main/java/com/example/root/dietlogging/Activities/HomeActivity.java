@@ -1,30 +1,28 @@
-package com.example.root.dietlogging;
+package com.example.root.dietlogging.Activities;
 
-import android.app.ActionBar;
+import android.Manifest;
+import android.app.AlarmManager;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
-import android.arch.lifecycle.LiveData;
+import android.app.Service;
 import android.arch.lifecycle.Observer;
 import android.arch.lifecycle.ViewModelProviders;
+import android.content.BroadcastReceiver;
+import android.content.ComponentName;
+import android.content.Context;
 import android.content.Intent;
-import android.graphics.PorterDuff;
-import android.graphics.PorterDuffColorFilter;
-import android.graphics.drawable.Drawable;
+import android.content.IntentFilter;
+import android.content.pm.PackageManager;
 import android.os.Build;
+import android.os.SystemClock;
 import android.support.annotation.Nullable;
 import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.TabLayout;
 import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
-import android.support.v4.app.FragmentTransaction;
 import android.support.v4.app.NotificationCompat;
 import android.support.v4.app.NotificationManagerCompat;
-import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.Toolbar;
 
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -32,18 +30,26 @@ import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.os.Bundle;
 import android.util.Log;
-import android.util.LogPrinter;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 
-import android.view.Window;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import java.text.SimpleDateFormat;
+import com.example.root.dietlogging.MyBroadcastReceiver;
+import com.example.root.dietlogging.ViewModels.DiaryViewModel;
+import com.example.root.dietlogging.Fragments.FoodDiaryFragment;
+import com.example.root.dietlogging.Fragments.MacrosFragment;
+import com.example.root.dietlogging.Adapters.PagerAdapter;
+import com.example.root.dietlogging.R;
+import com.example.root.dietlogging.Entities.User;
+import com.example.root.dietlogging.Adapters.UserListAdapter;
+import com.example.root.dietlogging.ViewModels.UserViewModel;
+
+import java.util.Calendar;
 import java.util.List;
 
 public class HomeActivity extends AppCompatActivity {
@@ -51,6 +57,13 @@ public class HomeActivity extends AppCompatActivity {
     private TabLayout tabLayout;
     private AppBarLayout appBarLayout;
     private ViewPager viewPager;
+
+    //used for register alarm manager
+    PendingIntent pendingIntent;
+    //used to store running alarmmanager instance
+    AlarmManager alarmManager;
+    //Callback function for Alarmmanager event
+    BroadcastReceiver mReceiver;
 
     /**
      * The {@link android.support.v4.view.PagerAdapter} that will provide
@@ -71,6 +84,7 @@ public class HomeActivity extends AppCompatActivity {
     private static final String CHANNEL_ID = "ch";
 
     private UserViewModel mUserViewModel;
+
     private DiaryViewModel mDiaryViewModel;
 
 
@@ -81,6 +95,8 @@ public class HomeActivity extends AppCompatActivity {
 
 
         final UserListAdapter adapter = new UserListAdapter(this);
+
+
 
       /*  mDiaryViewModel = ViewModelProviders.of(this).get(DiaryViewModel.class);
 
@@ -94,7 +110,6 @@ public class HomeActivity extends AppCompatActivity {
             }
         });*/
 
-
         mUserViewModel = ViewModelProviders.of(this).get(UserViewModel.class);
 
         mUserViewModel.getUser().observe(this, new Observer<List<User>>() {
@@ -107,7 +122,63 @@ public class HomeActivity extends AppCompatActivity {
 
                     Intent intent = new Intent(HomeActivity.this, RegisterActivity.class);
                     startActivityForResult(intent, NEW_USER_ACTIVITY_REQUEST_CODE);
+                } else {
+
+
+                    /* Retrieve a PendingIntent that will perform a broadcast */
+                    Intent alarmIntent = new Intent(getApplicationContext(), MyBroadcastReceiver.class);
+                    alarmIntent.putExtra("notificationValue", user.get(0).getNotification_frequency());
+                    Log.d("gonna send to broad >", String.valueOf(user.get(0).getNotification_frequency()));
+
+                    pendingIntent = PendingIntent.getBroadcast(getApplicationContext(), 0, alarmIntent, 0);
+
+                    AlarmManager manager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
+
+                    Calendar calendar = Calendar.getInstance();
+                    calendar.setTimeInMillis(System.currentTimeMillis());
+                    calendar.set(Calendar.HOUR_OF_DAY, 14);
+
+                    switch (user.get(0).getNotification_frequency()) {
+
+                        case 0:
+                            manager.setInexactRepeating(AlarmManager.ELAPSED_REALTIME_WAKEUP,
+                                    SystemClock.elapsedRealtime() + AlarmManager.INTERVAL_DAY,
+                                    AlarmManager.INTERVAL_DAY, pendingIntent);
+                            //Toast.makeText(getApplicationContext(), "notif 0 set", Toast.LENGTH_SHORT).show();
+                            Log.d("notif > ", "> > 0");
+
+                            break;
+                        case 1:
+                            manager.setInexactRepeating(AlarmManager.ELAPSED_REALTIME_WAKEUP,
+                                    SystemClock.elapsedRealtime() + AlarmManager.INTERVAL_DAY * 3,
+                                    AlarmManager.INTERVAL_DAY * 3, pendingIntent);
+                            //Toast.makeText(getApplicationContext(), "notif 1 set", Toast.LENGTH_SHORT).show();
+                            Log.d("notif > ", "> > 1");
+
+                            break;
+                        case 2:
+                            manager.setInexactRepeating(AlarmManager.ELAPSED_REALTIME_WAKEUP,
+                                    SystemClock.elapsedRealtime() + AlarmManager.INTERVAL_DAY * 7,
+                                    AlarmManager.INTERVAL_DAY * 7, pendingIntent);
+                            //Toast.makeText(getApplicationContext(), "notif 2 set", Toast.LENGTH_SHORT).show();
+                            Log.d("notif > ", "> > 2");
+
+                            break;
+                        case 3:
+                            manager.setInexactRepeating(AlarmManager.ELAPSED_REALTIME_WAKEUP,
+                                    SystemClock.elapsedRealtime() + AlarmManager.INTERVAL_DAY * 30,
+                                    AlarmManager.INTERVAL_DAY * 30, pendingIntent);
+                            //Toast.makeText(getApplicationContext(), "notif 3 set", Toast.LENGTH_SHORT).show();
+                            Log.d("notif > ", "> > 3");
+
+                            break;
+
+
+                    }
+
+
                 }
+
 
             }
         });
@@ -116,7 +187,9 @@ public class HomeActivity extends AppCompatActivity {
         // Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         // setSupportActionBar(toolbar);
         tabLayout = findViewById(R.id.tabs);
+
         appBarLayout = findViewById(R.id.appbar);
+
         viewPager = findViewById(R.id.pager);
 
         PagerAdapter pagerAdapter = new PagerAdapter(getSupportFragmentManager());
@@ -140,7 +213,9 @@ public class HomeActivity extends AppCompatActivity {
         //tabLayout.addOnTabSelectedListener(new TabLayout.ViewPagerOnTabSelectedListener(mViewPager));
 
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
+        fab.setOnClickListener(new View.OnClickListener()
+
+        {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(HomeActivity.this, SearchActivity.class);
@@ -149,7 +224,9 @@ public class HomeActivity extends AppCompatActivity {
         });
 
         FloatingActionButton fab_settings = (FloatingActionButton) findViewById(R.id.fab_settings);
-        fab_settings.setOnClickListener(new View.OnClickListener() {
+        fab_settings.setOnClickListener(new View.OnClickListener()
+
+        {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(HomeActivity.this, SettingsActivity.class);
@@ -158,29 +235,11 @@ public class HomeActivity extends AppCompatActivity {
         });
 
 
-        // Create an explicit intent for an Activity in your app
-        Intent intent = new Intent(this, SearchActivity.class);
-        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-        PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, intent, 0);
-
         createNotificationChannel();
-
-        NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(this, CHANNEL_ID)
-                .setSmallIcon(R.drawable.ic_add_white_24dp)
-                .setContentTitle("Diet Logging app")
-                .setContentText("Have you added your last meal?")
-                .setContentIntent(pendingIntent)
-                .setAutoCancel(true)
-                .setPriority(NotificationCompat.PRIORITY_DEFAULT);
-
-
-        NotificationManagerCompat notificationManager = NotificationManagerCompat.from(this);
-
-// notificationId is a unique int for each notification that you must define
-        notificationManager.notify(1, mBuilder.build());
 
 
     }
+
 
     private void createNotificationChannel() {
         // Create the NotificationChannel, but only on API 26+ because
@@ -205,7 +264,7 @@ public class HomeActivity extends AppCompatActivity {
         if (requestCode == NEW_USER_ACTIVITY_REQUEST_CODE && resultCode == RESULT_OK) {
             User user = new User(0, data.getExtras().getInt("participantNumber"),
                     data.getStringExtra("fullName"),
-                    data.getExtras().getInt("dietChoice"));
+                    data.getExtras().getInt("dietChoice"), 0);
 
             mUserViewModel.insert(user);
         } else if (requestCode == UPDATE_USER_ACTIVITY_REQUEST_CODE && resultCode == RESULT_OK) {
@@ -213,9 +272,10 @@ public class HomeActivity extends AppCompatActivity {
             Log.d("got in update", String.valueOf(data.getExtras().getInt("participantNumber")));
             User user = new User(0, data.getExtras().getInt("participantNumber"),
                     data.getStringExtra("fullName"),
-                    data.getExtras().getInt("dietChoice"));
+                    data.getExtras().getInt("dietChoice"), data.getExtras().getInt("notificationValue"));
 
             mUserViewModel.update(user);
+
 
         } else {
 

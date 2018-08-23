@@ -4,7 +4,7 @@
     android:id="@+id/fragment_diary"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
-    tools:context=".FoodDiaryFragment">
+    tools:context=".Fragments.FoodDiaryFragment">
 
 
     <LinearLayout

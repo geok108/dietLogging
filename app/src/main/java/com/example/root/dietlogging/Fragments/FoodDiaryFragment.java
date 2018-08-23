@@ -1,7 +1,6 @@
-package com.example.root.dietlogging;
+package com.example.root.dietlogging.Fragments;
 
 
-import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.text.DateFormat;
@@ -23,7 +22,6 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
-import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.Gravity;
@@ -37,6 +35,13 @@ import android.widget.TableRow;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.root.dietlogging.Activities.UpdateActivity;
+import com.example.root.dietlogging.Entities.Diary;
+import com.example.root.dietlogging.MyViewModelFactory;
+import com.example.root.dietlogging.R;
+import com.example.root.dietlogging.Entities.User;
+import com.example.root.dietlogging.ViewModels.DiaryViewModel;
+import com.example.root.dietlogging.ViewModels.UserViewModel;
 import com.opencsv.CSVWriter;
 
 import java.text.Format;

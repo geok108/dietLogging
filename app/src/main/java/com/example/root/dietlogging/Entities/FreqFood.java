@@ -1,4 +1,4 @@
-package com.example.root.dietlogging;
+package com.example.root.dietlogging.Entities;
 
 import android.arch.persistence.room.Entity;
 import android.arch.persistence.room.PrimaryKey;

@@ -1,11 +1,12 @@
-package com.example.root.dietlogging;
+package com.example.root.dietlogging.Repositories;
 
 import android.app.Application;
-import android.arch.lifecycle.LiveData;
 import android.os.AsyncTask;
 
-import java.text.SimpleDateFormat;
-import java.util.Date;
+import com.example.root.dietlogging.DietLoggingRoomDatabase;
+import com.example.root.dietlogging.Entities.FreqFood;
+import com.example.root.dietlogging.Daos.FreqFoodDao;
+
 import java.util.List;
 
 public class FreqFoodRepository {
@@ -13,12 +14,12 @@ public class FreqFoodRepository {
 
     private FreqFoodDao mFreqFoodDao;
 
-    FreqFoodRepository(Application application) {
+    public FreqFoodRepository(Application application) {
         DietLoggingRoomDatabase db = DietLoggingRoomDatabase.getDatabase(application);
         this.mFreqFoodDao = db.freqFoodDao();
     }
 
-    List<FreqFood> getFreqFoods() {
+    public List<FreqFood> getFreqFoods() {
         return this.mFreqFoodDao.getFreqFoods();
     }
 

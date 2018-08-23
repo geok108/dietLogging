@@ -1,12 +1,8 @@
-package com.example.root.dietlogging;
+package com.example.root.dietlogging.Activities;
 
-import android.arch.lifecycle.Observer;
-import android.arch.lifecycle.ViewModelProviders;
 import android.content.Intent;
-import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.text.Editable;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
@@ -14,9 +10,9 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
-import android.widget.Toast;
 
-import java.util.List;
+import com.example.root.dietlogging.R;
+import com.example.root.dietlogging.ViewModels.UserViewModel;
 
 public class RegisterActivity extends AppCompatActivity {
 

@@ -4,17 +4,17 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".SettingsActivity">
+    tools:context=".Activities.SettingsActivity">
 
-    <LinearLayout
-        xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent"
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical">
+
         <android.support.design.widget.TextInputLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="32dp"
-            >
+            android:layout_marginTop="12dp">
 
             <EditText
                 android:id="@+id/participant_number"
@@ -23,86 +23,103 @@
                 android:layout_marginLeft="16dp"
                 android:layout_marginRight="16dp"
                 android:hint="@string/participant_number"
-                android:nextFocusForward="@id/full_name"
                 android:inputType="number"
                 android:maxLines="1"
-                />
+                android:nextFocusForward="@id/full_name" />
         </android.support.design.widget.TextInputLayout>
 
         <android.support.design.widget.TextInputLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="24dp"
-            >
+            android:layout_marginTop="12dp">
+
             <EditText
+                android:id="@+id/full_name"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="16dp"
                 android:layout_marginRight="16dp"
                 android:hint="@string/full_name"
-                android:id="@+id/full_name"
-                android:nextFocusForward="@id/diet_choice"
                 android:inputType="text"
                 android:maxLines="1"
-                />
+                android:nextFocusForward="@id/diet_choice" />
         </android.support.design.widget.TextInputLayout>
 
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="24dp"
-            android:text="@string/diet_choice"
             android:layout_gravity="center_horizontal"
-            android:textSize="24sp"/>
+            android:layout_marginTop="18dp"
+            android:text="@string/diet_choice"
+            android:textSize="24sp" />
 
         <RadioGroup
             android:id="@+id/diet_choice"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="24dp"
-            android:layout_marginLeft="16dp">
+            android:layout_marginLeft="16dp"
+            android:layout_marginTop="12dp">
 
             <RadioButton
                 android:id="@+id/diet_choice_1"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="@string/diet_control"
                 android:paddingHorizontal="100dp"
-                android:textSize="20sp"/>
+                android:text="@string/diet_control"
+                android:textSize="20sp" />
+
             <RadioButton
                 android:id="@+id/diet_choice_2"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="24dp"
+                android:layout_marginTop="12dp"
+                android:checked="false"
                 android:paddingHorizontal="100dp"
                 android:text="@string/diet_low_sug"
-                android:textSize="20sp"
-                android:checked="false"/>
+                android:textSize="20sp" />
 
             <RadioButton
                 android:id="@+id/diet_choice_3"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="24dp"
+                android:layout_marginTop="12dp"
+                android:checked="false"
                 android:paddingHorizontal="100dp"
                 android:text="@string/diet_low_cho"
-                android:textSize="20sp"
-                android:checked="false"
-                />
+                android:textSize="20sp" />
 
 
         </RadioGroup>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="18dp"
+            android:text="@string/notifications"
+            android:textSize="24sp" />
+
+        <Spinner
+            android:layout_marginTop="15dp"
+            android:id="@+id/notification_dropdown"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:spinnerMode="dropdown">
+
+
+        </Spinner>
 
         <Button
             android:id="@+id/button_update"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/button_update"
-            android:background="@color/colorPrimary"
-            android:layout_marginTop="32dp"
             android:layout_gravity="center_horizontal"
-            android:textColor="@color/colorWhite"/>
+            android:layout_marginTop="32dp"
+            android:background="@color/colorPrimary"
+            android:text="@string/button_update"
+            android:textColor="@color/colorWhite" />
 
 
     </LinearLayout>

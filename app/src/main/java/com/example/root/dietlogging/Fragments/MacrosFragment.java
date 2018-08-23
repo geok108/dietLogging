@@ -1,34 +1,33 @@
-package com.example.root.dietlogging;
+package com.example.root.dietlogging.Fragments;
 
 import android.arch.lifecycle.Lifecycle;
 import android.arch.lifecycle.LifecycleOwner;
 import android.arch.lifecycle.LifecycleRegistry;
 import android.arch.lifecycle.LiveData;
 import android.arch.lifecycle.Observer;
-import android.arch.lifecycle.ViewModelProvider;
 import android.arch.lifecycle.ViewModelProviders;
-import android.content.Context;
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.util.Log;
-import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TableLayout;
-import android.widget.TableRow;
 import android.widget.TextView;
 
-import com.github.mikephil.charting.charts.LineChart;
+import com.example.root.dietlogging.Entities.Diary;
+import com.example.root.dietlogging.Daos.DiaryDao;
+import com.example.root.dietlogging.MyViewModelFactory;
+import com.example.root.dietlogging.R;
+import com.example.root.dietlogging.Entities.User;
+import com.example.root.dietlogging.ViewModels.DiaryViewModel;
+import com.example.root.dietlogging.ViewModels.UserViewModel;
 import com.github.mikephil.charting.charts.PieChart;
 import com.github.mikephil.charting.data.PieData;
 import com.github.mikephil.charting.data.PieDataSet;
 import com.github.mikephil.charting.data.PieEntry;
 
-import java.math.RoundingMode;
-import java.text.DecimalFormat;
 import java.text.Format;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;

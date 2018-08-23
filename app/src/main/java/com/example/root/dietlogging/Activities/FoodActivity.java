@@ -1,9 +1,12 @@
-package com.example.root.dietlogging;
+package com.example.root.dietlogging.Activities;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
+
+import com.example.root.dietlogging.DatabaseAccess;
+import com.example.root.dietlogging.R;
 
 import java.util.List;
 

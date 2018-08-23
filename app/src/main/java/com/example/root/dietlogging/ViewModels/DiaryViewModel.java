@@ -1,10 +1,11 @@
-package com.example.root.dietlogging;
+package com.example.root.dietlogging.ViewModels;
 
 import android.app.Application;
 import android.arch.lifecycle.AndroidViewModel;
 import android.arch.lifecycle.LiveData;
-import android.arch.lifecycle.MutableLiveData;
-import android.util.Log;
+
+import com.example.root.dietlogging.Entities.Diary;
+import com.example.root.dietlogging.Repositories.DiaryRepository;
 
 import java.util.List;
 
@@ -17,9 +18,9 @@ public class DiaryViewModel extends AndroidViewModel {
         mRepository = new DiaryRepository(application);
     }
 
-    LiveData<List<Diary>> getAllDiaries() { return mRepository.getAllDiaries(); }
-    LiveData<List<Diary>> getTodayDiary() { return mRepository.getTodayDiary(); }
-    LiveData<List<Diary>> getDiaryByDate(String date) { return mRepository.getDiaryByDate(date); }
+    public LiveData<List<Diary>> getAllDiaries() { return mRepository.getAllDiaries(); }
+    public LiveData<List<Diary>> getTodayDiary() { return mRepository.getTodayDiary(); }
+    public LiveData<List<Diary>> getDiaryByDate(String date) { return mRepository.getDiaryByDate(date); }
 
 
     public void insert(Diary diary) { mRepository.insert(diary); }

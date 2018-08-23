@@ -1,4 +1,4 @@
-package com.example.root.dietlogging;
+package com.example.root.dietlogging.Entities;
 
 import android.arch.persistence.room.Entity;
 import android.arch.persistence.room.PrimaryKey;
@@ -19,12 +19,18 @@ public class User {
     @NonNull
     private int diet_choice;
 
-    public User(@NonNull Integer id, @NonNull int participant_number, String full_name, @NonNull int diet_choice) {
-        this.id = id;
-        this.participant_number = participant_number;
-        this.full_name = full_name;
-        this.diet_choice = diet_choice;
+    @NonNull
+    private int notification_frequency;
+
+    @NonNull
+    public int getNotification_frequency() {
+        return notification_frequency;
     }
+
+    public void setNotification_frequency(@NonNull int notification_frequency) {
+        this.notification_frequency = notification_frequency;
+    }
+
 
     @NonNull
     public Integer getId() {
@@ -62,4 +68,11 @@ public class User {
     }
 
 
+    public User(@NonNull Integer id, @NonNull int participant_number, String full_name, @NonNull int diet_choice, @NonNull int notification_frequency) {
+        this.id = id;
+        this.participant_number = participant_number;
+        this.full_name = full_name;
+        this.diet_choice = diet_choice;
+        this.notification_frequency = notification_frequency;
+    }
 }

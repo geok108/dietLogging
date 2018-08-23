@@ -4,6 +4,8 @@ import android.app.Application;
 import android.arch.lifecycle.ViewModel;
 import android.arch.lifecycle.ViewModelProvider;
 
+import com.example.root.dietlogging.ViewModels.DiaryViewModel;
+
 public class MyViewModelFactory extends ViewModelProvider.NewInstanceFactory {
 
     private Application mApplication;

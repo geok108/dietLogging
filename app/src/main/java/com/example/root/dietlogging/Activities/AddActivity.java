@@ -1,4 +1,4 @@
-package com.example.root.dietlogging;
+package com.example.root.dietlogging.Activities;
 
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
@@ -12,6 +12,7 @@ import android.widget.EditText;
 import android.widget.Spinner;
 
 import com.appyvet.materialrangebar.RangeBar;
+import com.example.root.dietlogging.R;
 
 import java.text.SimpleDateFormat;
 

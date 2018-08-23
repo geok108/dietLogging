@@ -1,12 +1,14 @@
-package com.example.root.dietlogging;
+package com.example.root.dietlogging.Adapters;
 
 import android.content.Context;
-import android.support.design.widget.TextInputLayout;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+
+import com.example.root.dietlogging.Entities.User;
+import com.example.root.dietlogging.R;
 
 import java.util.List;
 
@@ -29,7 +31,7 @@ public class UserListAdapter extends RecyclerView.Adapter<UserListAdapter.UserVi
     private final LayoutInflater mInflater;
     private List<User> mUser; // Cached copy of user
 
-    UserListAdapter(Context context) { mInflater = LayoutInflater.from(context); }
+    public UserListAdapter(Context context) { mInflater = LayoutInflater.from(context); }
 
 
     @Override
@@ -51,7 +53,7 @@ public class UserListAdapter extends RecyclerView.Adapter<UserListAdapter.UserVi
         }
     }
 
-    void setUser(List<User> users){
+    public void setUser(List<User> users){
         mUser = users;
         notifyDataSetChanged();
     }

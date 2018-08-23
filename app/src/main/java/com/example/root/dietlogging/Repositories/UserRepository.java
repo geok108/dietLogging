@@ -1,8 +1,12 @@
-package com.example.root.dietlogging;
+package com.example.root.dietlogging.Repositories;
 
 import android.app.Application;
 import android.arch.lifecycle.LiveData;
 import android.os.AsyncTask;
+
+import com.example.root.dietlogging.DietLoggingRoomDatabase;
+import com.example.root.dietlogging.Entities.User;
+import com.example.root.dietlogging.Daos.UserDao;
 
 import java.util.List;
 
@@ -10,14 +14,14 @@ public class UserRepository {
     private UserDao mUserDao;
     private LiveData<List<User>> mUser;
 
-    UserRepository(Application application) {
+    public UserRepository(Application application) {
         DietLoggingRoomDatabase db = DietLoggingRoomDatabase.getDatabase(application);
         mUserDao = db.userDao();
         mUser = mUserDao.getUser();
 
     }
 
-    LiveData<List<User>> getUser() {
+    public LiveData<List<User>> getUser() {
         return mUser;
     }
 

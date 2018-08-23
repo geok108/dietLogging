@@ -1,20 +1,26 @@
-package com.example.root.dietlogging;
+package com.example.root.dietlogging.Activities;
 
-import android.arch.lifecycle.LiveData;
 import android.arch.lifecycle.Observer;
 import android.arch.lifecycle.ViewModelProviders;
 import android.content.Intent;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.support.v7.widget.LinearLayoutManager;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
+import android.widget.Spinner;
+
+import com.example.root.dietlogging.R;
+import com.example.root.dietlogging.Entities.User;
+import com.example.root.dietlogging.Adapters.UserListAdapter;
+import com.example.root.dietlogging.Repositories.UserRepository;
+import com.example.root.dietlogging.ViewModels.UserViewModel;
 
 import java.util.List;
 
@@ -24,6 +30,7 @@ public class SettingsActivity extends AppCompatActivity {
     private EditText mEditFullName;
     private RadioGroup mEditDietChoiceGroup;
     private RadioButton mEditDietChoiceButton;
+    private Spinner mNotificationDrop;
     private UserViewModel mUserViewModel;
     private UserRepository userRepository;
 
@@ -43,6 +50,15 @@ public class SettingsActivity extends AppCompatActivity {
         mEditParticipantNumber = findViewById(R.id.participant_number);
         mEditFullName = findViewById(R.id.full_name);
         mEditDietChoiceGroup = findViewById(R.id.diet_choice);
+        mNotificationDrop = findViewById(R.id.notification_dropdown);
+
+        // Create an ArrayAdapter using the string array and a default spinner layout
+        ArrayAdapter<CharSequence> arrAdapter = ArrayAdapter.createFromResource(this,
+                R.array.notif_array, android.R.layout.simple_spinner_item);
+        // Specify the layout to use when the list of choices appears
+        arrAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        // Apply the adapter to the spinner
+        mNotificationDrop.setAdapter(arrAdapter);
 
         final Button button_update = findViewById(R.id.button_update);
 
@@ -82,6 +98,13 @@ public class SettingsActivity extends AppCompatActivity {
                 }
 
 
+                Integer notifChoice = null;
+                notifChoice = user.get(0).getNotification_frequency();
+
+                mNotificationDrop.setSelection(notifChoice);
+
+
+
             }
         });
 
@@ -98,8 +121,9 @@ public class SettingsActivity extends AppCompatActivity {
                     int participantNumber = Integer.parseInt(mEditParticipantNumber.getText().toString());
                     String fullName = mEditFullName.getText().toString();
                     String dietChoice = mEditDietChoiceButton.getText().toString();
+                    String notificationFreq = mNotificationDrop.getSelectedItem().toString();
                     Log.d("part no", String.valueOf(participantNumber));
-                    Log.d("full name", fullName);
+
                     Log.d("diet choice", dietChoice);
 
                     int dietChoiceValue = 0;
@@ -118,9 +142,30 @@ public class SettingsActivity extends AppCompatActivity {
                             break;
                     }
 
+                    int notificationValue = 0;
+                    switch (notificationFreq) {
+
+                        case "Daily":
+                            notificationValue = 0;
+                            break;
+
+                        case "Every three days":
+                            notificationValue = 1;
+                            break;
+
+                        case "Weekly":
+                            notificationValue = 2;
+                            break;
+                        case "Monthly":
+                            notificationValue = 3;
+                            break;
+                    }
+
                     replyIntent.putExtra("participantNumber", participantNumber);
                     replyIntent.putExtra("fullName", fullName);
                     replyIntent.putExtra("dietChoice", dietChoiceValue);
+                    replyIntent.putExtra("notificationValue", notificationValue);
+
                     setResult(RESULT_OK, replyIntent);
 
                 }
