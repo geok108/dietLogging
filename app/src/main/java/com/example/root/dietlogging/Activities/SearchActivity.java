@@ -180,7 +180,7 @@ public class SearchActivity extends AppCompatActivity {
 
                 databaseAccess.open();
                 ArrayList<Food> results = databaseAccess.getFoodResults(q);
-                databaseAccess.close();
+                //databaseAccess.close();
 
                 showResults(results);
                 return true;

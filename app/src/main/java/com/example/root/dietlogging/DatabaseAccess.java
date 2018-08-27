@@ -77,7 +77,7 @@ public class DatabaseAccess {
      */
     public ArrayList<Food> getFoodResults(String query) {
         ArrayList<Food> foodList = new ArrayList<>();
-        Cursor cursor = database.rawQuery("SELECT * FROM food WHERE food_name LIKE '" + query + "%'", null);
+        Cursor cursor = database.rawQuery("SELECT * FROM food WHERE food_name LIKE '%" + query + "%'", null);
 
         cursor.moveToFirst();
         while (!cursor.isAfterLast()) {

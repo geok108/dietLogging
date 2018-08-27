@@ -106,8 +106,10 @@ public class AddActivity extends AppCompatActivity {
 
                         replyIntent.putExtra("foodCode", food_code);
                         replyIntent.putExtra("foodName", food_name);
-                        replyIntent.putExtra("date", date);
-                        replyIntent.putExtra("time", time);
+                        String time_new = dateTime.getText().toString().substring(11);
+                        String date_new = dateTime.getText().toString().substring(0, 10);
+                        replyIntent.putExtra("date", date_new);
+                        replyIntent.putExtra("time", time_new);
                         replyIntent.putExtra("grams", food_grams);
                         replyIntent.putExtra("protein", protein);
                         replyIntent.putExtra("fat", fat);
