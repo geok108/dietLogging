@@ -93,22 +93,7 @@ public class HomeActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
 
-
         final UserListAdapter adapter = new UserListAdapter(this);
-
-
-
-      /*  mDiaryViewModel = ViewModelProviders.of(this).get(DiaryViewModel.class);
-
-        mDiaryViewModel.getAllEntries().observe(this, new Observer<List<Diary>>(){
-
-
-            @Override
-            public void onChanged(@Nullable List<Diary> diaries) {
-           //     Log.d("diary entries:" , String.valueOf(diaries.get(0).getFoodName()));
-
-            }
-        });*/
 
         mUserViewModel = ViewModelProviders.of(this).get(UserViewModel.class);
 
@@ -117,7 +102,7 @@ public class HomeActivity extends AppCompatActivity {
             public void onChanged(@Nullable final List<User> user) {
                 // Update the cached copy of the words in the adapter.
                 adapter.setUser(user);
-                //Log.d("user:", String.valueOf(user.get(0).getFull_name()));
+
                 if (user.isEmpty()) {
 
                     Intent intent = new Intent(HomeActivity.this, RegisterActivity.class);
@@ -144,7 +129,6 @@ public class HomeActivity extends AppCompatActivity {
                             manager.setInexactRepeating(AlarmManager.ELAPSED_REALTIME_WAKEUP,
                                     SystemClock.elapsedRealtime() + AlarmManager.INTERVAL_DAY,
                                     AlarmManager.INTERVAL_DAY, pendingIntent);
-                            //Toast.makeText(getApplicationContext(), "notif 0 set", Toast.LENGTH_SHORT).show();
                             Log.d("notif > ", "> > 0");
 
                             break;
@@ -152,7 +136,6 @@ public class HomeActivity extends AppCompatActivity {
                             manager.setInexactRepeating(AlarmManager.ELAPSED_REALTIME_WAKEUP,
                                     SystemClock.elapsedRealtime() + AlarmManager.INTERVAL_DAY * 3,
                                     AlarmManager.INTERVAL_DAY * 3, pendingIntent);
-                            //Toast.makeText(getApplicationContext(), "notif 1 set", Toast.LENGTH_SHORT).show();
                             Log.d("notif > ", "> > 1");
 
                             break;
@@ -160,7 +143,6 @@ public class HomeActivity extends AppCompatActivity {
                             manager.setInexactRepeating(AlarmManager.ELAPSED_REALTIME_WAKEUP,
                                     SystemClock.elapsedRealtime() + AlarmManager.INTERVAL_DAY * 7,
                                     AlarmManager.INTERVAL_DAY * 7, pendingIntent);
-                            //Toast.makeText(getApplicationContext(), "notif 2 set", Toast.LENGTH_SHORT).show();
                             Log.d("notif > ", "> > 2");
 
                             break;
@@ -168,7 +150,6 @@ public class HomeActivity extends AppCompatActivity {
                             manager.setInexactRepeating(AlarmManager.ELAPSED_REALTIME_WAKEUP,
                                     SystemClock.elapsedRealtime() + AlarmManager.INTERVAL_DAY * 30,
                                     AlarmManager.INTERVAL_DAY * 30, pendingIntent);
-                            //Toast.makeText(getApplicationContext(), "notif 3 set", Toast.LENGTH_SHORT).show();
                             Log.d("notif > ", "> > 3");
 
                             break;
@@ -184,8 +165,6 @@ public class HomeActivity extends AppCompatActivity {
         });
 
 
-        // Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        // setSupportActionBar(toolbar);
         tabLayout = findViewById(R.id.tabs);
 
         appBarLayout = findViewById(R.id.appbar);
@@ -199,18 +178,6 @@ public class HomeActivity extends AppCompatActivity {
 
         viewPager.setAdapter(pagerAdapter);
         tabLayout.setupWithViewPager(viewPager);
-
-        // Create the adapter that will return a fragment for each of the three
-        // primary sections of the activity.
-        //mSectionsPagerAdapter = new SectionsPagerAdapter(getSupportFragmentManager());
-
-        // Set up the ViewPager with the sections adapter.
-        //mViewPager = (ViewPager) findViewById(R.id.container);
-        //mViewPager.setAdapter(mSectionsPagerAdapter);
-
-
-        //mViewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tabLayout));
-        //tabLayout.addOnTabSelectedListener(new TabLayout.ViewPagerOnTabSelectedListener(mViewPager));
 
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener()
@@ -240,10 +207,12 @@ public class HomeActivity extends AppCompatActivity {
 
     }
 
-
+    /**
+     * Create the NotificationChannel, but only on API 26+ because
+     * the NotificationChannel class is new and not in the support library
+     */
     private void createNotificationChannel() {
-        // Create the NotificationChannel, but only on API 26+ because
-        // the NotificationChannel class is new and not in the support library
+
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             CharSequence name = "chann";
             String description = "not channel";

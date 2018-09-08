@@ -342,6 +342,12 @@ public class MacrosFragment extends Fragment {
         });
     }
 
+    /**
+     * returns the amount of grams of each macronutrient for the added food
+     * @param macro
+     * @param grams
+     * @return
+     */
     public float getMacroGrams(float macro, float grams) {
         float macroGrams;
 

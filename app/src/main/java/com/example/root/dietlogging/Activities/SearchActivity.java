@@ -33,7 +33,6 @@ import java.util.List;
 
 public class SearchActivity extends AppCompatActivity {
 
-    private SearchView searchView;
     private TableLayout freqAddedView;
     private ListView foodListView;
     private FoodListAdapter foodAdapter;

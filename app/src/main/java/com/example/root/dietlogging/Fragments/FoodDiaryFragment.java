@@ -108,9 +108,6 @@ public class FoodDiaryFragment extends Fragment implements View.OnClickListener 
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         view = inflater.inflate(layout.fragment_food_diary, container, false);
-        //final TextView time = view.findViewById(R.id.meal_time);
-        //final TextView foodName = view.findViewById(R.id.food_name);
-        //final TextView foodGrams = view.findViewById(R.id.food_grams);
 
 
         Button btn_export_csv = view.findViewById(id.export_csv);
@@ -180,7 +177,9 @@ public class FoodDiaryFragment extends Fragment implements View.OnClickListener 
         }
     }
 
-
+    /**
+     * exports the food diary of the user in CSV format
+     */
     public void exportDiary() {
         mDiaryViewModel.getAllDiaries().observe(getActivity(), new Observer<List<Diary>>() {
             @Override
@@ -289,39 +288,10 @@ public class FoodDiaryFragment extends Fragment implements View.OnClickListener 
 
     }
 
-
+    /**
+     * builds the food diary table
+     */
     public void listDiary() {
-
-        /*recyclerView = view.findViewById(R.id.recyclerview);
-
-        final DiaryListAdapter adapter = new DiaryListAdapter(getContext());
-        recyclerView.setAdapter(adapter);
-        recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
-
-        mDiaryViewModel = ViewModelProviders.of(this, new MyViewModelFactory(this.getActivity().getApplication(), date)).get(DiaryViewModel.class);
-
-        diaryList = mDiaryViewModel.getDateEntries(date);
-        diaryList.observe(this, new Observer<List<Diary>>() {
-
-            @Override
-            public void onChanged(@Nullable final List<Diary> diary) {
-                // Update the cached copy of the words in the adapter.
-                Log.w("date on listdiary:", date);
-
-                adapter.setDiary(diary);
-                adapter.notifyDataSetChanged();
-
-
-                for (int i = 0; i < diary.size(); i++) {
-
-                    Log.w("record in onchanged: ", diary.get(i).getFoodName());
-
-                }
-
-            }
-
-        });
-*/
 
         mDiaryViewModel = ViewModelProviders.of(this, new MyViewModelFactory(this.getActivity().getApplication(), date)).get(DiaryViewModel.class);
         diaryInitList = mDiaryViewModel.getDiaryByDate(date);

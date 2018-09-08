@@ -39,7 +39,6 @@ public class MyBroadcastReceiver extends BroadcastReceiver {
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
         PendingIntent pIntent = PendingIntent.getActivity(context, 0, searchIntent, 0);
 
-        //createNotificationChannel();
 
         NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(context, CHANNEL_ID)
                 .setSmallIcon(R.drawable.ic_add_white_24dp)
@@ -52,7 +51,6 @@ public class MyBroadcastReceiver extends BroadcastReceiver {
 
         NotificationManagerCompat notificationManager = NotificationManagerCompat.from(context);
 
-        // notificationId is a unique int for each notification that you must define
         notificationManager.notify(1, mBuilder.build());
 
 
@@ -60,8 +58,6 @@ public class MyBroadcastReceiver extends BroadcastReceiver {
         int interval = 8000;
 
         alarmManager.setInexactRepeating(AlarmManager.RTC_WAKEUP, System.currentTimeMillis(), interval, pendingIntent);
-
-        //Toast.makeText(context, "Congrats!. Your Alarm time has been reached", Toast.LENGTH_LONG).show();
 
         Calendar calendar = Calendar.getInstance();
         calendar.setTimeInMillis(System.currentTimeMillis());
@@ -72,34 +68,34 @@ public class MyBroadcastReceiver extends BroadcastReceiver {
         switch (notificationValue) {
 
             case 0:
+                //alarm manager push notification daily
                 alarmManager.setInexactRepeating(AlarmManager.ELAPSED_REALTIME_WAKEUP,
                         SystemClock.elapsedRealtime() + AlarmManager.INTERVAL_DAY,
                         AlarmManager.INTERVAL_DAY, pendingIntent);
-                //Toast.makeText(context, "notif 0 set broadcast", Toast.LENGTH_SHORT).show();
                 Log.d("notif broadcast > ", "> > 0");
 
                 break;
             case 1:
+                //alarm manager push notification every three days
                 alarmManager.setInexactRepeating(AlarmManager.ELAPSED_REALTIME_WAKEUP,
                         SystemClock.elapsedRealtime() + AlarmManager.INTERVAL_DAY * 3,
                         AlarmManager.INTERVAL_DAY * 3, pendingIntent);
-                //Toast.makeText(context, "notif 1 set broadcast", Toast.LENGTH_SHORT).show();
                 Log.d("notif broadcast > ", "> > 1");
 
                 break;
             case 2:
+                //alarm manager push notification every week
                 alarmManager.setInexactRepeating(AlarmManager.ELAPSED_REALTIME_WAKEUP,
                         SystemClock.elapsedRealtime() + AlarmManager.INTERVAL_DAY * 7,
                         AlarmManager.INTERVAL_DAY * 7, pendingIntent);
-                //Toast.makeText(context, "notif 2 set broadcast", Toast.LENGTH_SHORT).show();
                 Log.d("notif broadcast > ", "> > 2");
 
                 break;
             case 3:
+                //alarm manager push notification every month
                 alarmManager.setInexactRepeating(AlarmManager.ELAPSED_REALTIME_WAKEUP,
                         SystemClock.elapsedRealtime() + AlarmManager.INTERVAL_DAY * 30,
                         AlarmManager.INTERVAL_DAY * 30, pendingIntent);
-                //Toast.makeText(context, "notif 3 set broadcast", Toast.LENGTH_SHORT).show();
                 Log.d("notif broadcast > ", "> > 3");
 
                 break;
